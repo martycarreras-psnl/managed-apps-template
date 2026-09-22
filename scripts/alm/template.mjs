@@ -85,6 +85,67 @@ function assertSterile() {
   }
 }
 
+const VERSION_RE = /^\d+\.\d+\.\d+$/
+const TAG_RE = /^scaffold-v(\d+\.\d+\.\d+)$/
+
+function bumpVersion(version, part) {
+  const seg = version.split('.').map((n) => parseInt(n, 10) || 0)
+  while (seg.length < 3) seg.push(0)
+  const index = { major: 0, minor: 1, patch: 2 }[part]
+  if (index === undefined) {
+    fail(`Unknown bump part "${part}".`, 'Use major, minor, or patch.')
+  }
+  seg[index] += 1
+  for (let i = index + 1; i < seg.length; i++) seg[i] = 0
+  return seg.join('.')
+}
+
+/**
+ * A git tag alone does not move the number consumers compare against --
+ * scaffold.version must change in the same commit the tag points at, in both
+ * the template and this project. Resolving them together here removes the
+ * chance of tagging a release nobody detects as new.
+ */
+function resolveRelease() {
+  const bumpIndex = args.indexOf('--bump')
+  const tagIndex = args.indexOf('--tag')
+
+  if (bumpIndex !== -1 && tagIndex !== -1) {
+    fail('Pass either --bump or --tag, not both.')
+  }
+
+  if (bumpIndex !== -1) {
+    const part = args[bumpIndex + 1] ?? 'patch'
+    const version = bumpVersion(scaffold.version, part)
+    return { version, tag: `scaffold-v${version}` }
+  }
+
+  if (tagIndex !== -1) {
+    const tag = args[tagIndex + 1]
+    if (!tag) fail('--tag requires a value.')
+    const match = TAG_RE.exec(tag)
+    if (!match) {
+      fail(
+        `Tag "${tag}" does not match scaffold-vX.Y.Z.`,
+        'Use --bump patch|minor|major, or a conforming tag.'
+      )
+    }
+    return { version: match[1], tag }
+  }
+
+  return { version: null, tag: null }
+}
+
+/** Keep this project's recorded version in step with what was published. */
+function recordLocalVersion(version) {
+  const localPath = resolve(ROOT, 'alm.config.json')
+  const local = JSON.parse(readFileSync(localPath, 'utf8'))
+  if (local.scaffold.version === version) return false
+  local.scaffold.version = version
+  writeFileSync(localPath, JSON.stringify(local, null, 2) + '\n')
+  return true
+}
+
 function doStatus() {
   ensureCheckout()
   step('Template status')
@@ -118,33 +179,47 @@ function doStatus() {
 }
 
 function doPush() {
+  const { version, tag } = resolveRelease()
+
   const messageIndex = args.indexOf('--message')
   const message =
     messageIndex !== -1
       ? args[messageIndex + 1]
-      : `chore: sync scaffolding from ${scaffold.version}`
-
-  const tagIndex = args.indexOf('--tag')
-  const tag = tagIndex !== -1 ? args[tagIndex + 1] : null
+      : version
+        ? `chore: scaffolding ${version}`
+        : `chore: sync scaffolding from ${scaffold.version}`
 
   ensureCheckout()
+
+  if (tag) {
+    const existing = gitIn(checkoutDir, ['tag', '--list', tag], { allowFail: true })
+    if (existing) {
+      fail(
+        `Tag ${tag} already exists in the template.`,
+        'Bump to the next version instead of re-cutting a published release.'
+      )
+    }
+    ok(`release ${scaffold.version} -> ${version} (${tag})`)
+  }
 
   step('Copying scaffolding')
   for (const path of copyScaffold()) ok(path)
 
   // Keep the template's alm.config.json in step on version + paths only.
+  // The version must land in the SAME commit the tag points at, otherwise
+  // consumers see a new tag carrying an unchanged version.
   const templateCfgPath = resolve(checkoutDir, 'alm.config.json')
   if (existsSync(templateCfgPath)) {
     const templateCfg = JSON.parse(readFileSync(templateCfgPath, 'utf8'))
     templateCfg.scaffold = {
       ...templateCfg.scaffold,
-      version: scaffold.version,
+      version: version ?? scaffold.version,
       paths: scaffold.paths,
       neverShare: scaffold.neverShare,
       templateRepo: scaffold.templateRepo,
     }
     writeFileSync(templateCfgPath, JSON.stringify(templateCfg, null, 2) + '\n')
-    ok('alm.config.json scaffold block')
+    ok(`alm.config.json scaffold block (version ${version ?? scaffold.version})`)
   }
 
   assertSterile()
@@ -169,9 +244,18 @@ function doPush() {
   gitIn(checkoutDir, ['push', 'origin', 'main'], { capture: false })
   if (tag) gitIn(checkoutDir, ['push', 'origin', tag], { capture: false })
 
+  if (version && recordLocalVersion(version)) {
+    ok(`local alm.config.json scaffold.version -> ${version}`)
+    console.log(`${DIM}  commit that change here too${OFF}`)
+  }
+
   console.log(`\n${BOLD}Template updated.${OFF} ${DIM}${checkoutDir}${OFF}\n`)
 }
 
 if (action === 'push') doPush()
 else if (action === 'status') doStatus()
-else fail('Usage: npm run alm:template -- <push|status> [--message "..."] [--tag scaffold-vX.Y.Z]')
+else {
+  fail(
+    'Usage: npm run alm:template -- <push|status> [--message "..."] [--bump patch|minor|major | --tag scaffold-vX.Y.Z]'
+  )
+}
