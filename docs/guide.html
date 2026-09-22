@@ -178,120 +178,176 @@
 <!-- ================= BIG PICTURE ================= -->
 <section id="big-picture">
   <p class="eyebrow">01 — The shape of it</p>
-  <h2>Three parallel lanes, not one pipeline</h2>
+  <h2>Two things move, and they move differently</h2>
   <p class="lede">
-    Every environment gets its own git repo, its own app registration, and its own Dataverse.
-    They are wired together by a single file — <code>ms.config.json</code> — that lives on each
-    branch.
+    This is the distinction that trips people up. <strong>The app is never deployed into a Power
+    Platform environment.</strong> It is registered in one, built from an environment-scoped git
+    repo, and then served from a single shared runtime host. Only the <strong>solution</strong>
+    is imported into an environment's Dataverse.
   </p>
 
   <figure class="fig">
-    <svg viewBox="0 0 980 440" role="img" aria-label="Three lanes from branch to environment">
+    <svg viewBox="0 0 980 620" role="img"
+         aria-label="App path and solution path shown as separate tracks">
       <defs>
         <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
           <path d="M0,0 L9,4.5 L0,9 z" fill="#75707f"/>
         </marker>
+        <marker id="arv" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#aa3bff"/>
+        </marker>
       </defs>
 
-      <!-- column headers -->
-      <text x="95"  y="24" class="lbl-tag" fill="#75707f">YOUR MACHINE</text>
-      <text x="360" y="24" class="lbl-tag" fill="#75707f">PLATFORM GIT REPO</text>
-      <text x="640" y="24" class="lbl-tag" fill="#75707f">POWER PLATFORM ENV</text>
-      <text x="855" y="24" class="lbl-tag" fill="#75707f">RUNTIME</text>
+      <!-- ============ TRACK A : THE APP ============ -->
+      <rect x="6" y="6" width="968" height="292" rx="14" fill="none"
+            stroke="#322d3d" stroke-dasharray="4 4"/>
+      <text x="26" y="30" class="lbl-tag" fill="#aa3bff">TRACK A — THE APP (code)</text>
 
-      <!-- lanes -->
-      <g id="lanes">
-        <!-- DEV -->
-        <g transform="translate(0,50)">
-          <rect x="20" y="0" width="190" height="86" rx="11" fill="#1e1b26" stroke="#6fb4ff"/>
-          <text x="36" y="26" class="lbl-tag" fill="#6fb4ff">DEV BRANCH</text>
-          <text x="36" y="48" class="lbl-mono">ms.config.json</text>
-          <text x="36" y="66" class="lbl-sm">appId: e2ca…  env: b826…</text>
-          <line x1="212" y1="43" x2="292" y2="43" stroke="#6fb4ff" stroke-width="1.6"
-                marker-end="url(#ar)" class="flow"/>
-          <rect x="296" y="0" width="184" height="86" rx="11" fill="#1e1b26" stroke="#322d3d"/>
-          <text x="312" y="26" class="lbl">env-dev</text>
-          <text x="312" y="48" class="lbl-sm">platform-managed repo</text>
-          <text x="312" y="66" class="lbl-sm">cloud build runs here</text>
-          <line x1="482" y1="43" x2="562" y2="43" stroke="#6fb4ff" stroke-width="1.6"
-                marker-end="url(#ar)" class="flow"/>
-          <rect x="566" y="0" width="184" height="86" rx="11" fill="#1e1b26" stroke="#322d3d"/>
-          <text x="582" y="26" class="lbl">Dev environment</text>
-          <text x="582" y="48" class="lbl-sm">Dataverse: org725…</text>
-          <text x="582" y="66" class="lbl-sm">solution: unmanaged</text>
-          <line x1="752" y1="43" x2="800" y2="43" stroke="#75707f" stroke-width="1.4"
-                marker-end="url(#ar)"/>
-        </g>
+      <text x="112" y="56" text-anchor="middle" class="lbl-tag" fill="#75707f">YOUR MACHINE</text>
+      <text x="386" y="56" text-anchor="middle" class="lbl-tag" fill="#75707f">PLATFORM GIT REPO</text>
+      <text x="800" y="56" text-anchor="middle" class="lbl-tag" fill="#75707f">RUNTIME HOST</text>
 
-        <!-- TEST -->
-        <g transform="translate(0,170)">
-          <rect x="20" y="0" width="190" height="86" rx="11" fill="#1e1b26" stroke="#ffb454"/>
-          <text x="36" y="26" class="lbl-tag" fill="#ffb454">TEST BRANCH</text>
-          <text x="36" y="48" class="lbl-mono">ms.config.json</text>
-          <text x="36" y="66" class="lbl-sm">appId: 0cac…  env: 206d…</text>
-          <line x1="212" y1="43" x2="292" y2="43" stroke="#ffb454" stroke-width="1.6"
-                marker-end="url(#ar)" class="flow"/>
-          <rect x="296" y="0" width="184" height="86" rx="11" fill="#1e1b26" stroke="#322d3d"/>
-          <text x="312" y="26" class="lbl">env-test</text>
-          <text x="312" y="48" class="lbl-sm">different repo entirely</text>
-          <text x="312" y="66" class="lbl-sm">own history</text>
-          <line x1="482" y1="43" x2="562" y2="43" stroke="#ffb454" stroke-width="1.6"
-                marker-end="url(#ar)" class="flow"/>
-          <rect x="566" y="0" width="184" height="86" rx="11" fill="#1e1b26" stroke="#322d3d"/>
-          <text x="582" y="26" class="lbl">Test environment</text>
-          <text x="582" y="48" class="lbl-sm">Dataverse: org44c…</text>
-          <text x="582" y="66" class="lbl-sm">solution: managed</text>
-          <line x1="752" y1="43" x2="800" y2="43" stroke="#75707f" stroke-width="1.4"
-                marker-end="url(#ar)"/>
-        </g>
+      <!-- dev -->
+      <rect x="24" y="70" width="176" height="62" rx="10" fill="#1e1b26" stroke="#6fb4ff"/>
+      <text x="40" y="92" class="lbl-tag" fill="#6fb4ff">DEV BRANCH</text>
+      <text x="40" y="112" class="lbl-mono">ms.config.json</text>
+      <text x="40" y="126" class="lbl-sm">appId e2ca…</text>
+      <line x1="202" y1="101" x2="266" y2="101" stroke="#6fb4ff" stroke-width="1.6"
+            marker-end="url(#ar)" class="flow"/>
+      <rect x="270" y="70" width="232" height="62" rx="10" fill="#1e1b26" stroke="#322d3d"/>
+      <text x="286" y="92" class="lbl">env-dev</text>
+      <text x="286" y="112" class="lbl-sm">hosted at the dev env endpoint</text>
+      <text x="286" y="126" class="lbl-sm">cloud build runs here</text>
 
-        <!-- PROD -->
-        <g transform="translate(0,290)">
-          <rect x="20" y="0" width="190" height="86" rx="11" fill="#1e1b26" stroke="#3ddc97"/>
-          <text x="36" y="26" class="lbl-tag" fill="#3ddc97">PROD BRANCH</text>
-          <text x="36" y="48" class="lbl-mono">ms.config.json</text>
-          <text x="36" y="66" class="lbl-sm">appId: 4f09…  env: f606…</text>
-          <line x1="212" y1="43" x2="292" y2="43" stroke="#3ddc97" stroke-width="1.6"
-                marker-end="url(#ar)" class="flow"/>
-          <rect x="296" y="0" width="184" height="86" rx="11" fill="#1e1b26" stroke="#322d3d"/>
-          <text x="312" y="26" class="lbl">env-prod</text>
-          <text x="312" y="48" class="lbl-sm">third repo</text>
-          <text x="312" y="66" class="lbl-sm">own history</text>
-          <line x1="482" y1="43" x2="562" y2="43" stroke="#3ddc97" stroke-width="1.6"
-                marker-end="url(#ar)" class="flow"/>
-          <rect x="566" y="0" width="184" height="86" rx="11" fill="#1e1b26" stroke="#322d3d"/>
-          <text x="582" y="26" class="lbl">Prod environment</text>
-          <text x="582" y="48" class="lbl-sm">Dataverse: org8cc…</text>
-          <text x="582" y="66" class="lbl-sm">solution: managed</text>
-          <line x1="752" y1="43" x2="800" y2="43" stroke="#75707f" stroke-width="1.4"
-                marker-end="url(#ar)"/>
-        </g>
-      </g>
+      <!-- test -->
+      <rect x="24" y="152" width="176" height="62" rx="10" fill="#1e1b26" stroke="#ffb454"/>
+      <text x="40" y="174" class="lbl-tag" fill="#ffb454">TEST BRANCH</text>
+      <text x="40" y="194" class="lbl-mono">ms.config.json</text>
+      <text x="40" y="208" class="lbl-sm">appId 0cac…</text>
+      <line x1="202" y1="183" x2="266" y2="183" stroke="#ffb454" stroke-width="1.6"
+            marker-end="url(#ar)" class="flow"/>
+      <rect x="270" y="152" width="232" height="62" rx="10" fill="#1e1b26" stroke="#322d3d"/>
+      <text x="286" y="174" class="lbl">env-test</text>
+      <text x="286" y="194" class="lbl-sm">separate repo, own history</text>
+      <text x="286" y="208" class="lbl-sm">cloud build runs here</text>
 
-      <!-- runtime funnel -->
-      <rect x="804" y="50" width="156" height="326" rx="13" fill="#1e1b26" stroke="#aa3bff"/>
-      <text x="882" y="176" text-anchor="middle" class="lbl" fill="#aa3bff">play.managedapps</text>
-      <text x="882" y="194" text-anchor="middle" class="lbl" fill="#aa3bff">.cloud.microsoft</text>
-      <text x="882" y="222" text-anchor="middle" class="lbl-sm">one host</text>
-      <text x="882" y="240" text-anchor="middle" class="lbl-sm">three appIds</text>
+      <!-- prod -->
+      <rect x="24" y="234" width="176" height="62" rx="10" fill="#1e1b26" stroke="#3ddc97"/>
+      <text x="40" y="256" class="lbl-tag" fill="#3ddc97">PROD BRANCH</text>
+      <text x="40" y="276" class="lbl-mono">ms.config.json</text>
+      <text x="40" y="290" class="lbl-sm">appId 4f09…</text>
+      <line x1="202" y1="265" x2="266" y2="265" stroke="#3ddc97" stroke-width="1.6"
+            marker-end="url(#ar)" class="flow"/>
+      <rect x="270" y="234" width="232" height="62" rx="10" fill="#1e1b26" stroke="#322d3d"/>
+      <text x="286" y="256" class="lbl">env-prod</text>
+      <text x="286" y="276" class="lbl-sm">separate repo, own history</text>
+      <text x="286" y="290" class="lbl-sm">cloud build runs here</text>
+
+      <!-- converge straight to runtime : NOT through the environment -->
+      <path d="M506,101 C580,101 600,150 686,150" fill="none" stroke="#6fb4ff"
+            stroke-width="1.6" marker-end="url(#ar)"/>
+      <path d="M506,183 L686,183" fill="none" stroke="#ffb454"
+            stroke-width="1.6" marker-end="url(#ar)"/>
+      <path d="M506,265 C580,265 600,216 686,216" fill="none" stroke="#3ddc97"
+            stroke-width="1.6" marker-end="url(#ar)"/>
+
+      <rect x="690" y="70" width="266" height="226" rx="12" fill="#16141c" stroke="#aa3bff"/>
+      <text x="823" y="150" text-anchor="middle" class="lbl" fill="#aa3bff">play.managedapps</text>
+      <text x="823" y="168" text-anchor="middle" class="lbl" fill="#aa3bff">.cloud.microsoft</text>
+      <text x="823" y="196" text-anchor="middle" class="lbl-sm">one shared host</text>
+      <text x="823" y="214" text-anchor="middle" class="lbl-sm">three app IDs</text>
+      <text x="823" y="244" text-anchor="middle" class="lbl-sm" fill="#3ddc97">where users open the app</text>
+
+      <!-- ============ TRACK B : THE SOLUTION ============ -->
+      <rect x="6" y="322" width="968" height="292" rx="14" fill="none"
+            stroke="#322d3d" stroke-dasharray="4 4"/>
+      <text x="26" y="346" class="lbl-tag" fill="#aa3bff">TRACK B — THE SOLUTION (schema)</text>
+
+      <rect x="24" y="396" width="270" height="96" rx="11" fill="#1e1b26" stroke="#6fb4ff"/>
+      <text x="44" y="422" class="lbl-tag" fill="#6fb4ff">DEV ENVIRONMENT</text>
+      <text x="44" y="446" class="lbl-sm">Dataverse org725…</text>
+      <text x="44" y="466" class="lbl">solution: unmanaged</text>
+      <text x="44" y="482" class="lbl-sm">authored here</text>
+
+      <line x1="298" y1="444" x2="372" y2="444" stroke="#aa3bff" stroke-width="1.6"
+            marker-end="url(#arv)" class="flow"/>
+      <text x="335" y="436" text-anchor="middle" class="lbl-sm">export</text>
+      <text x="335" y="462" text-anchor="middle" class="lbl-sm">import</text>
+
+      <rect x="376" y="396" width="256" height="96" rx="11" fill="#1e1b26" stroke="#ffb454"/>
+      <text x="396" y="422" class="lbl-tag" fill="#ffb454">TEST ENVIRONMENT</text>
+      <text x="396" y="446" class="lbl-sm">Dataverse org44c…</text>
+      <text x="396" y="466" class="lbl">solution: managed</text>
+      <text x="396" y="482" class="lbl-sm">locked</text>
+
+      <line x1="636" y1="444" x2="700" y2="444" stroke="#aa3bff" stroke-width="1.6"
+            marker-end="url(#arv)" class="flow"/>
+
+      <rect x="704" y="396" width="252" height="96" rx="11" fill="#1e1b26" stroke="#3ddc97"/>
+      <text x="724" y="422" class="lbl-tag" fill="#3ddc97">PROD ENVIRONMENT</text>
+      <text x="724" y="446" class="lbl-sm">Dataverse org8cc…</text>
+      <text x="724" y="466" class="lbl">solution: managed</text>
+      <text x="724" y="482" class="lbl-sm">locked</text>
+
+      <!-- Each deployed app reaches its OWN environment's Dataverse at runtime.
+           Three connectors, not one, so this does not read as "everything talks to prod". -->
+      <defs>
+        <marker id="arb" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#6fb4ff"/>
+        </marker>
+        <marker id="ara" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#ffb454"/>
+        </marker>
+        <marker id="arg" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#3ddc97"/>
+        </marker>
+      </defs>
+      <path d="M716,298 C716,346 159,340 159,390" fill="none" stroke="#6fb4ff" stroke-width="1.3"
+            stroke-dasharray="5 5" opacity=".75" marker-end="url(#arb)"/>
+      <path d="M820,298 C820,346 504,340 504,390" fill="none" stroke="#ffb454" stroke-width="1.3"
+            stroke-dasharray="5 5" opacity=".75" marker-end="url(#ara)"/>
+      <path d="M924,298 C924,346 830,340 830,390" fill="none" stroke="#3ddc97" stroke-width="1.3"
+            stroke-dasharray="5 5" opacity=".75" marker-end="url(#arg)"/>
+      <rect x="470" y="516" width="486" height="74" rx="10" fill="#16141c" stroke="#322d3d"/>
+      <text x="490" y="540" class="lbl" fill="#aa3bff">At runtime, not at deploy time</text>
+      <text x="490" y="560" class="lbl-sm">Each app reads only its own environment&#39;s Dataverse,</text>
+      <text x="490" y="578" class="lbl-sm">resolved from connection references in ms.config.json.</text>
+
+      <rect x="24" y="516" width="420" height="74" rx="10" fill="#16141c" stroke="#ff5c7a"/>
+      <text x="44" y="540" class="lbl" fill="#ff5c7a">The app never passes through here</text>
+      <text x="44" y="560" class="lbl-sm">No build artifact is imported into Dataverse.</text>
+      <text x="44" y="578" class="lbl-sm">Only the solution is.</text>
     </svg>
     <figcaption>
-      Each lane is fully independent up to the runtime host — where all three converge.
+      Two independent paths. The app goes branch → repo → runtime host; the solution goes
+      dev Dataverse → test → prod. They meet only at runtime.
     </figcaption>
   </figure>
 
+  <div class="callout warn">
+    <h4>What "the app lives in an environment" actually means</h4>
+    <p>
+      The app <em>record</em> and its git repo are environment-scoped — the repo URL literally
+      embeds the environment ID. But the built app is served from
+      <code>play.managedapps.cloud.microsoft</code>, not from the environment. Deploying does not
+      place anything inside Dataverse.
+    </p>
+  </div>
+
   <div class="grid g3">
     <div class="card">
-      <h4>Your machine</h4>
-      <p>One clone, three branches. Checking out a branch is what selects the deploy target.</p>
+      <h4>App → runtime host</h4>
+      <p>Commit, cloud build, served from a shared host. Three app IDs, one domain.</p>
     </div>
     <div class="card">
-      <h4>Platform repos</h4>
-      <p>Each environment provisions its own git repo. The cloud build runs from there, not GitHub.</p>
+      <h4>Solution → environment</h4>
+      <p>Exported managed from dev, imported into each target's Dataverse. This is the only
+      artifact that enters an environment.</p>
     </div>
     <div class="card">
-      <h4>Environments</h4>
-      <p>Separate Dataverse, separate data. Schema travels as a managed solution; data never does.</p>
+      <h4>They meet at runtime</h4>
+      <p>Connection references point the running app at its own environment's Dataverse. Data
+      never travels between environments.</p>
     </div>
   </div>
 </section>

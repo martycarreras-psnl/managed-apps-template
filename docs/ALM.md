@@ -10,10 +10,18 @@ CLI has no solution commands. So there are two independent pipelines:
 
 | | Dataverse schema | The app |
 | --- | --- | --- |
-| Artifact | `cr922_managedappinventory` | React code + `ms.config.json` |
+| Artifact | the table and its columns | React code + `ms.config.json` |
 | Unit of promotion | Solution (unmanaged → managed) | Git commit |
-| How it moves | Export managed, import to target | `ms app deploy` from that env's registration |
+| How it moves | Export managed, import to target | Push to the platform repo, cloud build |
+| Where it lands | **inside** the environment's Dataverse | the shared runtime host |
 | Lives in Dataverse? | Yes | No |
+
+**The app is never deployed into a Power Platform environment.** It is *registered* in one — the
+platform git repo URL embeds the environment ID — but the built app is served from
+`play.managedapps.cloud.microsoft`. Deploying places nothing inside Dataverse.
+
+The two paths meet only at runtime: connection references in `ms.config.json` point the running
+app at its own environment's Dataverse.
 
 If you only change app code, the solution track is not involved at all. That covers most
 changes, including most hotfixes.

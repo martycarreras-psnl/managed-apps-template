@@ -29,30 +29,42 @@ Each is self-contained — paste one in and go.
 
 ## 1 — System overview (hero)
 
-> Wide technical architecture diagram titled **"One codebase, three environments, one runtime
-> surface."**
+> Wide technical architecture diagram titled **"The app and the solution travel different
+> paths."** The diagram is split into **two clearly separated horizontal bands**, each enclosed
+> by its own thin dashed rounded border.
 >
-> Four labelled columns left to right: **YOUR MACHINE**, **PLATFORM GIT REPO**,
-> **POWER PLATFORM ENVIRONMENT**, **RUNTIME**.
+> **UPPER BAND — labelled "TRACK A — THE APP (code)"**, three columns:
+> *YOUR MACHINE* → *PLATFORM GIT REPO* → *RUNTIME HOST*.
+> Left: three stacked branch cards, colour-coded dev blue, test amber, prod green, each showing
+> a small `ms.config.json` file tag and a truncated app ID.
+> Middle: three separate git repository cards labelled `env-dev`, `env-test`, `env-prod`, each
+> captioned "hosted at that environment's endpoint · cloud build runs here".
+> Right: all three lanes converge with smooth curved arrows into **one tall rounded panel**
+> outlined in violet labelled `play.managedapps.cloud.microsoft`, subtitled "one shared host ·
+> three app IDs · where users open the app".
 >
-> Three horizontal lanes, colour-coded: **DEV** (blue), **TEST** (amber), **PROD** (green).
-> Each lane flows across all four columns.
+> **LOWER BAND — labelled "TRACK B — THE SOLUTION (schema)"**, a single left-to-right row:
+> three environment cards (dev blue, test amber, prod green), each containing a Dataverse
+> database icon. Dev reads "solution: unmanaged · authored here"; test and prod read
+> "solution: managed · locked" with a small padlock. Violet arrows between them labelled
+> "export" then "import".
 >
-> Column 1: a single laptop icon containing three stacked branch chips labelled `dev`, `test`,
-> `prod`; each chip shows a small file tag `ms.config.json`.
-> Column 2: three separate git repository cylinders labelled `env-dev`, `env-test`, `env-prod`,
-> visually distinct from one another.
-> Column 3: three environment cards, each containing a small Dataverse database icon and a
-> solution package icon. The dev card's package is labelled "unmanaged"; test and prod are
-> labelled "managed" with a small padlock.
-> Column 4: all three lanes converge into a **single tall rounded panel** outlined in violet,
-> labelled `play.managedapps.cloud.microsoft`, with the subtitle "one host · three app IDs".
+> **Connecting the bands:** three thin dashed colour-matched curves drop from the runtime panel
+> down to their *own* environment card — blue to dev, amber to test, green to prod. These must
+> read as runtime data connections, clearly different in weight and style from the solid
+> deployment arrows above.
+>
+> Two summary boxes along the bottom: one outlined in red reading **"The app never passes
+> through here — no build artifact is imported into Dataverse. Only the solution is."**, and one
+> neutral reading **"At runtime, not at deploy time — each app reads only its own environment's
+> Dataverse, resolved from connection references."**
 >
 > Callouts:
-> 1. "One clone, three branches — checking out a branch selects the deploy target"
-> 2. "Each environment provisions its own git repo; the cloud build runs there, not on GitHub"
-> 3. "Separate Dataverse per environment — schema travels, data does not"
-> 4. "All three converge on one runtime host"
+> 1. "The app is registered in an environment, but served from a shared host — it is never
+>    deployed into the environment"
+> 2. "Each environment provisions its own git repo; the cloud build runs there"
+> 3. "The solution is the only artifact that enters a Power Platform environment"
+> 4. "The two paths meet only at runtime, through connection references"
 >
 > Style: [shared style block]
 
@@ -103,6 +115,7 @@ Each is self-contained — paste one in and go.
 >
 > Callouts:
 > 1. "The same commit deploys everywhere — only ms.config.json differs"
+> 1b. "The code track never enters a Power Platform environment; only the schema track does"
 > 2. "The managed solution zip is committed to the repo and verified by sha256"
 > 3. "Deploy is blocked if the target's installed version does not match"
 >
