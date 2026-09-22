@@ -50,7 +50,8 @@ if (!remotes.includes('template')) {
   ok('added "template" remote')
 }
 
-git(['fetch', '--tags', '--quiet', 'template'], { capture: false })
+// --force: a re-cut release moves its tag, and a plain fetch would abort.
+git(['fetch', '--tags', '--force', '--quiet', 'template'], { capture: false })
 
 // Prefer an explicit tag, else the newest scaffold-v* tag, else main.
 let ref = wantedTag
@@ -86,8 +87,23 @@ const diff = git(['diff', '--stat', `HEAD..${ref}`, '--', ...scaffold.paths], {
   allowFail: true,
 })
 
+function recordVersion(version) {
+  if (!version || version === scaffold.version) return false
+  const cfgPath = resolve(ROOT, 'alm.config.json')
+  const cfg = JSON.parse(readFileSync(cfgPath, 'utf8'))
+  cfg.scaffold.version = version
+  writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n')
+  return true
+}
+
 if (!diff) {
-  console.log(`${GREEN}✓${OFF} scaffolding is identical — nothing to do\n`)
+  console.log(`${GREEN}✓${OFF} scaffolding is identical`)
+  // Content can already match while the recorded version lags -- for example
+  // when files were pulled before the release was tagged.
+  if (!checkOnly && recordVersion(remoteVersion)) {
+    ok(`scaffold.version -> ${remoteVersion}`)
+  }
+  console.log('')
   process.exit(0)
 }
 console.log(diff)
@@ -110,13 +126,7 @@ execFileSync('git', ['checkout', ref, '--', ...scaffold.paths], {
 for (const path of scaffold.paths) ok(path)
 
 // Record the version we are now on.
-if (remoteVersion) {
-  const cfgPath = resolve(ROOT, 'alm.config.json')
-  const cfg = JSON.parse(readFileSync(cfgPath, 'utf8'))
-  cfg.scaffold.version = remoteVersion
-  writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n')
-  ok(`scaffold.version -> ${remoteVersion}`)
-}
+if (recordVersion(remoteVersion)) ok(`scaffold.version -> ${remoteVersion}`)
 
 console.log(
   `\n${BOLD}Scaffolding updated.${OFF}\n` +
