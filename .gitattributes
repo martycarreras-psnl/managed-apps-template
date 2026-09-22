@@ -1,0 +1,4 @@
+# ms.config.json is environment-specific and lives on the env branch.
+# merge=ours keeps the TARGET branch copy during promotion merges.
+# Requires: git config merge.ours.driver true   (run `npm run alm:setup`)
+ms.config.json merge=ours

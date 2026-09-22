@@ -1,0 +1,52 @@
+{
+  "name": "managed-apps-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:login": "tsx capture-auth.ts",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:headed": "E2E_HEADED=1 playwright test",
+    "alm:setup": "node scripts/alm/setup.mjs",
+    "alm:solution": "node scripts/alm/solution.mjs",
+    "alm:promote": "node scripts/alm/promote.mjs",
+    "alm:deploy": "node scripts/alm/deploy.mjs",
+    "alm:hotfix": "node scripts/alm/hotfix.mjs",
+    "alm:sync": "node scripts/alm/sync.mjs",
+    "alm:bootstrap": "node scripts/alm/bootstrap.mjs",
+    "alm:role": "node scripts/alm/role.mjs",
+    "alm:upgrade": "node scripts/alm/upgrade.mjs",
+    "alm:template": "node scripts/alm/template.mjs",
+    "alm:init": "node scripts/alm/init.mjs"
+  },
+  "dependencies": {
+    "@microsoft/managed-apps": "^0.5.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@microsoft/managed-apps-cli": "0.24.1",
+    "@microsoft/managed-apps-vite-plugin": "^0.3.11",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "tsx": "^4.23.13",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12"
+  },
+  "description": "Template for Microsoft Managed Apps projects with dev/test/prod ALM"
+}

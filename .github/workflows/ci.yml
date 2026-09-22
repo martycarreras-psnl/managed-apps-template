@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [dev, test, prod]
+  push:
+    branches: [dev, test, prod]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      # `tsc -b` runs as part of build, so this covers typechecking too.
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+  guard:
+    name: Promotion guardrails
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # An env branch must keep its own binding. If a PR changes
+      # ms.config.json, the merge driver was bypassed and merging would
+      # repoint the app at another environment.
+      - name: ms.config.json must not change in a promotion PR
+        if: github.event_name == 'pull_request'
+        run: |
+          base="origin/${{ github.base_ref }}"
+          if git diff --name-only "$base"...HEAD | grep -qx 'ms.config.json'; then
+            echo "::error file=ms.config.json::ms.config.json changed in a PR targeting ${{ github.base_ref }}."
+            echo "Each environment branch owns its ms.config.json."
+            echo "If this is intentional (re-registering the app), merge it directly on the branch."
+            exit 1
+          fi
+          echo "ms.config.json untouched."
+
+      # Enforce dev -> test -> prod. Guards against a feature branch going
+      # straight to prod.
+      - name: Enforce promotion order
+        if: github.event_name == 'pull_request'
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const cfg = JSON.parse(fs.readFileSync('alm.config.json', 'utf8'));
+          const order = cfg.promotionOrder;
+          const base = process.env.BASE_REF;
+          const head = process.env.HEAD_REF;
+
+          // Environment branches may only receive the stage before them.
+          const targetIndex = order.indexOf(base);
+          if (targetIndex <= 0) {
+            console.log(`Base "${base}" is the trunk or not an env branch — any source allowed.`);
+            process.exit(0);
+          }
+          const expected = order[targetIndex - 1];
+          if (head === expected || head.startsWith('hotfix/')) {
+            console.log(`OK: ${head} -> ${base}`);
+            process.exit(0);
+          }
+          console.log(`::error::"${head}" cannot merge into "${base}".`);
+          console.log(`Promotion order is ${order.join(' -> ')}; expected source "${expected}" (or a hotfix/* branch).`);
+          process.exit(1);
+          NODE
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          HEAD_REF: ${{ github.head_ref }}
+
+      - name: Verify alm.config.json is valid
+        run: |
+          node -e "
+            const c = require('./alm.config.json');
+            if (!Array.isArray(c.promotionOrder) || !c.promotionOrder.length)
+              throw new Error('promotionOrder missing');
+            for (const name of c.promotionOrder) {
+              if (!c.environments[name]) throw new Error('missing environment: ' + name);
+            }
+            console.log('alm.config.json OK:', c.promotionOrder.join(' -> '));
+          "

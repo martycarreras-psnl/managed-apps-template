@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+# Blocks direct pushes to environment branches.
+#
+# GitHub branch protection and rulesets require GitHub Pro on private repos,
+# so this is the local equivalent. The ALM scripts set ALM_ALLOW_PUSH=1, which
+# is what lets `npm run alm:deploy` / `alm:sync` through.
+#
+# Installed by `npm run alm:setup` (sets core.hooksPath to .githooks).
+#
+# Escape hatch for a genuine emergency:
+#   ALM_ALLOW_PUSH=1 git push ...
+#
+# Note: git feeds the ref list on stdin. Do NOT `exit 1` from inside a
+# `while read` loop on the right side of a pipe -- POSIX sh runs that loop in a
+# subshell, so the exit only leaves the subshell and the push sails through.
+# Everything below runs in the main shell on purpose.
+
+if [ "$ALM_ALLOW_PUSH" = "1" ]; then
+  exit 0
+fi
+
+# stdin lines are: <local ref> <local sha> <remote ref> <remote sha>
+blocked=$(awk '{print $3}' | grep -E '^refs/heads/(test|prod)$' | head -1)
+
+if [ -n "$blocked" ]; then
+  branch=${blocked#refs/heads/}
+  echo ""
+  echo "  Blocked: direct push to '$branch'."
+  echo ""
+  echo "  Environment branches are updated through the ALM scripts so the"
+  echo "  environment binding and solution version are verified first:"
+  echo ""
+  echo "    npm run alm:promote -- $branch"
+  echo "    npm run alm:deploy  -- $branch"
+  echo ""
+  echo "  Override for an emergency:  ALM_ALLOW_PUSH=1 git push ..."
+  echo ""
+  exit 1
+fi
+
+exit 0

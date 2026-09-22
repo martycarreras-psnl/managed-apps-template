@@ -1,0 +1,18 @@
+:root {
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: #aa3bff;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #e8e6ee;
+}

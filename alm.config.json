@@ -1,0 +1,80 @@
+{
+  "$comment": "ALM environment map. Fill this in with `npm run alm:init`, or by hand. Each environment is one branch, one platform git remote, and one app registration.",
+  "trunk": "dev",
+  "promotionOrder": [
+    "dev",
+    "test",
+    "prod"
+  ],
+  "environments": {
+    "dev": {
+      "branch": "dev",
+      "remote": "env-dev",
+      "displayName": "TBD",
+      "environmentId": null,
+      "appId": null,
+      "dataverseUrl": null,
+      "provisioned": false
+    },
+    "test": {
+      "branch": "test",
+      "remote": "env-test",
+      "displayName": "TBD",
+      "environmentId": null,
+      "appId": null,
+      "dataverseUrl": null,
+      "provisioned": false
+    },
+    "prod": {
+      "branch": "prod",
+      "remote": "env-prod",
+      "displayName": "TBD",
+      "environmentId": null,
+      "appId": null,
+      "dataverseUrl": null,
+      "provisioned": false
+    }
+  },
+  "solution": {
+    "uniqueName": "YourSolution",
+    "friendlyName": "Your Solution",
+    "publisherPrefix": "yourprefix",
+    "tables": []
+  },
+  "app": {
+    "displayName": "Your App",
+    "table": "prefix_YourTable",
+    "tableLogicalName": "prefix_yourtable",
+    "securityRole": {
+      "name": "Your App Manager",
+      "baselineRole": "Basic User",
+      "privileges": [
+        "prvCreate",
+        "prvRead",
+        "prvWrite",
+        "prvDelete",
+        "prvAppend",
+        "prvAppendTo"
+      ],
+      "depth": "Global"
+    }
+  },
+  "scaffold": {
+    "version": "1.0.0",
+    "templateRepo": "https://github.com/martycarreras-psnl/managed-apps-template",
+    "paths": [
+      "scripts/alm/",
+      ".githooks/",
+      ".github/workflows/ci.yml",
+      "docs/ALM.md",
+      ".gitattributes"
+    ],
+    "neverShare": [
+      "ms.config.json",
+      "solutions/",
+      "memory-bank.md",
+      "app_generated_plan.md",
+      ".env"
+    ]
+  }
+}
