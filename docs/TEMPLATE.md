@@ -62,13 +62,54 @@ never drifts from what everyone else receives.
 
 ## Changing the scaffolding
 
-1. Make the change in a project repo, where it can be exercised against real environments.
-2. Verify it.
-3. `npm run alm:template -- push --message "..." --tag scaffold-vX.Y.Z`
-4. Downstream projects pick it up with `npm run alm:upgrade`.
+> ### Order matters
+>
+> ```
+> 1. fix in the project repo      ← author and verify here
+> 2. npm run alm:template -- push ← publish upward
+> 3. npm run alm:upgrade          ← pull back down
+> ```
+>
+> **Never fix then upgrade.** `alm:upgrade` is authoritative for everything in
+> `scaffold.paths` — it replaces those files wholesale from the template. Running it before
+> you have pushed will silently revert your work. This is easy to do and the symptom is
+> confusing: your change simply disappears.
+>
+> If it happens, recover the file from its commit rather than redoing the work:
+>
+> ```bash
+> git checkout <your-fix-commit> -- scripts/alm/<file>.mjs
+> ```
 
-Use semver: patch for fixes, minor for new commands, **major when a project must act** — for
-example a new required field in `alm.config.json`.
+1. Make the change in a project repo, where it can be exercised against real environments.
+2. Verify it — against live environments where possible, not just a syntax check.
+3. Publish it:
+   ```bash
+   npm run alm:template -- push --bump patch --message "fix(alm): ..."
+   ```
+4. Commit the local `alm.config.json` version bump that `push` writes back.
+5. Downstream projects pick it up with `npm run alm:upgrade`.
+
+### Releases
+
+`--bump patch|minor|major` derives the next version **and** its tag, and writes the version into
+the same template commit the tag points at. That pairing matters: a tag alone does not move the
+number consumers compare against, so tagging without bumping publishes a release nobody detects
+as new.
+
+| Flag | Result |
+| --- | --- |
+| `--bump patch` | `1.1.0` → `1.1.1`, tags `scaffold-v1.1.1` |
+| `--bump minor` | `1.1.0` → `1.2.0`, tags `scaffold-v1.2.0` |
+| `--bump major` | `1.1.0` → `2.0.0`, tags `scaffold-v2.0.0` |
+| `--tag scaffold-v1.2.3` | Explicit version; must match `scaffold-vX.Y.Z` |
+| *(neither)* | Syncs files without cutting a release |
+
+`push` refuses to re-cut an existing tag. Moving a published tag breaks consumers: `git fetch
+--tags` aborts on a moved tag, which is why `alm:upgrade` fetches with `--force`.
+
+Semver guidance: patch for fixes, minor for new commands, **major when a project must act** —
+for example a new required field in `alm.config.json`.
 
 ## Adding a new scaffold file
 
