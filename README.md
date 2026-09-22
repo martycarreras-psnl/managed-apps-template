@@ -312,6 +312,12 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
 
 ## Documentation
 
+- **[docs/guide.html](docs/guide.html)** — an interactive visual guide: animated architecture
+  diagrams, OS-aware commands, a click-through promotion walkthrough, and the troubleshooting
+  section as an accordion. Open it in a browser; it is a single self-contained file with no
+  dependencies.
+- **[docs/image-prompts.md](docs/image-prompts.md)** — prompts for generating high-fidelity
+  diagrams of this model
 - **[docs/ALM.md](docs/ALM.md)** — the promotion model, hotfix flow, access gates, and the one
   thing this design cannot fix (Dataverse solutions do not branch)
 - **[docs/TEMPLATE.md](docs/TEMPLATE.md)** — how the template is structured and maintained
