@@ -215,6 +215,28 @@ example after re-registering the app), promoting `dev -> test` can raise a modif
 conflict on `ms.config.json`. Always keep the target branch's copy — `alm:promote` verifies
 this and aborts if the merge would introduce another environment's binding.
 
+## Naming apps per environment
+
+Each environment produces a **separate app registration**, and they all appear in the same
+tenant-wide Apps list — with no environment column. Identical display names are
+indistinguishable there:
+
+```
+Expense Tracker    e2ca41f8…
+Expense Tracker    0cac2d24…
+Expense Tracker    4f09f242…
+```
+
+Put the environment in `appDisplayName` on each branch:
+
+```
+Expense Tracker [DEV]  /  [TEST]  /  [PROD]
+```
+
+There is no rename command. `appDisplayName` lives in `ms.config.json`, so edit it on the branch
+and deploy — the deploy propagates the new name. Because `ms.config.json` is pinned per branch
+by the merge driver, each environment keeps its own name through promotions.
+
 ## Access: two independent gates
 
 `ms.config.json` stores **no connection GUID** and the data source uses `--use-sso`, so each
