@@ -29,42 +29,37 @@ Each is self-contained — paste one in and go.
 
 ## 1 — System overview (hero)
 
-> Wide technical architecture diagram titled **"The app and the solution travel different
-> paths."** The diagram is split into **two clearly separated horizontal bands**, each enclosed
-> by its own thin dashed rounded border.
+> Tall technical architecture diagram titled **"The branch carries everything."**
 >
-> **UPPER BAND — labelled "TRACK A — THE APP (code)"**, three columns:
-> *YOUR MACHINE* → *PLATFORM GIT REPO* → *RUNTIME HOST*.
-> Left: three stacked branch cards, colour-coded dev blue, test amber, prod green, each showing
-> a small `ms.config.json` file tag and a truncated app ID.
-> Middle: three separate git repository cards labelled `env-dev`, `env-test`, `env-prod`, each
-> captioned "hosted at that environment's endpoint · cloud build runs here".
-> Right: all three lanes converge with smooth curved arrows into **one tall rounded panel**
-> outlined in violet labelled `play.managedapps.cloud.microsoft`, subtitled "one shared host ·
-> three app IDs · where users open the app".
+> **Centre spine:** three large branch cards stacked vertically — `DEV BRANCH` (blue),
+> `TEST BRANCH` (amber), `PROD BRANCH` (green). Each card contains **two stacked chips**: a grey
+> one reading `src/ ms.config.json` and a violet-outlined one reading `solutions/*.zip`. Thick
+> violet downward arrows connect them, labelled **"git merge — carries code AND solution"**.
 >
-> **LOWER BAND — labelled "TRACK B — THE SOLUTION (schema)"**, a single left-to-right row:
-> three environment cards (dev blue, test amber, prod green), each containing a Dataverse
-> database icon. Dev reads "solution: unmanaged · authored here"; test and prod read
-> "solution: managed · locked" with a small padlock. Violet arrows between them labelled
-> "export" then "import".
+> **From each branch, two arrows fan right:**
+> *Upper* → a git repository card (`env-dev repo`, `env-test repo`, `env-prod repo`, captioned
+> "cloud build"), colour-matched to the branch.
+> *Lower* → a Dataverse card for that environment.
 >
-> **Connecting the bands:** three thin dashed colour-matched curves drop from the runtime panel
-> down to their *own* environment card — blue to dev, amber to test, green to prod. These must
-> read as runtime data connections, clearly different in weight and style from the solid
-> deployment arrows above.
+> **Critical arrow directions — get these right:**
+> On the **dev** row the lower arrow points **leftward, out of Dev Dataverse and into the
+> branch**, labelled **"export"**; the Dev Dataverse card reads "unmanaged · authored here".
+> On the **test** and **prod** rows the lower arrow points **rightward, out of the branch into
+> Dataverse**, labelled **"import"**; those cards read "managed · locked" with a small padlock.
 >
-> Two summary boxes along the bottom: one outlined in red reading **"The app never passes
-> through here — no build artifact is imported into Dataverse. Only the solution is."**, and one
-> neutral reading **"At runtime, not at deploy time — each app reads only its own environment's
-> Dataverse, resolved from connection references."**
+> **Far right:** all three repo cards curve into one tall violet-outlined panel labelled
+> `play.managedapps.cloud.microsoft`, subtitled "one shared host · three app IDs · where users
+> open the app · reads its own environment's Dataverse at runtime".
+>
+> Below it, a bordered key box titled **"WHY THEY STAY IN STEP"** reading: "The managed solution
+> is committed to the repo, so one git merge promotes code and schema together. Nothing moves
+> environment-to-environment directly."
 >
 > Callouts:
-> 1. "The app is registered in an environment, but served from a shared host — it is never
->    deployed into the environment"
-> 2. "Each environment provisions its own git repo; the cloud build runs there"
-> 3. "The solution is the only artifact that enters a Power Platform environment"
-> 4. "The two paths meet only at runtime, through connection references"
+> 1. "The solution is exported OUT of dev into the repo — it is a committed file, not a transfer"
+> 2. "One merge carries both the code and the solution zip"
+> 3. "Test and prod Dataverse are only ever written by an import FROM a branch"
+> 4. "The app itself never enters an environment — it is served from a shared runtime host"
 >
 > Style: [shared style block]
 
@@ -106,9 +101,13 @@ Each is self-contained — paste one in and go.
 > Upper track — **APP CODE**: a git commit node at each station, connected by arrows labelled
 > `alm:promote`. All three commit nodes show the same short hash, emphasising that the identical
 > commit moves forward.
-> Lower track — **SCHEMA**: a solution package at each station. At dev it is an open unlocked
-> box labelled "unmanaged · authored here". At test and prod it is a closed padlocked box
-> labelled "managed v1.0.2". Arrows between them are labelled `export` then `import`.
+> Lower track — **SCHEMA**: at dev an open unlocked box labelled "unmanaged · authored here".
+> An arrow labelled **"export"** leaves it into a small violet-outlined chip reading
+> `solutions/ — committed to git`, and a second arrow labelled **"import"** leaves that chip
+> into the test station. Between test and prod the arrow is labelled **"promoted in git"**
+> followed by another **"import"**. Test and prod are closed padlocked boxes reading
+> "managed v1.0.2 · locked". The schema must visibly route *through the repo chip*, never
+> directly from one environment box to another.
 >
 > A vertical dashed bracket joins the two tracks at each station with the label **"versions must
 > match"**.
