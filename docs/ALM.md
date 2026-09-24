@@ -20,6 +20,23 @@ CLI has no solution commands. So there are two independent pipelines:
 platform git repo URL embeds the environment ID — but the built app is served from
 `play.managedapps.cloud.microsoft`. Deploying places nothing inside Dataverse.
 
+**The schema never moves environment-to-environment either.** It travels through the repo:
+
+```
+Dev Dataverse
+   │  alm:solution export      (managed .zip -> solutions/, committed)
+   ▼
+dev branch ──── git merge ────▶ test branch ──── git merge ────▶ prod branch
+                                    │                                │
+                                    │ alm:solution import test       │ import prod
+                                    ▼                                ▼
+                              Test Dataverse                   Prod Dataverse
+```
+
+That is the whole reason code and schema cannot drift apart: the solution is a committed
+artifact, so a single merge promotes both, and `alm:deploy` refuses to ship when the target's
+installed version does not match the one in the branch.
+
 The two paths meet only at runtime: connection references in `ms.config.json` point the running
 app at its own environment's Dataverse.
 
