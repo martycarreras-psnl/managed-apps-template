@@ -86,7 +86,7 @@
     .lede{font-size:17px}
     .card{padding:16px}
     .ba{padding:10px 16px}
-    .venn svg{max-width:500px}
+    .slide .venn svg{max-width:520px}
     .cmp li{padding:8px 12px}
   }
 
@@ -221,6 +221,16 @@
   .grad-gate span{border:1px solid var(--accent);border-radius:999px;padding:6px 16px;background:rgba(170,59,255,.1);text-align:center}
   .grad-gate b{color:var(--ink)}
   .fut{font:700 10.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--warn);border:1px solid rgba(255,180,84,.5);border-radius:6px;padding:2px 7px;margin-left:6px;vertical-align:2px}
+  .vs{display:grid;gap:8px}
+  .vs-h,.vs-r{display:grid;grid-template-columns:190px 1fr 1fr;gap:12px;align-items:center}
+  .vs-h span{font:700 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);padding:0 14px}
+  .vs-h span:nth-child(3){color:var(--ok)}
+  .vs-r{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:11px 0 11px 16px}
+  .vs-r b{font-size:15px}
+  .vs-r span{font-size:14.5px;padding-right:14px}
+  .vs-r .x{color:var(--dim);text-decoration:line-through;text-decoration-color:rgba(255,92,122,.45)}
+  .vs-r .y{color:var(--ink);border-left:2px solid var(--ok);padding-left:12px}
+  @media (max-width:860px){.vs-h{display:none}.vs-r{grid-template-columns:1fr;gap:6px;padding:12px 16px}.vs-r span{padding-right:0}}
   .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px}
   .btn{display:inline-flex;gap:8px;align-items:center;border-radius:11px;padding:13px 20px;font:600 15px var(--sans);text-decoration:none;
        border:1px solid var(--line);color:var(--ink);background:var(--bg3)}
@@ -497,6 +507,41 @@
         </div>
         <p class="dim" style="font-size:14px;margin-top:12px">The app IT couldn't see is now one they can list, review, and govern. Connectors follow the data policies admins already set.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11b HEARD THIS BEFORE -->
+<section class="slide" data-chap="Let's be honest" data-stage="Challenger · Reframe the objection"
+  data-notes="Name the objection before the audience does. Be blunt: citizen development stalled because the tools themselves were intimidating, and governance struggled because everything landed in the Default environment. Both walls were real. Acknowledging them earns the right to say what's different.">
+  <div class="in-s">
+    <p class="kicker">Let's be honest</p>
+    <h2>You've heard this promise before.<br/><span class="grad">So why did it stall?</span></h2>
+    <div class="grid g2" style="margin-top:22px">
+      <div class="card f" style="border-top:3px solid var(--warn)"><span class="emoji">🧗</span><h3>Citizen development hit a wall: the tool itself</h3>
+        <p>"Anyone can build" turned into "anyone who learns a designer, Power Fx formulas, and delegation limits." Model-driven apps meant tables, forms, views, and solutions.
+          Most knowledge workers took a look, felt intimidated, and went back to Excel. "Citizen developer" ended up meaning a small group of power users.</p></div>
+      <div class="card f" style="border-top:3px solid var(--danger)"><span class="emoji">🌊</span><h3>Governance hit a wall: Default overload</h3>
+        <p>Every licensed user could build in the Default environment, so they did. Apps and flows piled up in one shared space with no ownership plan, no lifecycle,
+          and no line between experiments and business-critical tools. Admins spent their time cleaning up after the fact.</p></div>
+    </div>
+    <p class="lede f" style="margin-top:22px;max-width:none">Two walls. <b>One kept most people out. The other let everything in without a plan.</b></p>
+  </div>
+</section>
+
+<!-- 11c WHAT'S DIFFERENT -->
+<section class="slide" data-chap="What's different this time" data-stage="Challenger · A new way (proof)"
+  data-notes="Go row by row. Each row takes down one of the two walls. The skill barrier is gone because the agent writes the code. Default overload is replaced by a landing zone designed in advance: Personal Developer Environments, created for makers or routed to by governance. And there's now a deliberate path from personal to business-critical.">
+  <div class="in-s">
+    <p class="kicker">So what's actually different?</p>
+    <h2>The promise isn't new. <span class="grad">The barriers finally are.</span></h2>
+    <div class="vs" style="margin-top:20px">
+      <div class="vs-h"><span></span><span>Then</span><span>Now</span></div>
+      <div class="vs-r f"><b>The skill barrier</b><span class="x">Learn a designer and a formula language first</span><span class="y">Describe the outcome in plain language. The agent writes the code.</span></div>
+      <div class="vs-r f"><b>Where apps land</b><span class="x">Everything piles into the Default environment</span><span class="y">Each maker gets a Personal Developer Environment, created for them or routed there by governance</span></div>
+      <div class="vs-r f"><b>Personal → critical</b><span class="x">No path. It's a side project until it becomes a crisis.</span><span class="y">A deliberate graduation path to a team with dev → test → prod ALM</span></div>
+      <div class="vs-r f"><b>What IT can review</b><span class="x">Logic scattered across a designer's screens and formulas</span><span class="y">Real code in git: reviewable, testable, and versioned like any software</span></div>
+      <div class="vs-r f"><b>The ceiling</b><span class="x">Outgrow the designer and start over</span><span class="y">Any UI you can describe, with no rebuild when the app grows up</span></div>
     </div>
   </div>
 </section>
