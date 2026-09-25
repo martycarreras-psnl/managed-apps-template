@@ -798,7 +798,7 @@ function ui(){
   $('prev').disabled=i===0&&f===0;
   const last=i===list.length-1&&f>=frags(s).length;
   $('next').disabled=last;
-  $('next').textContent=f<frags(s).length?'Reveal →':'Next →';
+  $('next').textContent='Next →';
   $('prog').querySelectorAll('i').forEach((el,k)=>{el.className=k<i?'done':k===i?'cur':''});
   history.replaceState(null,'','#'+(i+1));
 }
