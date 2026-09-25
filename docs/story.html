@@ -82,6 +82,7 @@
     .ba{padding:10px 16px}
     .slide .venn svg{max-width:520px}
     .cmp li{padding:8px 12px}
+    .tier{padding:9px 14px}.node{padding:7px 12px}.eco-hub{padding:16px}
   }
 
   /* fragments */
@@ -225,6 +226,40 @@
   .vs-r .x{color:var(--dim);text-decoration:line-through;text-decoration-color:rgba(255,92,122,.45)}
   .vs-r .y{color:var(--ink);border-left:2px solid var(--ok);padding-left:12px}
   @media (max-width:860px){.vs-h{display:none}.vs-r{grid-template-columns:1fr;gap:6px;padding:12px 16px}.vs-r span{padding-right:0}}
+  .entry{display:grid;grid-template-columns:1fr auto 260px;gap:18px;align-items:center}
+  .entry>*{min-width:0}
+  .tiers{display:grid;gap:10px}
+  .tier{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+  .tier.hero{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 16px 40px -20px rgba(170,59,255,.6)}
+  .tier.soon{border-style:dashed;opacity:.85}
+  .tier p{margin:6px 0 0;color:var(--dim);font-size:14.5px}
+  .tag{display:block;font:700 10.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
+  .tier.hero .tag{color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{background:var(--bg3);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+  .chip.hi{font-size:16px;padding:6px 14px;background:#2a1f3d;border-color:#5a3a80}
+  .funnel{font-size:34px;color:var(--accent)}
+  .dest{background:linear-gradient(160deg,#2a1f3d,#16141c);border:1px solid var(--accent);border-radius:18px;padding:22px;text-align:center}
+  .dest b{font-size:20px;display:block;margin-bottom:6px}
+  .dest p{margin:0;color:var(--dim);font-size:14.5px}
+  .eco{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:center}
+  .eco>*{min-width:0}
+  .eco-col{display:grid;gap:8px}
+  .node{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:9px 13px}
+  .node b{display:block;font-size:15px}.node span{color:var(--dim);font-size:13.5px}
+  .node.dim2{border-style:dashed}
+  .chain{font-size:12.5px;color:var(--accent);text-align:center;font-weight:600}
+  .eco-link{font-size:28px;color:var(--accent);text-align:center}
+  .eco-hub{background:linear-gradient(160deg,#2a1f3d,#16141c);border:1px solid var(--accent);border-radius:18px;padding:20px;
+           box-shadow:0 0 0 1px var(--accent),0 20px 60px -25px rgba(170,59,255,.8)}
+  .eco-hub .tag{color:var(--accent)}
+  .eco-hub>b{font-size:21px;display:block;margin-bottom:8px}
+  .eco-hub ul{margin:0;padding-left:18px;color:var(--dim);font-size:14.5px;display:grid;gap:4px}
+  .sig{margin:10px 0 0;padding-left:18px;color:var(--dim);font-size:15px;display:grid;gap:9px}
+  .sig b{color:var(--ink)}
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .pillars span{background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-weight:600;font-size:15px}
+  @media (max-width:860px){.entry,.eco{grid-template-columns:1fr}.funnel,.eco-link{justify-self:center}.funnel.f.in,.eco-link.f.in{transform:rotate(90deg)}}
   .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px}
   .btn{display:inline-flex;gap:8px;align-items:center;border-radius:11px;padding:13px 20px;font:600 15px var(--sans);text-decoration:none;
        border:1px solid var(--line);color:var(--ink);background:var(--bg3)}
@@ -526,6 +561,63 @@
   </div>
 </section>
 
+<!-- 11d WHERE YOU START -->
+<section class="slide" data-chap="Start where you already work">
+  <div class="in-s">
+    <p class="kicker">No new tool to learn first</p>
+    <h2>Start wherever you <span class="grad">already work.</span></h2>
+    <div class="entry" style="margin-top:22px">
+      <div class="tiers">
+        <div class="tier f hero"><span class="tag">For every knowledge worker</span>
+          <div class="chips"><span class="chip hi">✨ The App skill in Copilot Cowork</span></div>
+          <p>Where Maya started: describe the app in a conversation, and it gets built.</p></div>
+        <div class="tier f"><span class="tag">For makers and agent builders</span>
+          <div class="chips"><span class="chip">🤖 Copilot Studio</span></div>
+          <p>Build apps in the same place you already build agents and workflows.</p></div>
+        <div class="tier f"><span class="tag">For professional developers</span>
+          <div class="chips"><span class="chip">GitHub Copilot app</span><span class="chip">VS Code</span><span class="chip">Copilot CLI</span><span class="chip">Claude Code</span><span class="chip">Codex</span></div>
+          <p>Any coding agent, driving the Managed Apps CLI (<code>ms</code>).</p></div>
+        <div class="tier f soon"><span class="tag">Coming soon</span>
+          <div class="chips"><span class="chip">Copilot Code</span></div></div>
+      </div>
+      <div class="funnel f" aria-hidden="true"><span>→</span></div>
+      <div class="dest f"><span class="emoji">🛡️</span><b>One kind of app</b><p>Same connectors. Same governance. Same place in the Microsoft 365 admin center, whichever door you came through.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11e ECOSYSTEM -->
+<section class="slide" data-chap="Part of something bigger">
+  <div class="in-s">
+    <p class="kicker">Not a new island</p>
+    <h2>Where people and agents <span class="grad">meet the data.</span></h2>
+    <div class="eco" style="margin-top:22px">
+      <div class="eco-col f">
+        <span class="tag">Data people already trust</span>
+        <div class="node"><b>🗄️ Dataverse</b><span>Structured business data</span></div>
+        <div class="node"><b>📁 SharePoint</b><span>Lists, libraries, documents</span></div>
+        <div class="node"><b>🧠 Work IQ</b><span>Knowledge from mail, chats, and files</span></div>
+        <div class="node dim2"><b>🔌 1,300+ more connectors</b><span>Outlook, Teams, Excel, SQL, SAP…</span></div>
+      </div>
+      <div class="eco-link f" aria-hidden="true">⇄</div>
+      <div class="eco-hub f">
+        <span class="tag">The Managed App</span>
+        <b>Humans in the loop</b>
+        <ul><li>Review what an agent drafted</li><li>Approve, adjust, or reject</li><li>Work on the same live data together</li></ul>
+      </div>
+      <div class="eco-link f" aria-hidden="true">⇄</div>
+      <div class="eco-col f">
+        <span class="tag">Automation and agents</span>
+        <div class="node"><b>⚡ Copilot Studio workflows</b><span>Triggered from the app</span></div>
+        <div class="chain">↓ which can invoke</div>
+        <div class="node"><b>🤖 A Copilot Studio agent</b><span>Reasoning and actions</span></div>
+        <div class="node"><b>✨ Copilot Cowork</b><span>Work carried out on someone's behalf</span></div>
+      </div>
+    </div>
+    <p class="lede f" style="margin-top:20px;max-width:none">Agents are great. But real work still needs people to <b>review, decide, and collaborate</b> on shared data. Managed Apps are where that happens, connected to everything else.</p>
+  </div>
+</section>
+
 <!-- 12 PRO: ERAS -->
 <section class="slide" data-track="pro" data-chap="For Power Platform pros">
   <div class="in-s">
@@ -568,6 +660,26 @@
         <li><b>No designer ceiling</b><span>Any layout, component, or interaction you can describe</span></li>
         <li><b>Git-native ALM</b><span>Branches, pull requests, tests, and CI, like any engineering team</span></li>
       </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13b THE SIGNAL -->
+<section class="slide" data-chap="The signal">
+  <div class="in-s">
+    <p class="kicker">Look around your organization</p>
+    <h2>Your people are already doing this. <span class="grad">The question is where.</span></h2>
+    <div class="two" style="margin-top:22px;align-items:stretch">
+      <div class="card f"><h3>📡 The demand is already visible</h3>
+        <ul class="sig">
+          <li><b>Trackers everywhere.</b> Spreadsheets and HTML dashboards doing the job of an app.</li>
+          <li><b>Departmental tools.</b> Work-management and no-code platforms such as QuickBase or Smartsheet, adopted team by team to get forms, tracking, and shared workflows.</li>
+          <li><b>Tens of thousands of Power Apps users.</b> In many large organizations, people already build and run apps every day. That's the clearest signal of all.</li>
+        </ul></div>
+      <div class="card f" style="border-color:var(--accent)"><h3>🏛️ The same outcomes, under one roof</h3>
+        <p style="margin-bottom:12px">Managed Apps deliver what people are reaching for, inside the tenant IT already runs, so there's more room to innovate and nothing to trade away.</p>
+        <div class="pillars"><span>🛡️ Governance</span><span>🔒 Security</span><span>🤝 Trust</span><span>📋 Compliance</span></div>
+        <p style="margin-top:12px">Identity, data policies, admin visibility, and audit apply from the first build.</p></div>
     </div>
   </div>
 </section>
