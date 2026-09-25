@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Managed Apps Template: imagine it, ship it, govern it</title>
+<meta name="description" content="A GitHub template for building Microsoft Managed Apps with AI: vibe-code real apps on 1,300+ governed connectors, with dev/test/prod ALM that keeps code, schema, and environments in sync." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E✨%3C/text%3E%3C/svg%3E" />
+<meta property="og:title" content="Managed Apps Template" />
+<meta property="og:description" content="Imagination in. Governed, enterprise-grade apps out." />
+<style>
+  :root{
+    --bg:#0f0d14; --bg2:#16141c; --bg3:#1e1b26; --bg4:#262231;
+    --line:#322d3d; --ink:#e8e6ee; --dim:#a29ead; --faint:#75707f;
+    --accent:#aa3bff; --accent2:#6fb4ff; --ok:#3ddc97; --warn:#ffb454; --danger:#ff5c7a;
+    --dev:#6fb4ff; --test:#ffb454; --prod:#3ddc97;
+    --sans:system-ui,'Segoe UI',Roboto,sans-serif;
+    --mono:ui-monospace,'Cascadia Code',Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:70px;overflow-x:clip}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans);overflow-x:clip}
+  a{color:var(--accent2)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(15,13,20,.85);
+      backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .brand{font-weight:700;letter-spacing:-.02em;margin-right:auto;white-space:nowrap}
+  .brand span{color:var(--accent)}
+  nav a{color:var(--dim);text-decoration:none;font-size:14px;white-space:nowrap}
+  nav a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 20px;
+       font:600 15px var(--sans);text-decoration:none;border:1px solid var(--line);color:var(--ink);
+       background:var(--bg3);transition:transform .15s,border-color .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .btn.primary{background:linear-gradient(135deg,#aa3bff,#6f4bff);border-color:transparent;color:#fff;
+               box-shadow:0 8px 30px -8px rgba(170,59,255,.6)}
+  .btn.primary:hover{box-shadow:0 12px 36px -6px rgba(170,59,255,.8)}
+  nav .btn{padding:7px 14px;font-size:13px;color:#fff}
+  @media (max-width:760px){nav a:not(.btn){display:none}}
+
+  main{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+  section{padding:88px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:0}
+  h1{font-size:clamp(40px,7vw,78px);line-height:1.02;letter-spacing:-.045em;margin:0 0 22px}
+  h2{font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.03em;margin:0 0 14px}
+  h3{font-size:18px;margin:0 0 6px}
+  .eyebrow{color:var(--accent);font:600 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;margin:0 0 14px}
+  .lede{color:var(--dim);font-size:clamp(17px,2vw,20px);max-width:62ch;margin:0}
+  p{max-width:72ch}
+  .grad{background:linear-gradient(100deg,#c77dff 0%,#6fb4ff 45%,#3ddc97 90%);
+        -webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* hero */
+  .hero{position:relative;padding:110px 0 90px;border-bottom:0}
+  .hero::before{content:"";position:absolute;inset:-120px -40vw auto;height:720px;z-index:-1;
+    background:radial-gradient(600px 340px at 20% 30%,rgba(170,59,255,.28),transparent 70%),
+               radial-gradient(520px 320px at 80% 20%,rgba(111,180,255,.18),transparent 70%),
+               radial-gradient(500px 300px at 60% 80%,rgba(61,220,151,.12),transparent 70%)}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  @media (max-width:920px){.hero-grid{grid-template-columns:1fr}}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+  .stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:44px}
+  .stat b{display:block;font-size:34px;letter-spacing:-.03em;line-height:1}
+  .stat span{color:var(--dim);font-size:13px;display:block;max-width:18ch;line-height:1.35;margin-top:6px}
+
+  /* prompt-to-app terminal */
+  .term{background:#0b0910;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+        box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(170,59,255,.08)}
+  .term-top{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--bg2)}
+  .term-top i{width:11px;height:11px;border-radius:50%;background:#3a3445}
+  .term-top i:nth-child(1){background:#ff5f57}.term-top i:nth-child(2){background:#febc2e}.term-top i:nth-child(3){background:#28c840}
+  .term-top span{margin-left:10px;font:12px var(--mono);color:var(--faint)}
+  .term-body{padding:18px 18px 22px;font:13.5px/1.75 var(--mono);min-height:330px;color:#d7d2e0}
+  .term-body .you{color:var(--accent)}
+  .term-body .ok{color:var(--ok)}
+  .term-body .dim{color:var(--faint)}
+  .caret{display:inline-block;width:8px;height:16px;background:var(--accent);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .term-line{opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
+  .term-line.on{opacity:1;transform:none}
+  .ideas{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 18px}
+  .ideas button{background:var(--bg3);border:1px solid var(--line);color:var(--dim);border-radius:999px;
+                padding:6px 12px;font:12.5px var(--sans);cursor:pointer}
+  .ideas button:hover,.ideas button.on{border-color:var(--accent);color:var(--ink)}
+
+  /* cards */
+  .grid{display:grid;gap:18px}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr))}
+  .card{position:relative;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:24px;
+        transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-3px);border-color:#4a4258}
+  .card p{margin:0;color:var(--dim);font-size:15px}
+  .ico{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;margin-bottom:16px;
+       background:rgba(170,59,255,.14);color:var(--accent);font-size:20px}
+  .ico.b{background:rgba(111,180,255,.14);color:var(--accent2)}
+  .ico.g{background:rgba(61,220,151,.14);color:var(--ok)}
+  .ico.o{background:rgba(255,180,84,.14);color:var(--warn)}
+  .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+
+  /* connector wall */
+  .wall{position:relative;border:1px solid var(--line);border-radius:20px;background:var(--bg2);overflow:hidden;padding:34px 0}
+  .row{display:flex;gap:10px;width:max-content;animation:scroll 60s linear infinite;margin:10px 0}
+  .row.r2{animation-direction:reverse;animation-duration:70s}
+  .row.r3{animation-duration:80s}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  .chip{white-space:nowrap;border:1px solid var(--line);background:var(--bg3);border-radius:10px;padding:8px 14px;font-size:14px;color:var(--dim)}
+  .chip.hot{color:var(--ink);border-color:#4a4258}
+  .wall::before,.wall::after{content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+  .wall::before{left:0;background:linear-gradient(90deg,var(--bg2),transparent)}
+  .wall::after{right:0;background:linear-gradient(-90deg,var(--bg2),transparent)}
+  .shield{position:relative;z-index:3;margin:26px auto 0;max-width:760px;display:flex;gap:18px;align-items:center;
+          background:rgba(15,13,20,.85);border:1px solid var(--accent);border-radius:14px;padding:16px 20px}
+  .shield .ico{margin:0;flex:none}
+  .shield p{margin:0;color:var(--dim);font-size:14.5px}
+  .shield b{color:var(--ink)}
+
+  /* pitfalls flip */
+  .pit{cursor:pointer;min-height:210px}
+  .pit .before,.pit .after{transition:opacity .25s}
+  .pit .after{position:absolute;inset:24px;opacity:0}
+  .pit.flip .before{opacity:0}
+  .pit.flip .after{opacity:1}
+  .pit.flip{border-color:var(--ok)}
+  .tag{display:inline-block;font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;
+       border-radius:6px;padding:3px 8px;margin-bottom:10px}
+  .tag.bad{background:rgba(255,92,122,.14);color:var(--danger)}
+  .tag.good{background:rgba(61,220,151,.14);color:var(--ok)}
+  .hint{font-size:12px;color:var(--faint);margin-top:14px}
+
+  /* svg */
+  .diagram{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:22px}
+  .diagram svg{width:100%;height:auto;display:block}
+  .flow{stroke-dasharray:6 7;animation:dash 1.4s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-26}}
+
+  /* tabs */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
+  .tabs button{background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:10px;
+               padding:10px 18px;font:600 14px var(--sans);cursor:pointer}
+  .tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .pane{display:none}.pane.on{display:block;animation:fade .3s}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;
+            background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps li::before{content:counter(s);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+                    background:var(--bg4);color:var(--accent);font-weight:700;font-size:14px}
+  .steps code,p code,.card code{font:13px var(--mono);background:#0b0910;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#d7d2e0}
+
+  .final{text-align:center;padding:110px 0 70px;position:relative}
+  .final::before{content:"";position:absolute;inset:0 -30vw;z-index:-1;
+    background:radial-gradient(500px 260px at 50% 60%,rgba(170,59,255,.22),transparent 70%)}
+  .final h2{font-size:clamp(34px,5vw,58px)}
+  .final .cta{justify-content:center}
+  .final .lede{margin:0 auto}
+  footer{border-top:1px solid var(--line);color:var(--faint);font-size:13px;text-align:center;padding:28px 24px}
+  footer a{color:var(--dim)}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav><div class="nav-in">
+  <div class="brand">Managed Apps <span>Template</span></div>
+  <a href="#why">Why</a>
+  <a href="#connect">Connect</a>
+  <a href="#alm">ALM</a>
+  <a href="#scale">Scale</a>
+  <a href="#start">Get started</a>
+  <a href="guide.html">Visual guide</a>
+  <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">Use this template</a>
+</div></nav>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">Microsoft Managed Apps · AI-built · enterprise-ready</p>
+      <h1>Your imagination<br/>is the <span class="grad">only prerequisite.</span></h1>
+      <p class="lede">Describe the app you wish existed. Your AI coding agent builds it: a real React app
+        on real enterprise data, governed by your Power Platform guardrails. Then it ships through
+        a <b>dev → test → prod</b> pipeline that keeps code, schema, and environments in sync.</p>
+      <div class="cta">
+        <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">✨ Start a project from this template</a>
+        <a class="btn" href="guide.html">See how it works →</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b class="grad" data-count="1300">0</b><span>connectors, plus your own custom ones</span></div>
+        <div class="stat"><b data-count="3">0</b><span>environments, one pipeline</span></div>
+        <div class="stat"><b>0</b><span>lines of ALM plumbing to write</span></div>
+      </div>
+    </div>
+
+    <div class="term" aria-label="Example: prompt to app">
+      <div class="term-top"><i></i><i></i><i></i><span>copilot · new-project</span></div>
+      <div class="term-body" id="term"></div>
+      <div class="ideas" id="ideas">
+        <button class="on" data-i="0">Equipment tracker</button>
+        <button data-i="1">Vendor onboarding</button>
+        <button data-i="2">Field inspections</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY ============ -->
+<section id="why" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Why this exists</p>
+      <h2>Building the app is the easy part now.<br/><span class="grad">Operating it is the hard part.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">AI agents can scaffold a working app in minutes. Enterprises also need
+      that app promoted safely, schema kept aligned, and every environment auditable. We hit each of
+      these pitfalls for real and built the fix into this repo. <b>Tap a card</b> to see the fix.</p>
+  </div>
+  <div class="grid g3">
+    <div class="card pit" tabindex="0">
+      <div class="before"><span class="tag bad">Pitfall</span><h3>One merge rebinds prod to dev</h3>
+        <p><code>ms.config.json</code> pins an app to its environment. A normal merge copies dev's binding into prod.</p></div>
+      <div class="after"><span class="tag good">Built in</span><h3>A merge driver pins it per branch</h3>
+        <p>Each branch keeps its own binding. <code>alm:deploy</code> refuses to deploy if the binding doesn't match its target.</p></div>
+    </div>
+    <div class="card pit" tabindex="0">
+      <div class="before"><span class="tag bad">Pitfall</span><h3>The app ships, but its tables don't</h3>
+        <p>The code promotes through git. The Dataverse schema stays behind in dev, so test breaks.</p></div>
+      <div class="after"><span class="tag good">Built in</span><h3>A managed solution travels with the code</h3>
+        <p>The solution is exported as managed, committed with a SHA-256 manifest, merged with the code, then imported. Deploy is blocked if versions drift.</p></div>
+    </div>
+    <div class="card pit" tabindex="0">
+      <div class="before"><span class="tag bad">Pitfall</span><h3>Three identical apps in the admin center</h3>
+        <p>Dev, test, and prod all run on one runtime and show up in one flat list with no environment column.</p></div>
+      <div class="after"><span class="tag good">Built in</span><h3>Each environment is labeled</h3>
+        <p>Each branch owns its display name: <code>[DEV]</code>, <code>[TEST]</code>, or <code>[PROD]</code>. Admins can see which app is which.</p></div>
+    </div>
+    <div class="card pit" tabindex="0">
+      <div class="before"><span class="tag bad">Pitfall</span><h3>"It works for me" access</h3>
+        <p>Users can open the app but get errors on data. Sharing the app and granting Dataverse access are two separate gates.</p></div>
+      <div class="after"><span class="tag good">Built in</span><h3>Least-privilege roles ship with the solution</h3>
+        <p>Security roles live in the solution, and each connection declares its <code>allowedActions</code>. Both gates are documented and repeatable.</p></div>
+    </div>
+    <div class="card pit" tabindex="0">
+      <div class="before"><span class="tag bad">Pitfall</span><h3>Hotfix while a feature is in flight</h3>
+        <p>Prod is on fire and dev has half-built work. Where do you branch from?</p></div>
+      <div class="after"><span class="tag good">Built in</span><h3>A documented hotfix lane</h3>
+        <p>Branch from <code>prod</code>, fix it, then merge back down so every environment gets the fix and none of the unfinished work.</p></div>
+    </div>
+    <div class="card pit" tabindex="0">
+      <div class="before"><span class="tag bad">Pitfall</span><h3>Every team rebuilds the pipeline</h3>
+        <p>Fifty projects end up with fifty slightly different versions of the scripts, all drifting apart.</p></div>
+      <div class="after"><span class="tag good">Built in</span><h3>A versioned upgrade channel</h3>
+        <p>Scaffolding is tagged <code>scaffold-vX.Y.Z</code>. Any project can run <code>npm run alm:upgrade</code> to get the latest fixes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONNECT ============ -->
+<section id="connect" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Connect to anything</p>
+      <h2>Your data is probably already here.<br/><span class="grad">So are your guardrails.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Managed Apps use the Power Platform connector catalog: <b>1,300+ connectors</b>
+      from Microsoft 365 and Dataverse to SAP, Salesforce, ServiceNow, SQL, and Snowflake, plus any custom connector
+      your team publishes. You ask for data in plain language, and the agent wires up typed services.</p>
+  </div>
+  <div class="wall" aria-hidden="true">
+    <div class="row" id="r1"></div>
+    <div class="row r2" id="r2"></div>
+    <div class="row r3" id="r3"></div>
+    <div class="shield">
+      <div class="ico">🛡️</div>
+      <p><b>Governed by the controls you already run.</b> DLP policies, tenant connector allow/block lists,
+        environment security, and Entra identity all apply automatically. Makers move fast inside the lines
+        IT has already drawn.</p>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:22px">
+    <div class="card"><div class="ico b">💬</div><h3>Ask in plain language</h3>
+      <p>"Add a SharePoint list of vendors and let me email them from Outlook." The agent's skills pick the connector and generate typed TypeScript services.</p></div>
+    <div class="card"><div class="ico g">🔐</div><h3>Least privilege by default</h3>
+      <p>Each shared connection declares exactly which actions the app may call. Deploy fails closed if a declaration is missing.</p></div>
+    <div class="card"><div class="ico o">🗄️</div><h3>Dataverse when you need it</h3>
+      <p>Need real tables, relationships, and roles? Dataverse skills create the schema, and the solution pipeline carries it to every environment.</p></div>
+  </div>
+</section>
+
+<!-- ============ ALM ============ -->
+<section id="alm" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Professional ALM, out of the box</p>
+      <h2>One branch per environment.<br/><span class="grad">Everything moves together.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Each branch carries the app code and the managed solution side by side.
+      Promotion is a git merge. The app is built and served by the Managed Apps runtime, and the solution
+      is imported into each environment's Dataverse.</p>
+  </div>
+  <div class="diagram">
+    <svg viewBox="0 0 1000 380" role="img" aria-label="Branch spine: dev, test, prod branches each carry src and solutions; solution exports from dev Dataverse and imports into test and prod">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#a29ead"/></marker>
+        <marker id="arA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#aa3bff"/></marker>
+      </defs>
+      <text x="40" y="34" fill="#75707f" font-size="12" font-family="system-ui" letter-spacing="2">GIT BRANCH</text>
+      <text x="470" y="34" fill="#75707f" font-size="12" font-family="system-ui" letter-spacing="2">POWER PLATFORM ENVIRONMENT</text>
+      <text x="790" y="34" fill="#75707f" font-size="12" font-family="system-ui" letter-spacing="2">MANAGED APPS RUNTIME</text>
+
+      <!-- runtime -->
+      <rect x="780" y="54" width="190" height="300" rx="16" fill="#1e1b26" stroke="#aa3bff" stroke-opacity=".6"/>
+      <text x="875" y="84" text-anchor="middle" fill="#e8e6ee" font-size="14" font-weight="700" font-family="system-ui">One runtime</text>
+      <text x="875" y="102" text-anchor="middle" fill="#a29ead" font-size="11" font-family="system-ui">play.managedapps.cloud…</text>
+
+      <g font-family="system-ui">
+        <!-- rows -->
+        <g id="rowdev">
+          <rect x="30" y="120" width="330" height="62" rx="12" fill="#16141c" stroke="#6fb4ff"/>
+          <text x="50" y="146" fill="#6fb4ff" font-size="15" font-weight="700">dev</text>
+          <rect x="100" y="134" width="96" height="30" rx="7" fill="#262231"/><text x="148" y="154" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">src/ + config</text>
+          <rect x="206" y="134" width="138" height="30" rx="7" fill="#262231" stroke="#aa3bff" stroke-opacity=".6"/><text x="275" y="154" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">solutions/*.zip</text>
+          <rect x="450" y="120" width="250" height="62" rx="12" fill="#16141c" stroke="#322d3d"/>
+          <text x="470" y="146" fill="#e8e6ee" font-size="13.5" font-weight="600">Dev Dataverse</text>
+          <text x="470" y="166" fill="#a29ead" font-size="11.5">you build schema here</text>
+          <path class="flow" d="M450,151 L352,151" stroke="#aa3bff" stroke-width="2" fill="none" marker-end="url(#arA)"/>
+          <text x="400" y="142" text-anchor="middle" fill="#aa3bff" font-size="10.5" font-weight="700">export</text>
+          <rect x="800" y="130" width="150" height="40" rx="9" fill="#262231" stroke="#6fb4ff"/><text x="875" y="155" text-anchor="middle" fill="#e8e6ee" font-size="12">Inventory [DEV]</text>
+        </g>
+        <g>
+          <rect x="30" y="210" width="330" height="62" rx="12" fill="#16141c" stroke="#ffb454"/>
+          <text x="50" y="236" fill="#ffb454" font-size="15" font-weight="700">test</text>
+          <rect x="100" y="224" width="96" height="30" rx="7" fill="#262231"/><text x="148" y="244" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">src/ + config</text>
+          <rect x="206" y="224" width="138" height="30" rx="7" fill="#262231" stroke="#aa3bff" stroke-opacity=".6"/><text x="275" y="244" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">solutions/*.zip</text>
+          <rect x="450" y="210" width="250" height="62" rx="12" fill="#16141c" stroke="#322d3d"/>
+          <text x="470" y="236" fill="#e8e6ee" font-size="13.5" font-weight="600">Test Dataverse</text>
+          <text x="470" y="256" fill="#a29ead" font-size="11.5">managed import only</text>
+          <path class="flow" d="M352,241 L450,241" stroke="#aa3bff" stroke-width="2" fill="none" marker-end="url(#arA)"/>
+          <text x="400" y="232" text-anchor="middle" fill="#aa3bff" font-size="10.5" font-weight="700">import</text>
+          <rect x="800" y="220" width="150" height="40" rx="9" fill="#262231" stroke="#ffb454"/><text x="875" y="245" text-anchor="middle" fill="#e8e6ee" font-size="12">Inventory [TEST]</text>
+        </g>
+        <g>
+          <rect x="30" y="300" width="330" height="62" rx="12" fill="#16141c" stroke="#3ddc97"/>
+          <text x="50" y="326" fill="#3ddc97" font-size="15" font-weight="700">prod</text>
+          <rect x="100" y="314" width="96" height="30" rx="7" fill="#262231"/><text x="148" y="334" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">src/ + config</text>
+          <rect x="206" y="314" width="138" height="30" rx="7" fill="#262231" stroke="#aa3bff" stroke-opacity=".6"/><text x="275" y="334" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">solutions/*.zip</text>
+          <rect x="450" y="300" width="250" height="62" rx="12" fill="#16141c" stroke="#322d3d"/>
+          <text x="470" y="326" fill="#e8e6ee" font-size="13.5" font-weight="600">Prod Dataverse</text>
+          <text x="470" y="346" fill="#a29ead" font-size="11.5">managed import only</text>
+          <path class="flow" d="M352,331 L450,331" stroke="#aa3bff" stroke-width="2" fill="none" marker-end="url(#arA)"/>
+          <text x="400" y="322" text-anchor="middle" fill="#aa3bff" font-size="10.5" font-weight="700">import</text>
+          <rect x="800" y="310" width="150" height="40" rx="9" fill="#262231" stroke="#3ddc97"/><text x="875" y="335" text-anchor="middle" fill="#e8e6ee" font-size="12">Inventory [PROD]</text>
+        </g>
+        <!-- merges -->
+        <path d="M18,160 C0,180 0,205 22,225" stroke="#a29ead" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+        <path d="M18,250 C0,270 0,295 22,315" stroke="#a29ead" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+        <!-- code to runtime (bypasses environments) -->
+        <path d="M148,120 C148,70 600,70 790,110" stroke="#6fb4ff" stroke-width="1.6" fill="none" stroke-dasharray="4 5" marker-end="url(#ar)"/>
+        <text x="470" y="72" text-anchor="middle" fill="#a29ead" font-size="11">app code is built and served by the runtime, never deployed into an environment</text>
+      </g>
+    </svg>
+  </div>
+  <div class="grid g4" style="margin-top:22px">
+    <div class="card"><h3>🔀 Promote = merge</h3><p><code>npm run alm:promote test</code>. The PR is the approval, and branch protection enforces it.</p></div>
+    <div class="card"><h3>📦 Schema rides along</h3><p>The managed solution is exported from dev, committed to <code>solutions/</code>, and imported downstream.</p></div>
+    <div class="card"><h3>🧷 Guarded deploys</h3><p>Environment binding, solution version, and clean-tree checks run before every <code>alm:deploy</code>.</p></div>
+    <div class="card"><h3>🪞 Remotes in sync</h3><p>Hooks mirror each branch to its environment's platform git repo, so the runtime always builds the code you reviewed.</p></div>
+  </div>
+</section>
+
+<!-- ============ SCALE ============ -->
+<section id="scale" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Built to scale across an enterprise</p>
+      <h2>One template.<br/><span class="grad">A hundred teams. The same standards.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Every new project starts from the same proven scaffold. When the platform team
+      improves it, every downstream project can pull the change with one command. The pipeline gets better
+      everywhere and nobody has to copy files around.</p>
+  </div>
+  <div class="grid g2" style="align-items:center">
+    <div class="diagram">
+      <svg viewBox="0 0 520 330" role="img" aria-label="Template repo fans out to many projects; improvements flow back through scaffold versions">
+        <g font-family="system-ui">
+          <rect x="185" y="18" width="150" height="62" rx="14" fill="#1e1b26" stroke="#aa3bff"/>
+          <text x="260" y="45" text-anchor="middle" fill="#e8e6ee" font-size="14" font-weight="700">Template</text>
+          <text x="260" y="64" text-anchor="middle" fill="#aa3bff" font-size="11.5" font-family="ui-monospace,Consolas,monospace">scaffold-v1.x</text>
+          <g id="fan"></g>
+          <text x="260" y="318" text-anchor="middle" fill="#a29ead" font-size="12">npm run alm:upgrade pulls the latest scaffold into any project</text>
+        </g>
+      </svg>
+    </div>
+    <div class="grid" style="gap:14px">
+      <div class="card"><h3>🧬 Standardized from day one</h3><p>Branches, protection rules, CI, hooks, ALM scripts, and docs are all in place before the first line of app code.</p></div>
+      <div class="card"><h3>⬆️ Improvements flow downstream</h3><p>Fix it once in the reference project, then <code>alm:template push --bump</code> releases it. Teams upgrade when they're ready.</p></div>
+      <div class="card"><h3>🧭 A reference app to learn from</h3><p>The template includes a working Dataverse CRUD inventory app with tests. Use it as a pattern, or delete it and build your own.</p></div>
+      <div class="card"><h3>🤖 Works with your agent</h3><p>Use GitHub Copilot App, Copilot CLI, or Claude Code on Windows or macOS. The same skills and the same results.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ START ============ -->
+<section id="start" class="reveal">
+  <p class="eyebrow">Get started</p>
+  <h2>From idea to governed app <span class="grad">this afternoon.</span></h2>
+  <p class="lede" style="margin-bottom:30px">Pick your agent. The <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a> has
+    full instructions for Windows and macOS, and the <a href="guide.html">visual guide</a> walks through every step.</p>
+  <div class="tabs" role="tablist">
+    <button class="on" data-t="app">GitHub Copilot App</button>
+    <button data-t="cli">Copilot CLI</button>
+    <button data-t="claude">Claude Code</button>
+  </div>
+  <div class="pane on" id="p-app"><ol class="steps">
+    <li><div><b>Create your repo</b> from this template (<em>Use this template → Create a new repository</em>), then add it as a project in the Copilot App.</div></li>
+    <li><div><b>Install the plugins:</b> Managed Apps (<code>microsoft/Managed-Apps</code>) and Dataverse (<code>awesome-copilot</code>).</div></li>
+    <li><div><b>Describe your app</b> in a new session: <em>"Build me an app that…"</em>. The agent scaffolds it, connects data, and runs it locally.</div></li>
+    <li><div><b>Wire up ALM</b> with <code>npm run alm:setup</code>, then promote with <code>alm:promote</code> when you're ready.</div></li>
+  </ol></div>
+  <div class="pane" id="p-cli"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo: <code>gh repo create my-app --template martycarreras-psnl/managed-apps-template --private --clone</code></div></li>
+    <li><div><b>Add the plugins:</b> <code>/plugin marketplace add microsoft/Managed-Apps</code> then <code>/plugin install microsoft-managed-apps@Managed-Apps</code></div></li>
+    <li><div><b>Run <code>copilot</code></b> in the folder and describe your app. The <code>create-app</code> skill takes it from there.</div></li>
+    <li><div><b>Wire up ALM</b> with <code>npm run alm:setup</code>, then promote with <code>alm:promote</code> when you're ready.</div></li>
+  </ol></div>
+  <div class="pane" id="p-claude"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo: <code>gh repo create my-app --template martycarreras-psnl/managed-apps-template --private --clone</code></div></li>
+    <li><div><b>Add the plugins:</b> <code>/plugin marketplace add microsoft/Managed-Apps</code> then <code>/plugin install microsoft-managed-apps@Managed-Apps</code></div></li>
+    <li><div><b>Run <code>claude</code></b> in the folder and describe your app. The same skills scaffold, connect, and run it.</div></li>
+    <li><div><b>Wire up ALM</b> with <code>npm run alm:setup</code>, then promote with <code>alm:promote</code> when you're ready.</div></li>
+  </ol></div>
+</section>
+
+<section class="final reveal">
+  <h2>What will you <span class="grad">imagine</span> first?</h2>
+  <p class="lede">Curiosity is enough to start. This template gives you the guardrails and the ALM,
+    so you can focus on building the app.</p>
+  <div class="cta">
+    <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">✨ Use this template</a>
+    <a class="btn" href="guide.html">Visual guide</a>
+    <a class="btn" href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/ALM.md">ALM reference</a>
+    <a class="btn" href="https://github.com/martycarreras-psnl/managed-apps-template">GitHub repo</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Managed Apps Template · built with <code>@microsoft/managed-apps-cli</code> ·
+  <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a> ·
+  <a href="guide.html">Visual guide</a> ·
+  <a href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/TEMPLATE.md">Template &amp; upgrades</a>
+</footer>
+
+<script>
+/* ---------- prompt-to-app demo ---------- */
+const demos = [
+  {p:"Build an app to track our lab equipment: who has it, calibration due dates, and a Teams ping when it's overdue.",
+   s:["Scaffolding React + Vite app…","Creating Dataverse table <b>Equipment</b> (6 columns)","Adding connector: <b>Dataverse</b> · <b>Microsoft Teams</b>","Generating typed services in <b>src/generated/</b>","Building UI: grid, filters, check-out form","npm run build ✓","ms app dev → local preview ready"]},
+  {p:"I need a vendor onboarding app: intake form, SharePoint doc upload, approvals, and an email when they're approved.",
+   s:["Scaffolding React + Vite app…","Binding SharePoint list <b>Vendors</b> + library <b>Vendor Docs</b>","Adding connector: <b>Office 365 Outlook</b> (send only)","Declaring allowedActions: least privilege","Building UI: intake wizard, approval queue","npm run build ✓","ms app dev → local preview ready"]},
+  {p:"Make a mobile-friendly field inspection app with photos, a checklist, and results synced to our SQL database.",
+   s:["Scaffolding React + Vite app…","Adding connector: <b>SQL Server</b> (via on-prem gateway)","Adding connector: <b>OneDrive for Business</b> for photos","Generating typed services in <b>src/generated/</b>","Building UI: responsive checklist + camera capture","npm run build ✓","ms app dev → local preview ready"]}
+];
+const term = document.getElementById('term');
+let run = 0;
+async function play(i){
+  const my = ++run; const d = demos[i];
+  term.innerHTML = '<div><span class="you">you ›</span> <span id="typed"></span><span class="caret"></span></div>';
+  const t = document.getElementById('typed');
+  for (const ch of d.p){ if(my!==run) return; t.textContent += ch; await sleep(14); }
+  term.querySelector('.caret').remove();
+  await sleep(350);
+  for (const [k,s] of d.s.entries()){
+    if(my!==run) return;
+    const el = document.createElement('div'); el.className='term-line';
+    el.innerHTML = (k===d.s.length-1 ? '<span class="ok">✔</span> ' : '<span class="dim">›</span> ') + s;
+    term.appendChild(el); requestAnimationFrame(()=>el.classList.add('on')); await sleep(420);
+  }
+  const done = document.createElement('div'); done.className='term-line';
+  done.innerHTML = '<br><span class="ok">Your app is running.</span> <span class="dim">Next: npm run alm:promote test</span>';
+  term.appendChild(done); requestAnimationFrame(()=>done.classList.add('on'));
+}
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+document.querySelectorAll('#ideas button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#ideas button').forEach(x=>x.classList.toggle('on',x===b)); play(+b.dataset.i);
+});
+play(0);
+
+/* ---------- connector wall ---------- */
+const names = ["Dataverse","SharePoint","Excel Online","Outlook","Teams","OneDrive","Azure DevOps","Copilot Studio","Work IQ",
+  "SQL Server","Salesforce","SAP ERP","ServiceNow","Dynamics 365","Snowflake","Azure Blob","Azure OpenAI","Jira","GitHub",
+  "Planner","Approvals","Forms","Adobe Sign","DocuSign","Zendesk","HubSpot","Oracle DB","PostgreSQL","MySQL","Slack",
+  "Twilio","Google Sheets","Box","Dropbox","Workday","Power BI","Azure Key Vault","Event Hubs","Service Bus","Your custom connector"];
+const hot = new Set(["Dataverse","SharePoint","Teams","Outlook","SQL Server","Salesforce","SAP ERP","ServiceNow","Your custom connector"]);
+const rows = [0,1,2].map(r=>names.filter((_,i)=>i%3===r));
+rows.forEach((list,r)=>{
+  const html = list.map(n=>`<span class="chip${hot.has(n)?' hot':''}">${n}</span>`).join('');
+  document.getElementById('r'+(r+1)).innerHTML = html+html;
+});
+
+/* ---------- template fan-out ---------- */
+const fan = document.getElementById('fan'); const ns='http://www.w3.org/2000/svg';
+const projects = ["Inventory","Vendors","Inspections","Assets","HR Intake","Budgets"];
+const cols=['#6fb4ff','#ffb454','#3ddc97','#6fb4ff','#ffb454','#3ddc97'];
+projects.forEach((p,i)=>{
+  const x = 20 + i*83, y = 190;
+  const path = document.createElementNS(ns,'path');
+  path.setAttribute('d',`M260,80 C260,140 ${x+38},130 ${x+38},${y}`);
+  path.setAttribute('stroke','#aa3bff'); path.setAttribute('stroke-opacity','.6'); path.setAttribute('fill','none');
+  path.setAttribute('stroke-width','1.6'); path.setAttribute('class','flow'); fan.appendChild(path);
+  fan.insertAdjacentHTML('beforeend',
+    `<rect x="${x}" y="${y}" width="76" height="86" rx="10" fill="#16141c" stroke="#322d3d"/>
+     <text x="${x+38}" y="${y+20}" text-anchor="middle" fill="#e8e6ee" font-size="11" font-weight="600">${p}</text>
+     ${['dev','test','prod'].map((b,k)=>`<rect x="${x+10}" y="${y+30+k*17}" width="56" height="12" rx="4" fill="${['#6fb4ff','#ffb454','#3ddc97'][k]}" fill-opacity=".22"/><text x="${x+38}" y="${y+39+k*17}" text-anchor="middle" fill="${['#6fb4ff','#ffb454','#3ddc97'][k]}" font-size="8.5" font-family="ui-monospace,Consolas,monospace">${b}</text>`).join('')}`);
+});
+
+/* ---------- pitfall cards ---------- */
+document.querySelectorAll('.pit').forEach(c=>{
+  const f=()=>c.classList.toggle('flip');
+  c.addEventListener('click',f); c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}});
+  c.insertAdjacentHTML('beforeend','<div class="hint before">Tap to see the fix ↻</div>');
+});
+
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.t));
+});
+
+/* ---------- count-up + reveal ---------- */
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('[data-count]').forEach(el=>{
+  const end=+el.dataset.count, t0=performance.now(), dur=1400;
+  const step=t=>{const k=Math.min(1,(t-t0)/dur); el.textContent=Math.round(end*(1-Math.pow(1-k,3))).toLocaleString()+(end>100&&k===1?'+':''); if(k<1) requestAnimationFrame(step);};
+  requestAnimationFrame(step);
+});
+</script>
+</body>
+</html>
