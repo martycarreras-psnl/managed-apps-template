@@ -45,12 +45,6 @@
   .kbd{font-size:12px;color:var(--faint);white-space:nowrap}
   @media (max-width:760px){.kbd,.bar select{display:none}.top .chap{display:none}}
 
-  .notes{position:fixed;left:0;right:0;bottom:var(--bar);z-index:19;background:#120f18;border-top:1px solid var(--accent);
-         padding:14px 24px 16px;transform:translateY(110%);transition:transform .25s;max-height:36vh;overflow:auto}
-  .notes.on{transform:none}
-  .notes b{color:var(--accent);font:700 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:4px}
-  .notes p{margin:0;color:var(--dim);font-size:14.5px;max-width:110ch}
-
   /* ---------- slides ---------- */
   .deck{position:fixed;top:0;left:0;right:0;bottom:var(--bar)}
   .slide{position:absolute;inset:0;overflow-y:auto;padding:70px 28px 40px;display:flex;
@@ -249,8 +243,7 @@
 <div class="deck" id="deck">
 
 <!-- 0 COVER -->
-<section class="slide" data-chap="Prologue" data-stage="Opening"
-  data-notes="Set the frame: this is a story about someone like the audience, not a feature tour. Let them pick a lens. Newcomers skip two Power Platform slides.">
+<section class="slide" data-chap="Prologue">
   <div class="in-s center">
     <p class="kicker">A five-minute story</p>
     <h1>Every great app<br/>starts as a <span class="grad">workaround.</span></h1>
@@ -264,8 +257,7 @@
 </section>
 
 <!-- 1 MEET MAYA -->
-<section class="slide" data-chap="Act 1 · The idea" data-stage="Challenger · Warmer"
-  data-notes="Warmer: build empathy and credibility. Maya is the innovative knowledge worker in every org. She isn't a developer. She has a real problem and the initiative to solve it.">
+<section class="slide" data-chap="Act 1 · The idea">
   <div class="in-s">
     <div class="two">
       <div>
@@ -283,8 +275,7 @@
 </section>
 
 <!-- 2 SPREADSHEET -->
-<section class="slide" data-chap="Act 1 · The spreadsheet" data-stage="Challenger · Warmer"
-  data-notes="Everyone recognizes this. Let the room laugh at the file names. The point: the tool worked until sharing made it fall apart.">
+<section class="slide" data-chap="Act 1 · The spreadsheet">
   <div class="in-s">
     <div class="two">
       <div>
@@ -316,8 +307,7 @@
 </section>
 
 <!-- 3 CLEVER HTML -->
-<section class="slide" data-chap="Act 2 · She gets clever" data-stage="Challenger · Warmer"
-  data-notes="This is the modern twist. AI chat tools make it easy to generate impressive interactive HTML. Honor the ingenuity. It really is impressive, and that's why it spreads.">
+<section class="slide" data-chap="Act 2 · She gets clever">
   <div class="in-s">
     <p class="kicker">Act 2</p>
     <h2>Then Maya discovers AI. <span class="grad">And she's brilliant at it.</span></h2>
@@ -342,8 +332,7 @@
 </section>
 
 <!-- 4 SOUND FAMILIAR -->
-<section class="slide" data-chap="Interlude" data-stage="Challenger · Warmer (close)"
-  data-notes="Close the warmer by generalizing. It's not one person; it's the pattern. Be generous: people are doing exactly what their tools make easy.">
+<section class="slide" data-chap="Interlude">
   <div class="in-s center">
     <p class="kicker">Sound familiar?</p>
     <h2>There's a Maya on every team.</h2>
@@ -358,8 +347,7 @@
 </section>
 
 <!-- 5 REFRAME -->
-<section class="slide" data-chap="The reframe" data-stage="Challenger · Reframe"
-  data-notes="Reframe: the instinct is to see shadow IT as a discipline problem and clamp down. Flip it. It's a supply problem: demand for apps vastly exceeds what IT can build. The fix is to move where tools get built, not to stop people building.">
+<section class="slide" data-chap="The reframe">
   <div class="in-s center">
     <p class="kicker">Here's the reframe</p>
     <p class="quote" style="margin:0 auto">The problem was never that people build their own tools.</p>
@@ -372,8 +360,7 @@
 </section>
 
 <!-- 6 ANATOMY -->
-<section class="slide" data-chap="Look closer" data-stage="Challenger · Rational drowning"
-  data-notes="Rational drowning, part 1: make the hidden costs concrete. Walk through each property of the file. None of it is malicious; all of it is risk.">
+<section class="slide" data-chap="Look closer">
   <div class="in-s">
     <p class="kicker">Look closer at that HTML file</p>
     <h2>It's beautiful. <span class="red">It's also a liability.</span></h2>
@@ -391,8 +378,7 @@
 </section>
 
 <!-- 7 CALCULATOR -->
-<section class="slide" data-chap="Do the math" data-stage="Challenger · Rational drowning"
-  data-notes="Rational drowning, part 2: let the audience put in their own numbers. Deliberately no vendor statistics. The number they produce is more persuasive than any we could quote.">
+<section class="slide" data-chap="Do the math">
   <div class="in-s">
     <p class="kicker">Do the math for your organization</p>
     <h2>One Maya is a story.<br/><span class="red">Thousands of Mayas is a data estate.</span></h2>
@@ -412,8 +398,7 @@
 </section>
 
 <!-- 8 EMOTIONAL -->
-<section class="slide" data-chap="Act 3 · One Tuesday" data-stage="Challenger · Emotional impact"
-  data-notes="Emotional impact: make it personal and human. Nobody broke a rule on purpose. The person who suffers most is the innovator. Pause after the final line.">
+<section class="slide" data-chap="Act 3 · One Tuesday">
   <div class="in-s">
     <div class="two">
       <div>
@@ -438,8 +423,7 @@
 </section>
 
 <!-- 9 NEW WAY -->
-<section class="slide" data-chap="A new way" data-stage="Challenger · A new way"
-  data-notes="A new way: describe the ideal state before naming the product. The audience should agree with these principles on their own, independent of any technology.">
+<section class="slide" data-chap="A new way">
   <div class="in-s">
     <p class="kicker">Imagine a different way</p>
     <h2>What if the thing Maya was going to build anyway<br/><span class="grad">was born inside the guardrails?</span></h2>
@@ -454,8 +438,7 @@
 </section>
 
 <!-- 10 INTRODUCING -->
-<section class="slide" data-chap="Act 4 · Managed Apps" data-stage="Challenger · Your solution"
-  data-notes="Now name it. Managed Apps: Maya describes the app to an AI coding agent, which writes a real app on live data through governed connectors. Colleagues open a link and sign in with their work account.">
+<section class="slide" data-chap="Act 4 · Managed Apps">
   <div class="in-s">
     <div class="two">
       <div>
@@ -486,8 +469,7 @@
 </section>
 
 <!-- 11 AFTER -->
-<section class="slide" data-chap="Act 4 · Maya, version two" data-stage="Challenger · Your solution"
-  data-notes="Show both sides of the same app: the maker experience (fast, conversational) and the admin experience (visible, governed). This is the bridge slide for skeptical IT folks in the room.">
+<section class="slide" data-chap="Act 4 · Maya, version two">
   <div class="in-s">
     <p class="kicker">Same Maya. Same idea. Different ending.</p>
     <h2>Fast for the maker. <span class="grad">Visible to IT.</span></h2>
@@ -512,8 +494,7 @@
 </section>
 
 <!-- 11b HEARD THIS BEFORE -->
-<section class="slide" data-chap="Let's be honest" data-stage="Challenger · Reframe the objection"
-  data-notes="Name the objection before the audience does. Be blunt: citizen development stalled because the tools themselves were intimidating, and governance struggled because everything landed in the Default environment. Both walls were real. Acknowledging them earns the right to say what's different.">
+<section class="slide" data-chap="Let's be honest">
   <div class="in-s">
     <p class="kicker">Let's be honest</p>
     <h2>You've heard this promise before.<br/><span class="grad">So why did it stall?</span></h2>
@@ -530,8 +511,7 @@
 </section>
 
 <!-- 11c WHAT'S DIFFERENT -->
-<section class="slide" data-chap="What's different this time" data-stage="Challenger · A new way (proof)"
-  data-notes="Go row by row. Each row takes down one of the two walls. The skill barrier is gone because the agent writes the code. Default overload is replaced by a landing zone designed in advance: Personal Developer Environments, created for makers or routed to by governance. And there's now a deliberate path from personal to business-critical.">
+<section class="slide" data-chap="What's different this time">
   <div class="in-s">
     <p class="kicker">So what's actually different?</p>
     <h2>The promise isn't new. <span class="grad">The barriers finally are.</span></h2>
@@ -547,8 +527,7 @@
 </section>
 
 <!-- 12 PRO: ERAS -->
-<section class="slide" data-track="pro" data-chap="For Power Platform pros" data-stage="Challenger · Reframe (for makers)"
-  data-notes="A second reframe, aimed at the Power Platform community. The low-code promise was to let people build without writing code. Managed Apps keep that promise differently: nobody writes the code by hand, but the output is real code. It's pro-code for the no-code crowd.">
+<section class="slide" data-track="pro" data-chap="For Power Platform pros">
   <div class="in-s">
     <p class="kicker">If you know Power Platform</p>
     <h2>This is a new era of low-code.<br/><span class="grad">Ironically, it's pro-code for the no-code crowd.</span></h2>
@@ -562,8 +541,7 @@
 </section>
 
 <!-- 13 PRO: CARRY OVER -->
-<section class="slide" data-track="pro" data-chap="For Power Platform pros" data-stage="Challenger · A new way (for makers)"
-  data-notes="Reduce the fear of starting over. Most of a Power Platform expert's knowledge transfers directly. Separate the two layers: environment governance (connectors, DLP, admin oversight) applies to every app, while Dataverse is one optional way to govern data and is only used when the use case needs it. What's new is the build surface and a git-based ALM.">
+<section class="slide" data-track="pro" data-chap="For Power Platform pros">
   <div class="in-s">
     <p class="kicker">Your expertise still counts</p>
     <h2>Most of what you know <span class="grad">carries straight over.</span></h2>
@@ -595,8 +573,7 @@
 </section>
 
 <!-- 14 BRIDGE -->
-<section class="slide" data-chap="The bridge" data-stage="Challenger · Your solution (the promise)"
-  data-notes="The core message: citizen development promised empowerment, and Managed Environments promised governance at scale. Historically they pulled against each other. Here, the essential governance capabilities of Managed Environments (data policies, sharing controls, visibility) are used to securely enable Managed Apps, so empowerment doesn't come at the cost of control.">
+<section class="slide" data-chap="The bridge">
   <div class="in-s center">
     <p class="kicker">The promise, kept</p>
     <h2>Empowerment <span class="dim">and</span> governance.<br/><span class="grad">Not a trade-off anymore.</span></h2>
@@ -627,8 +604,7 @@
 </section>
 
 <!-- 15 JOURNEY: PERSONAL -> GRADUATED -->
-<section class="slide" data-chap="Epilogue · How the app grows up" data-stage="Challenger · Your solution (in practice)"
-  data-notes="The practical path. Most apps start and stay personal: Maya builds with the App skill in Copilot Cowork, inside her Personal Developer Environment, which governance either creates for her or configures in advance. Publishing makes it live, and she shares and collaborates. Only when an app needs real rigor does it graduate: a seasoned team sets up dev/test/prod ALM (this template), then either owns it going forward or, in the future state, hands it back to Maya in a GitHub repo pre-configured with organizational best practices.">
+<section class="slide" data-chap="Epilogue · How the app grows up">
   <div class="in-s">
     <p class="kicker">Epilogue · In practice</p>
     <h2 style="font-size:clamp(28px,3.8vw,46px)">Maya's app takes off. <span class="grad">Here's how it grows up.</span></h2>
@@ -651,8 +627,7 @@
 </section>
 
 <!-- 16 CLOSE -->
-<section class="slide" data-chap="Your turn" data-stage="Close"
-  data-notes="End on the audience's own idea. Ask: what's your Maya tracker? Then point them to the template and the guides.">
+<section class="slide" data-chap="Your turn">
   <div class="in-s center">
     <p class="kicker">Your turn</p>
     <h1>What's <span class="grad">your</span><br/>workaround?</h1>
@@ -668,7 +643,6 @@
 
 </div>
 
-<div class="notes" id="notes"><b id="stage"></b><p id="ntext"></p></div>
 
 <div class="bar">
   <button id="prev" aria-label="Previous">←</button>
@@ -680,8 +654,7 @@
     <option value="new">New to this</option>
     <option value="pro">Power Platform pro</option>
   </select>
-  <button id="nbtn" title="Presenter notes (N)">📝 Notes</button>
-  <span class="kbd">← → · N · F</span>
+  <span class="kbd">← → · F</span>
 </div>
 
 <script>
@@ -709,8 +682,6 @@ function show(idx,mode){
 function ui(){
   const s=list[i];
   $('chap').textContent=s.dataset.chap||'';
-  $('stage').textContent=s.dataset.stage||'';
-  $('ntext').textContent=s.dataset.notes||'';
   $('count').textContent=`${i+1} / ${list.length}`;
   $('prev').disabled=i===0&&f===0;
   const last=i===list.length-1&&f>=frags(s).length;
@@ -738,7 +709,6 @@ function setTrack(t){
 
 $('next').onclick=next; $('prev').onclick=prev;
 $('track').onchange=e=>setTrack(e.target.value);
-$('nbtn').onclick=()=>$('notes').classList.toggle('on');
 $('restart').onclick=e=>{e.preventDefault();i=0;show(0,'start')};
 document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{setTrack(b.dataset.pick);show(1,'start')});
 document.addEventListener('keydown',e=>{
@@ -747,7 +717,6 @@ document.addEventListener('keydown',e=>{
   else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
   else if(e.key==='Home')show(0,'start');
   else if(e.key==='End')show(list.length-1,'end');
-  else if(e.key==='n'||e.key==='N')$('notes').classList.toggle('on');
   else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();}
 });
 let tx=null;
