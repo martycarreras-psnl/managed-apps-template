@@ -82,7 +82,7 @@
     .ba{padding:10px 16px}
     .slide .venn svg{max-width:520px}
     .cmp li{padding:8px 12px}
-    .slide .tier{padding:8px 14px}.slide .tier p{margin-top:4px;font-size:14px}.slide .tier.ins.f.in{padding-top:8px;padding-bottom:8px}.slide .tiers{gap:8px}.slide .node{padding:7px 12px}.slide .eco-hub{padding:16px}
+    .slide .tier{padding:8px 14px}.slide .tier p{margin-top:4px;font-size:14px}.slide .tier.ins.f.in{padding-top:8px;padding-bottom:8px}.slide .tiers{gap:8px}.slide .node{padding:7px 12px}.slide .need{padding:5px 12px}.slide .need span{font-size:12.5px}.slide .needs{gap:5px}.slide .lyr{padding:9px 12px}.slide .eco-hub{padding:16px}
   }
 
   /* fragments */
@@ -267,6 +267,30 @@
   .pillars{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .pillars span{background:var(--bg3);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-weight:600;font-size:15px}
   @media (max-width:860px){.entry,.eco{grid-template-columns:1fr}.funnel,.eco-link{justify-self:center}.funnel.f.in,.eco-link.f.in{transform:rotate(90deg)}}
+  .agx{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+  .agx>*{min-width:0}
+  .needs{display:grid;gap:7px}
+  .need{display:flex;gap:12px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:8px 13px}
+  .need i{font-style:normal;font-size:20px;flex:none}
+  .need b{display:block;font-size:15px}.need span{color:var(--dim);font-size:13.5px}
+  .need.gap{border:1px solid var(--accent);background:linear-gradient(100deg,#2a1f3d,#16141c);box-shadow:0 0 0 1px var(--accent)}
+  .need.gap span{color:#d9b8ff}
+  .stack{display:grid;gap:10px}
+  .lyr{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .srf{display:flex;flex-wrap:wrap;gap:6px}
+  .srf span{background:var(--bg3);border:1px solid var(--line);border-radius:9px;padding:6px 11px;font-size:14px;font-weight:600}
+  .srf span.hi{background:#2a1f3d;border-color:var(--accent);color:#fff;box-shadow:0 0 18px -4px rgba(170,59,255,.8)}
+  .vibe{display:grid;grid-template-columns:1fr auto 1fr auto 1.2fr;gap:12px;align-items:stretch}
+  .vibe>*{min-width:0}
+  .vstep{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .vstep b{display:block;font-size:19px;margin-bottom:6px}
+  .vstep>span:last-child{color:var(--dim);font-size:14.5px}
+  .vstep.now{border-color:var(--accent);background:linear-gradient(160deg,#2a1f3d,#16141c);box-shadow:0 0 0 1px var(--accent),0 20px 50px -20px rgba(170,59,255,.7)}
+  .vstep.now .tag{color:var(--accent)}
+  .varr{align-self:center;font-size:26px;color:var(--accent)}
+  .ba2{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .ba2 b{display:block;font-size:15px}.ba2 span{color:var(--dim);font-size:13.5px}
+  @media (max-width:860px){.agx,.vibe{grid-template-columns:1fr}.varr{justify-self:center}.varr.f.in{transform:rotate(90deg)}}
   .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px}
   .btn{display:inline-flex;gap:8px;align-items:center;border-radius:11px;padding:13px 20px;font:600 15px var(--sans);text-decoration:none;
        border:1px solid var(--line);color:var(--ink);background:var(--bg3)}
@@ -594,35 +618,51 @@
   </div>
 </section>
 
-<!-- 11e ECOSYSTEM -->
-<section class="slide" data-chap="Part of something bigger">
+<!-- 11e MORE THAN AN AGENT -->
+<section class="slide" data-chap="More than an agent">
   <div class="in-s">
-    <p class="kicker">Not a new island</p>
-    <h2>Where people and agents <span class="grad">meet the data.</span></h2>
-    <div class="eco" style="margin-top:22px">
-      <div class="eco-col f">
-        <span class="tag">Data people already trust</span>
-        <div class="node"><b>🗄️ Dataverse</b><span>Structured business data</span></div>
-        <div class="node"><b>📁 SharePoint</b><span>Lists, libraries, documents</span></div>
-        <div class="node"><b>🧠 Work IQ</b><span>Knowledge from mail, chats, and files</span></div>
-        <div class="node dim2"><b>🔌 1,300+ more connectors</b><span>Outlook, Teams, Excel, SQL, SAP…</span></div>
+    <p class="kicker">The subtle part</p>
+    <h2>Everyone's building an agent. <span class="grad">The process needs more.</span></h2>
+    <div class="agx" style="margin-top:20px">
+      <div class="needs">
+        <div class="need f"><i>🤖</i><div><b>An agent that reasons and acts</b><span>Essential, and the part everyone's focused on.</span></div></div>
+        <div class="need f"><i>🤝</i><div><b>People collaborating on shared data</b><span>Teams, not just one person and a chat.</span></div></div>
+        <div class="need f"><i>✋</i><div><b>A human in the loop</b><span>Review, approve, adjust, or override what the agent did.</span></div></div>
+        <div class="need f"><i>🧭</i><div><b>Predictable, structured steps</b><span>The same process every time, not a fresh improvisation.</span></div></div>
+        <div class="need f"><i>💬</i><div><b>The agent in the flow of work</b><span>Microsoft 365 Copilot, Word, Excel, and PowerPoint.</span></div></div>
+        <div class="need f gap"><i>🧩</i><div><b>An app built around the whole process</b><span>Until now, the piece knowledge workers couldn't build themselves.</span></div></div>
       </div>
-      <div class="eco-link f" aria-hidden="true">⇄</div>
-      <div class="eco-hub f">
-        <span class="tag">The Managed App</span>
-        <b>Humans in the loop</b>
-        <ul><li>Review what an agent drafted</li><li>Approve, adjust, or reject</li><li>Work on the same live data together</li></ul>
-      </div>
-      <div class="eco-link f" aria-hidden="true">⇄</div>
-      <div class="eco-col f">
-        <span class="tag">Automation and agents</span>
-        <div class="node"><b>⚡ Copilot Studio workflows</b><span>Triggered from the app</span></div>
-        <div class="chain">↓ which can invoke</div>
-        <div class="node"><b>🤖 A Copilot Studio agent</b><span>Reasoning and actions</span></div>
-        <div class="node"><b>✨ Copilot Cowork</b><span>Work carried out on someone's behalf</span></div>
+      <div class="stack f">
+        <div class="lyr"><span class="tag">Where people work</span>
+          <div class="srf"><span>Microsoft 365 Copilot</span><span>Word · Excel · PowerPoint</span><span class="hi">🧩 A Managed App for the process</span></div></div>
+        <div class="lyr"><span class="tag">What does the work</span>
+          <div class="srf"><span>Your agent: Copilot Studio · Cowork</span><span>Copilot Studio workflows</span></div></div>
+        <div class="lyr"><span class="tag">What everyone shares</span>
+          <div class="srf"><span>Dataverse</span><span>SharePoint</span><span>Work IQ</span><span>1,300+ connectors</span></div></div>
       </div>
     </div>
-    <p class="lede f" style="margin-top:20px;max-width:none">Agents are great. But real work still needs people to <b>review, decide, and collaborate</b> on shared data. Managed Apps are where that happens, connected to everything else.</p>
+    <p class="lede f" style="margin-top:18px;max-width:none">The same agent-assisted innovation that builds the agent can now <b>build the app around it</b>, and that completes the process.</p>
+  </div>
+</section>
+
+<!-- 11f VIBE BEFORE -->
+<section class="slide" data-chap="Heard this vibe before?">
+  <div class="in-s">
+    <p class="kicker">"Didn't Microsoft already show me this?"</p>
+    <h2>You've seen glimpses of this. <span class="grad">This is where they land.</span></h2>
+    <div class="vibe" style="margin-top:22px">
+      <div class="vstep f"><span class="tag">The signal</span><b>App Builder</b><span>The Frontier agent in Microsoft 365 Copilot. It showed that a knowledge worker could describe an app and get one.</span></div>
+      <div class="varr f" aria-hidden="true">→</div>
+      <div class="vstep f"><span class="tag">The signal</span><b>vibe.powerapps.com</b><span>It brought vibe coding to Power Apps, so makers could build by describing instead of designing.</span></div>
+      <div class="varr f" aria-hidden="true">→</div>
+      <div class="vstep now f"><span class="tag">Now</span><b>Microsoft 365 Managed Apps</b><span>The same capabilities, now front and center, with the governance, control, and visibility enterprises expect.</span></div>
+    </div>
+    <div class="grid g4" style="margin-top:20px">
+      <div class="ba2 f"><b>👀 Visible</b><span>Listed in the Microsoft 365 admin center</span></div>
+      <div class="ba2 f"><b>🛡️ Governed</b><span>Environment data policies and sharing controls</span></div>
+      <div class="ba2 f"><b>🔐 Secure</b><span>Work-account sign-in, live data, no exported files</span></div>
+      <div class="ba2 f"><b>🌱 Built to grow</b><span>Real code in git, with a path to dev → test → prod</span></div>
+    </div>
   </div>
 </section>
 
