@@ -160,6 +160,7 @@
   footer{border-top:1px solid var(--line);color:var(--faint);font-size:13px;text-align:center;padding:28px 24px}
   footer a{color:var(--dim)}
 
+  @media (max-width:760px){.storycard{grid-template-columns:1fr!important}}
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 </style>
@@ -168,6 +169,7 @@
 
 <nav><div class="nav-in">
   <div class="brand">Managed Apps <span>Template</span></div>
+  <a href="story.html">The story</a>
   <a href="#why">Why</a>
   <a href="#connect">Connect</a>
   <a href="#alm">ALM</a>
@@ -209,6 +211,21 @@
       </div>
     </div>
   </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section id="story" class="reveal" style="padding:56px 0">
+  <a href="story.html" class="card storycard" style="display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;text-decoration:none;color:inherit;padding:30px;
+     background:linear-gradient(120deg,rgba(170,59,255,.16),rgba(111,180,255,.08) 60%,var(--bg2));border-color:#4a3566">
+    <div style="font-size:54px">👩🏽‍🔧</div>
+    <div>
+      <p class="eyebrow" style="margin-bottom:8px">New to Managed Apps? Coming from Power Platform?</p>
+      <h2 style="font-size:clamp(24px,3vw,34px);margin:0 0 8px">Start with the story of <span class="grad">one workaround.</span></h2>
+      <p class="lede" style="font-size:16.5px">A 5-minute click-through: an innovative colleague, a spreadsheet, an AI-made dashboard full of exported data,
+        and what changes when the same idea is built inside the guardrails. It includes a Power Platform track, and you can present it with speaker notes.</p>
+    </div>
+    <span class="btn primary" style="white-space:nowrap">Play the story ▸</span>
+  </a>
 </section>
 
 <!-- ============ WHY ============ -->
@@ -444,6 +461,7 @@
     so you can focus on building the app.</p>
   <div class="cta">
     <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">✨ Use this template</a>
+    <a class="btn" href="story.html">The story</a>
     <a class="btn" href="guide.html">Visual guide</a>
     <a class="btn" href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/ALM.md">ALM reference</a>
     <a class="btn" href="https://github.com/martycarreras-psnl/managed-apps-template">GitHub repo</a>

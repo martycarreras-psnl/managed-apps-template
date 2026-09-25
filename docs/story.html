@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Story of Managed Apps: from workaround to governed app</title>
+<meta name="description" content="A click-through story on what Microsoft 365 Managed Apps are, why they matter, and how they bring citizen-developer empowerment and enterprise guardrails together." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E✨%3C/text%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#0f0d14; --bg2:#16141c; --bg3:#1e1b26; --bg4:#262231;
+    --line:#322d3d; --ink:#e8e6ee; --dim:#a29ead; --faint:#75707f;
+    --accent:#aa3bff; --accent2:#6fb4ff; --ok:#3ddc97; --warn:#ffb454; --danger:#ff5c7a;
+    --xl:#1f7a4d;
+    --sans:system-ui,'Segoe UI',Roboto,sans-serif;
+    --mono:ui-monospace,'Cascadia Code',Consolas,monospace;
+    --bar:64px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--sans);overflow:hidden}
+  a{color:var(--accent2)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(700px 400px at 15% 10%,rgba(170,59,255,.16),transparent 70%),
+               radial-gradient(600px 380px at 90% 90%,rgba(111,180,255,.10),transparent 70%)}
+
+  /* ---------- top + bottom chrome ---------- */
+  .top{position:fixed;top:0;left:0;right:0;height:52px;display:flex;align-items:center;gap:16px;
+       padding:0 22px;z-index:20;font-size:13px;color:var(--dim)}
+  .top .brand{font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+  .top .brand span{color:var(--accent)}
+  .top .chap{margin-left:auto;font:600 11px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .bar{position:fixed;left:0;right:0;bottom:0;height:var(--bar);z-index:20;display:flex;align-items:center;gap:12px;
+       padding:0 18px;background:rgba(15,13,20,.9);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+  .bar button,.bar select{background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:9px;
+       padding:8px 14px;font:600 13px var(--sans);cursor:pointer}
+  .bar button:hover{border-color:var(--accent)}
+  .bar button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .bar button:disabled{opacity:.35;cursor:default}
+  .prog{flex:1;display:flex;gap:4px;align-items:center;min-width:60px}
+  .prog i{flex:1;height:4px;border-radius:3px;background:var(--bg4);cursor:pointer;transition:background .2s}
+  .prog i.done{background:#5a3a80}.prog i.cur{background:var(--accent)}
+  .count{font:12px var(--mono);color:var(--faint);white-space:nowrap}
+  .kbd{font-size:12px;color:var(--faint);white-space:nowrap}
+  @media (max-width:760px){.kbd,.bar select{display:none}.top .chap{display:none}}
+
+  .notes{position:fixed;left:0;right:0;bottom:var(--bar);z-index:19;background:#120f18;border-top:1px solid var(--accent);
+         padding:14px 24px 16px;transform:translateY(110%);transition:transform .25s;max-height:36vh;overflow:auto}
+  .notes.on{transform:none}
+  .notes b{color:var(--accent);font:700 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:4px}
+  .notes p{margin:0;color:var(--dim);font-size:14.5px;max-width:110ch}
+
+  /* ---------- slides ---------- */
+  .deck{position:fixed;top:0;left:0;right:0;bottom:var(--bar)}
+  .slide{position:absolute;inset:0;overflow-y:auto;padding:70px 28px 40px;display:flex;
+         opacity:0;visibility:hidden;transform:translateX(30px);transition:opacity .45s,transform .45s,visibility .45s}
+  .slide.on{opacity:1;visibility:visible;transform:none}
+  .slide.back{transform:translateX(-30px)}
+  .in-s{margin:auto;width:100%;max-width:1120px}
+  .center{text-align:center}
+  .center p{margin-left:auto;margin-right:auto}
+  .kicker{color:var(--accent);font:600 12px var(--sans);letter-spacing:.18em;text-transform:uppercase;margin:0 0 14px}
+  h1{font-size:clamp(40px,7vw,84px);line-height:1.02;letter-spacing:-.045em;margin:0 0 20px}
+  h2{font-size:clamp(30px,4.6vw,54px);line-height:1.06;letter-spacing:-.035em;margin:0 0 18px}
+  h3{font-size:19px;margin:0 0 6px}
+  p{max-width:64ch}
+  .lede{color:var(--dim);font-size:clamp(17px,2vw,21px);margin:0 0 10px}
+  .grad{background:linear-gradient(100deg,#c77dff 0%,#6fb4ff 50%,#3ddc97 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .red{color:var(--danger)} .ok{color:var(--ok)} .dim{color:var(--dim)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .two>*,.calc>*,.anat>*{min-width:0}
+  @media (max-width:860px){.two{grid-template-columns:1fr;gap:28px}}
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .card p{margin:0;color:var(--dim);font-size:15.5px}
+  .emoji{font-size:26px;margin-bottom:10px;display:block}
+  code{font:13.5px var(--mono);background:#0b0910;border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+
+  /* fragments */
+  .f{opacity:0;transform:translateY(12px);transition:opacity .45s,transform .45s}
+  .f.in{opacity:1;transform:none}
+
+  /* cover chooser */
+  .choose{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:34px}
+  .choose button{background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:16px;padding:18px 22px;
+     font:600 16px var(--sans);cursor:pointer;min-width:230px;text-align:left;transition:transform .15s,border-color .15s}
+  .choose button:hover{transform:translateY(-3px);border-color:var(--accent)}
+  .choose button small{display:block;font-weight:400;color:var(--dim);font-size:13.5px;margin-top:4px}
+
+  /* persona */
+  .persona{display:flex;gap:22px;align-items:center}
+  .avatar{flex:none;width:118px;height:118px;border-radius:50%;display:grid;place-items:center;font-size:56px;
+          background:linear-gradient(135deg,#3a2458,#1c3350);border:2px solid var(--accent)}
+  .thought{background:var(--bg2);border:1px solid var(--line);border-radius:18px 18px 18px 4px;padding:18px 20px;font-size:18px}
+
+  /* spreadsheet mock */
+  .xl{background:#fff;color:#222;border-radius:10px;overflow:hidden;font:12.5px var(--sans);box-shadow:0 30px 60px -25px #000}
+  .xl .tb{background:var(--xl);color:#fff;padding:8px 12px;font-weight:600;display:flex;justify-content:space-between}
+  .xl table{border-collapse:collapse;width:100%}
+  .xl td,.xl th{border:1px solid #dcdcdc;padding:5px 8px;text-align:left;white-space:nowrap}
+  .xl th{background:#f1f3f2;font-weight:600}
+  .xl .y{background:#fff3b0}.xl .r{background:#ffd9d9}
+  .mail{display:grid;gap:8px;margin-top:16px}
+  .mail div{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:14px;display:flex;gap:10px;align-items:center}
+  .mail div span{color:var(--faint);font:12px var(--mono);margin-left:auto;white-space:nowrap}
+
+  /* chat + html mock */
+  .chat{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px}
+  .bub{border-radius:14px;padding:11px 14px;font-size:15px;max-width:92%}
+  .bub.me{background:#2a1f3d;justify-self:end;border-bottom-right-radius:4px}
+  .bub.ai{background:var(--bg4);border-bottom-left-radius:4px}
+  .paste{font:12px var(--mono);color:var(--warn);background:#1d1710;border:1px dashed #5a4526;border-radius:8px;padding:8px 10px;margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+  .dash{background:#fff;color:#1d1d24;border-radius:12px;padding:16px;box-shadow:0 30px 60px -25px #000}
+  .dash .file{font:12px var(--mono);color:#666;margin-bottom:10px;display:flex;justify-content:space-between}
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .kpis div{background:#f4f1fb;border-radius:8px;padding:8px}
+  .kpis b{display:block;font-size:20px;color:#6a2bd9}
+  .bars{display:flex;gap:6px;align-items:end;height:64px}
+  .bars i{flex:1;background:linear-gradient(#aa3bff,#6fb4ff);border-radius:4px 4px 0 0}
+
+  /* anatomy */
+  .anat{display:grid;grid-template-columns:260px 1fr;gap:34px;align-items:center}
+  @media (max-width:860px){.anat{grid-template-columns:1fr}}
+  .doc{position:relative;width:220px;height:280px;margin:auto;background:var(--bg3);border:2px solid var(--line);border-radius:12px;
+       display:grid;place-items:center;font:700 34px var(--mono);color:var(--warn)}
+  .doc::after{content:"";position:absolute;top:-2px;right:-2px;width:46px;height:46px;background:var(--bg);border-left:2px solid var(--line);border-bottom:2px solid var(--line);border-bottom-left-radius:10px}
+  .doc small{position:absolute;bottom:18px;font:12px var(--mono);color:var(--dim)}
+  .leaks{display:grid;gap:10px}
+  .leak{display:flex;gap:14px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--danger);border-radius:12px;padding:12px 16px}
+  .leak b{display:block}.leak span{color:var(--dim);font-size:15px}
+
+  /* calculator */
+  .calc{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+  @media (max-width:860px){.calc{grid-template-columns:1fr}}
+  .sl{margin-bottom:20px}
+  .sl label{display:flex;justify-content:space-between;font-size:15px;color:var(--dim);margin-bottom:6px}
+  .sl label b{color:var(--ink);font-family:var(--mono)}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .big{font-size:clamp(52px,8vw,96px);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--danger)}
+
+  /* forward email */
+  .fwd{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:560px}
+  .fwd .h{padding:12px 16px;border-bottom:1px solid var(--line);font-size:14px;display:grid;gap:4px}
+  .fwd .h span{color:var(--faint);display:inline-block;width:62px}
+  .fwd .warnb{background:rgba(255,92,122,.12);color:var(--danger);padding:9px 16px;font-size:13.5px;font-weight:600}
+  .fwd .att{margin:14px 16px;display:inline-flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:8px 12px;font:13px var(--mono)}
+
+  /* before/after */
+  .ba{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+  .ba .x{color:var(--danger);text-decoration:line-through;text-decoration-color:rgba(255,92,122,.5)}
+  .ba .arrow{color:var(--accent);font-size:20px}
+  .ba .y{color:var(--ok);font-weight:600}
+
+  /* app mock */
+  .win{background:#0b0910;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 40px 70px -30px #000}
+  .win .url{display:flex;gap:8px;align-items:center;padding:9px 12px;background:var(--bg2);border-bottom:1px solid var(--line);font:12px var(--mono);color:var(--dim)}
+  .win .url i{width:10px;height:10px;border-radius:50%;background:#3a3445}
+  .win .url em{margin-left:8px;font-style:normal;background:var(--bg4);border-radius:6px;padding:3px 9px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .app{padding:16px}
+  .app .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+  .pill{font-size:12px;border-radius:999px;padding:3px 10px;border:1px solid var(--line);color:var(--dim)}
+  .pill.g{border-color:rgba(61,220,151,.4);color:var(--ok)}
+  .rows{display:grid;gap:6px}
+  .rows div{display:grid;grid-template-columns:1.4fr 1fr .8fr;gap:8px;background:var(--bg2);border-radius:8px;padding:8px 10px;font-size:13.5px}
+  .rows div span:last-child{text-align:right}
+
+  /* admin list */
+  .admin{background:#fff;color:#222;border-radius:12px;overflow:hidden;font-size:14px;box-shadow:0 30px 60px -25px #000}
+  .admin .t{background:#f3f2f1;padding:10px 14px;font-weight:600;border-bottom:1px solid #e1dfdd}
+  .admin div.r{display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid #eee}
+  .admin div.r.hl{background:#f3e9ff;font-weight:600}
+  .admin span{color:#666}
+
+  /* eras */
+  .eras{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative}
+  @media (max-width:860px){.eras{grid-template-columns:1fr}}
+  .era{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .era .when{font:600 11px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  .era.now{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 20px 50px -20px rgba(170,59,255,.5)}
+  .era.now .when{color:var(--accent)}
+  .era ul{margin:10px 0 0;padding-left:18px;color:var(--dim);font-size:15px}
+
+  /* compare */
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:760px){.cmp{grid-template-columns:1fr}}
+  .cmp ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+  .cmp li{background:var(--bg3);border-radius:10px;padding:10px 13px;font-size:15px}
+  .cmp li b{display:block;font-size:15px}
+  .cmp li span{color:var(--dim);font-size:14px}
+
+  /* venn */
+  .venn svg{width:100%;max-width:640px;display:block;margin:auto}
+
+  /* journey */
+  .jour{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+  .jour .st{flex:1;min-width:150px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px}
+  .jour .st b{display:block;margin-bottom:4px}
+  .jour .st span{color:var(--dim);font-size:14.5px}
+  .jour .st.d{border-top:3px solid #6fb4ff}.jour .st.t{border-top:3px solid #ffb454}.jour .st.p{border-top:3px solid #3ddc97}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px}
+  .btn{display:inline-flex;gap:8px;align-items:center;border-radius:11px;padding:13px 20px;font:600 15px var(--sans);text-decoration:none;
+       border:1px solid var(--line);color:var(--ink);background:var(--bg3)}
+  .btn:hover{border-color:var(--accent)}
+  .btn.primary{background:linear-gradient(135deg,#aa3bff,#6f4bff);border-color:transparent;color:#fff}
+  .quote{font-size:clamp(24px,3.4vw,40px);line-height:1.2;letter-spacing:-.02em;font-weight:700;max-width:26ch}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a class="brand" href="index.html">Managed Apps <span>Story</span></a>
+  <div class="chap" id="chap"></div>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- 0 COVER -->
+<section class="slide" data-chap="Prologue" data-stage="Opening"
+  data-notes="Set the frame: this is a story about someone like the audience, not a feature tour. Let them pick a lens. Newcomers skip two Power Platform slides.">
+  <div class="in-s center">
+    <p class="kicker">A five-minute story</p>
+    <h1>Every great app<br/>starts as a <span class="grad">workaround.</span></h1>
+    <p class="lede">This is the story of one of them: what it cost, and what changes when the workaround is built inside the guardrails.</p>
+    <div class="choose">
+      <button data-pick="new">👋 I'm new to this<small>Tell me the story</small></button>
+      <button data-pick="pro">🧩 I know Power Platform<small>Show me how this is different</small></button>
+      <button data-pick="all">📖 Show me everything<small>The full deck</small></button>
+    </div>
+  </div>
+</section>
+
+<!-- 1 MEET MAYA -->
+<section class="slide" data-chap="Act 1 · The idea" data-stage="Challenger · Warmer"
+  data-notes="Warmer: build empathy and credibility. Maya is the innovative knowledge worker in every org. She isn't a developer. She has a real problem and the initiative to solve it.">
+  <div class="in-s">
+    <div class="two">
+      <div>
+        <p class="kicker">Meet Maya</p>
+        <h2>She's not a developer.<br/><span class="grad">She's a problem solver.</span></h2>
+        <p class="lede">Maya coordinates field equipment across three sites. Drills, meters, and safety kits get loaned out, calibrated, lost, and found again.</p>
+        <p class="lede f">Nobody asked her to fix it. She's going to anyway.</p>
+      </div>
+      <div class="persona">
+        <div class="avatar">👩🏽‍🔧</div>
+        <div class="thought f">"If I could just see <b>who has what</b> and <b>what's overdue</b> in one place, I'd save the whole team hours every week."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 SPREADSHEET -->
+<section class="slide" data-chap="Act 1 · The spreadsheet" data-stage="Challenger · Warmer"
+  data-notes="Everyone recognizes this. Let the room laugh at the file names. The point: the tool worked until sharing made it fall apart.">
+  <div class="in-s">
+    <div class="two">
+      <div>
+        <p class="kicker">Step one, like always</p>
+        <h2>She opens Excel.</h2>
+        <p class="lede f">It works beautifully… for about a week.</p>
+        <p class="lede f">Then it gets emailed. Then copied. Then edited in two places at once.</p>
+        <p class="lede f"><b class="red">Now there are five versions, and nobody knows which one is true.</b></p>
+      </div>
+      <div>
+        <div class="xl">
+          <div class="tb"><span>equipment_tracker_v7_FINAL (2).xlsx</span><span>⋯</span></div>
+          <table>
+            <tr><th>Item</th><th>Site</th><th>Checked out to</th><th>Cal. due</th></tr>
+            <tr><td>Torque meter #4</td><td>North</td><td>J. Ortiz</td><td class="r">Overdue</td></tr>
+            <tr><td>Gas detector #2</td><td>East</td><td class="y">??? ask Sam</td><td>Oct 14</td></tr>
+            <tr><td>Drill kit A</td><td>North</td><td>—</td><td>Nov 02</td></tr>
+            <tr><td>Harness set 3</td><td>South</td><td class="y">Priya (I think)</td><td class="r">Overdue</td></tr>
+          </table>
+        </div>
+        <div class="mail">
+          <div class="f">📎 RE: RE: FW: tracker, use this one <span>v7</span></div>
+          <div class="f">📎 tracker_v7_FINAL (2) – Sam's edits <span>v7b</span></div>
+          <div class="f">📎 Don't use the old one!! <span>v8?</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 CLEVER HTML -->
+<section class="slide" data-chap="Act 2 · She gets clever" data-stage="Challenger · Warmer"
+  data-notes="This is the modern twist. AI chat tools make it easy to generate impressive interactive HTML. Honor the ingenuity. It really is impressive, and that's why it spreads.">
+  <div class="in-s">
+    <p class="kicker">Act 2</p>
+    <h2>Then Maya discovers AI. <span class="grad">And she's brilliant at it.</span></h2>
+    <div class="two" style="margin-top:22px">
+      <div class="chat">
+        <div class="bub me">Make me an interactive dashboard for this equipment data. Filters, overdue alerts, charts.
+          <div class="paste">▸ pasted: export_from_asset_system.csv
+  1,284 rows · serials, sites, assignees,
+  vendor contracts, cost centers…</div></div>
+        <div class="bub ai f">Here's a single-file interactive dashboard. Open <b>equipment-dashboard.html</b> in any browser. ✨</div>
+      </div>
+      <div class="f">
+        <div class="dash">
+          <div class="file"><span>📄 equipment-dashboard.html</span><span>2.4 MB</span></div>
+          <div class="kpis"><div><b>1,284</b>assets</div><div><b>37</b>overdue</div><div><b>3</b>sites</div></div>
+          <div class="bars"><i style="height:60%"></i><i style="height:85%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:95%"></i><i style="height:55%"></i></div>
+        </div>
+        <p class="lede" style="margin-top:16px">It looks amazing. She emails it to <b>twelve colleagues</b>. They love it. They forward it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 SOUND FAMILIAR -->
+<section class="slide" data-chap="Interlude" data-stage="Challenger · Warmer (close)"
+  data-notes="Close the warmer by generalizing. It's not one person; it's the pattern. Be generous: people are doing exactly what their tools make easy.">
+  <div class="in-s center">
+    <p class="kicker">Sound familiar?</p>
+    <h2>There's a Maya on every team.</h2>
+    <div class="grid g4" style="margin-top:28px;text-align:left">
+      <div class="card f"><span class="emoji">📊</span><h3>The tracker</h3><p>The Excel file that quietly runs a process.</p></div>
+      <div class="card f"><span class="emoji">📋</span><h3>The list that grew up</h3><p>The SharePoint list now doing the job of an app.</p></div>
+      <div class="card f"><span class="emoji">✨</span><h3>The AI-made dashboard</h3><p>The HTML file full of data exported from a system of record.</p></div>
+      <div class="card f"><span class="emoji">📨</span><h3>The weekly export</h3><p>The report someone pastes into an email every Monday.</p></div>
+    </div>
+    <p class="lede f" style="margin-top:28px">None of these people are doing anything wrong. <b>They're doing what their tools make easy.</b></p>
+  </div>
+</section>
+
+<!-- 5 REFRAME -->
+<section class="slide" data-chap="The reframe" data-stage="Challenger · Reframe"
+  data-notes="Reframe: the instinct is to see shadow IT as a discipline problem and clamp down. Flip it. It's a supply problem: demand for apps vastly exceeds what IT can build. The fix is to move where tools get built, not to stop people building.">
+  <div class="in-s center">
+    <p class="kicker">Here's the reframe</p>
+    <p class="quote" style="margin:0 auto">The problem was never that people build their own tools.</p>
+    <p class="quote f" style="margin:18px auto 0"><span class="grad">It's where those tools are built.</span></p>
+    <div class="grid g2 f" style="margin-top:40px;text-align:left;max-width:860px;margin-left:auto;margin-right:auto">
+      <div class="card"><h3 class="red">The old instinct</h3><p>"Shadow IT is a discipline problem. Lock it down."</p></div>
+      <div class="card"><h3 class="ok">The new reality</h3><p>It's a <b>supply</b> problem. Innovation happens at the edge, while guardrails live at the center. Bring the two together.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 ANATOMY -->
+<section class="slide" data-chap="Look closer" data-stage="Challenger · Rational drowning"
+  data-notes="Rational drowning, part 1: make the hidden costs concrete. Walk through each property of the file. None of it is malicious; all of it is risk.">
+  <div class="in-s">
+    <p class="kicker">Look closer at that HTML file</p>
+    <h2>It's beautiful. <span class="red">It's also a liability.</span></h2>
+    <div class="anat" style="margin-top:22px">
+      <div class="doc">&lt;/&gt;<small>equipment-dashboard.html</small></div>
+      <div class="leaks">
+        <div class="leak f"><div>🔓</div><div><b>No sign-in</b><span>Anyone who has the file sees everything in it, forever.</span></div></div>
+        <div class="leak f"><div>🧊</div><div><b>A frozen snapshot</b><span>It's out of date the moment it's sent, and people still make decisions from it.</span></div></div>
+        <div class="leak f"><div>🗝️</div><div><b>Pulled from a system of record</b><span>Serial numbers, contracts, and names travel far outside the system's permissions.</span></div></div>
+        <div class="leak f"><div>🙈</div><div><b>Invisible to IT</b><span>No inventory, no audit trail, no idea how many copies exist.</span></div></div>
+        <div class="leak f"><div>🚪</div><div><b>Owned by one person</b><span>When Maya changes roles, the "system" leaves with her.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 CALCULATOR -->
+<section class="slide" data-chap="Do the math" data-stage="Challenger · Rational drowning"
+  data-notes="Rational drowning, part 2: let the audience put in their own numbers. Deliberately no vendor statistics. The number they produce is more persuasive than any we could quote.">
+  <div class="in-s">
+    <p class="kicker">Do the math for your organization</p>
+    <h2>One Maya is a story.<br/><span class="red">Thousands of Mayas is a data estate.</span></h2>
+    <div class="calc" style="margin-top:26px">
+      <div class="card">
+        <div class="sl"><label>People keeping a personal tracker or dashboard <b id="v1">250</b></label><input id="s1" type="range" min="10" max="5000" step="10" value="250"></div>
+        <div class="sl"><label>Times each one is shared per month <b id="v2">4</b></label><input id="s2" type="range" min="1" max="30" value="4"></div>
+        <div class="sl" style="margin:0"><label>People per share <b id="v3">5</b></label><input id="s3" type="range" min="1" max="50" value="5"></div>
+      </div>
+      <div class="center">
+        <div class="big" id="out">60,000</div>
+        <p class="lede" style="margin-top:10px">copies of business data sitting in inboxes, chats, and downloads <b>every year</b>. None of them sign anyone in, and IT can't see any of them.</p>
+        <p class="dim" style="font-size:13px">Your numbers, not ours. Adjust the sliders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 EMOTIONAL -->
+<section class="slide" data-chap="Act 3 · One Tuesday" data-stage="Challenger · Emotional impact"
+  data-notes="Emotional impact: make it personal and human. Nobody broke a rule on purpose. The person who suffers most is the innovator. Pause after the final line.">
+  <div class="in-s">
+    <div class="two">
+      <div>
+        <p class="kicker">Act 3</p>
+        <h2>Then, one Tuesday…</h2>
+        <p class="lede f">A colleague forwards the dashboard to a vendor, trying to be helpful.</p>
+        <p class="lede f">Inside it: contract values, cost centers, and the names of everyone on the team.</p>
+        <p class="lede f">Nobody broke a rule on purpose. And the person in the uncomfortable meeting is <b>Maya</b>.</p>
+        <p class="lede f" style="color:var(--ink)"><b>She was just trying to fix a process.</b></p>
+      </div>
+      <div class="fwd f">
+        <div class="warnb">⚠ This message is going to someone outside your organization</div>
+        <div class="h">
+          <div><span>From</span> sam@contoso.com</div>
+          <div><span>To</span> <b class="red">accounts@vendor-partner.com</b></div>
+          <div><span>Subject</span> FW: here's our equipment list 👍</div>
+        </div>
+        <div class="att">📄 equipment-dashboard.html · 2.4 MB</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 NEW WAY -->
+<section class="slide" data-chap="A new way" data-stage="Challenger · A new way"
+  data-notes="A new way: describe the ideal state before naming the product. The audience should agree with these principles on their own, independent of any technology.">
+  <div class="in-s">
+    <p class="kicker">Imagine a different way</p>
+    <h2>What if the thing Maya was going to build anyway<br/><span class="grad">was born inside the guardrails?</span></h2>
+    <div class="grid" style="margin-top:26px;max-width:820px">
+      <div class="ba f"><span class="x">Send a file</span><span class="arrow">→</span><span class="y">Share a link people sign in to</span></div>
+      <div class="ba f"><span class="x">A frozen snapshot</span><span class="arrow">→</span><span class="y">Live data, straight from the system of record</span></div>
+      <div class="ba f"><span class="x">Invisible to IT</span><span class="arrow">→</span><span class="y">Listed, governed, and auditable</span></div>
+      <div class="ba f"><span class="x">Owned by one person</span><span class="arrow">→</span><span class="y">Owned by the organization, in source control</span></div>
+      <div class="ba f"><span class="x">"Please don't build things"</span><span class="arrow">→</span><span class="y">"Build anything, here"</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 INTRODUCING -->
+<section class="slide" data-chap="Act 4 · Managed Apps" data-stage="Challenger · Your solution"
+  data-notes="Now name it. Managed Apps: Maya describes the app to an AI coding agent, which writes a real app on live data through governed connectors. Colleagues open a link and sign in with their work account.">
+  <div class="in-s">
+    <div class="two">
+      <div>
+        <p class="kicker">Introducing</p>
+        <h2>Microsoft 365<br/><span class="grad">Managed Apps</span></h2>
+        <p class="lede">Maya describes the app she wants in plain language. An AI coding agent like GitHub Copilot or Claude Code builds it.</p>
+        <ul class="lede" style="padding-left:20px">
+          <li class="f">A <b>real, modern web app</b>, not a file</li>
+          <li class="f"><b>Live data</b> through the same connectors the enterprise already governs</li>
+          <li class="f">Colleagues open a link and <b>sign in with their work account</b></li>
+          <li class="f">It shows up in the <b>Microsoft 365 admin center</b> with every other app</li>
+        </ul>
+      </div>
+      <div class="win f">
+        <div class="url"><i></i><i></i><i></i><em>🔒 play.managedapps.cloud.microsoft/apps/…</em></div>
+        <div class="app">
+          <div class="hd"><b>Field Equipment</b><span><span class="pill g">● Live · Dataverse</span> <span class="pill">maya@contoso.com</span></span></div>
+          <div class="rows">
+            <div><span>Torque meter #4</span><span>J. Ortiz</span><span class="red">Overdue</span></div>
+            <div><span>Gas detector #2</span><span>S. Chen</span><span>Oct 14</span></div>
+            <div><span>Drill kit A</span><span>Available</span><span class="ok">✓</span></div>
+            <div><span>Harness set 3</span><span>P. Nair</span><span class="red">Overdue</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 AFTER -->
+<section class="slide" data-chap="Act 4 · Maya, version two" data-stage="Challenger · Your solution"
+  data-notes="Show both sides of the same app: the maker experience (fast, conversational) and the admin experience (visible, governed). This is the bridge slide for skeptical IT folks in the room.">
+  <div class="in-s">
+    <p class="kicker">Same Maya. Same idea. Different ending.</p>
+    <h2>Fast for the maker. <span class="grad">Visible to IT.</span></h2>
+    <div class="two" style="margin-top:22px;align-items:start">
+      <div class="grid">
+        <div class="card f"><h3>💬 "Track equipment loans across three sites, and flag overdue calibrations."</h3><p>The agent creates the table, connects the data, and builds the screens.</p></div>
+        <div class="card f"><h3>👀 She previews it and keeps asking</h3><p>"Add a check-out button." "Make it work on my phone." Each request is a conversation, not a support ticket.</p></div>
+        <div class="card f"><h3>🔗 She shares a link, not a file</h3><p>Colleagues sign in. The data never leaves the system of record.</p></div>
+      </div>
+      <div class="f">
+        <div class="admin">
+          <div class="t">Microsoft 365 admin center · Apps</div>
+          <div class="r"><b>Expense Portal</b><span>Managed App</span></div>
+          <div class="r hl"><b>Field Equipment</b><span>Managed App</span></div>
+          <div class="r"><b>Vendor Onboarding</b><span>Managed App</span></div>
+          <div class="r"><b>Site Inspections</b><span>Managed App</span></div>
+        </div>
+        <p class="dim" style="font-size:14px;margin-top:12px">The app IT couldn't see is now one they can list, review, and govern. Connectors follow the data policies admins already set.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 PRO: ERAS -->
+<section class="slide" data-track="pro" data-chap="For Power Platform pros" data-stage="Challenger · Reframe (for makers)"
+  data-notes="A second reframe, aimed at the Power Platform community. The low-code promise was to let people build without writing code. Managed Apps keep that promise differently: nobody writes the code by hand, but the output is real code. It's pro-code for the no-code crowd.">
+  <div class="in-s">
+    <p class="kicker">If you know Power Platform</p>
+    <h2>This is a new era of low-code.<br/><span class="grad">Ironically, it's pro-code for the no-code crowd.</span></h2>
+    <div class="eras" style="margin-top:26px">
+      <div class="era f"><div class="when">Era 1 · Personal tools</div><h3>Macros & spreadsheets</h3><ul><li>Anyone can start</li><li>Nothing is governed</li><li>Breaks when shared</li></ul></div>
+      <div class="era f"><div class="when">Era 2 · Low-code</div><h3>Canvas & model-driven apps</h3><ul><li>Drag, drop, and Power Fx</li><li>Governed connectors and environments</li><li>You build inside the designer's limits</li></ul></div>
+      <div class="era now f"><div class="when">Era 3 · Now</div><h3>Managed Apps</h3><ul><li><b>You direct and the agent writes</b> real React and TypeScript</li><li>The same connectors, environments, and Dataverse</li><li>Any UI you can describe, versioned in git</li></ul></div>
+    </div>
+    <p class="lede f" style="margin-top:24px">You still don't have to write code. But now <b>you own real code</b>, with everything professional developers get from that.</p>
+  </div>
+</section>
+
+<!-- 13 PRO: CARRY OVER -->
+<section class="slide" data-track="pro" data-chap="For Power Platform pros" data-stage="Challenger · A new way (for makers)"
+  data-notes="Reduce the fear of starting over. Most of a Power Platform expert's knowledge transfers directly: connectors, environments, DLP, Dataverse, solutions, and roles. What's new is the build surface and a git-based ALM.">
+  <div class="in-s">
+    <p class="kicker">Your expertise still counts</p>
+    <h2>Most of what you know <span class="grad">carries straight over.</span></h2>
+    <div class="cmp" style="margin-top:22px">
+      <div class="card f"><h3 class="ok">✔ Stays the same</h3><ul>
+        <li><b>Connectors & connections</b><span>The same catalog of 1,300+, the same connection model</span></li>
+        <li><b>Environments & data policies</b><span>Your DLP and tenant connector rules still apply</span></li>
+        <li><b>Dataverse</b><span>Tables, relationships, and security roles</span></li>
+        <li><b>Solutions</b><span>Managed solutions carry the schema between environments</span></li>
+      </ul></div>
+      <div class="card f"><h3 style="color:var(--accent)">✦ What's new</h3><ul>
+        <li><b>An AI agent is the builder</b><span>You're the product owner, directing it in plain language</span></li>
+        <li><b>Real code in git</b><span>React, TypeScript, and typed services generated for each connector</span></li>
+        <li><b>No designer ceiling</b><span>Any layout, component, or interaction you can describe</span></li>
+        <li><b>Git-native ALM</b><span>Branches, pull requests, tests, and CI, like any engineering team</span></li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 BRIDGE -->
+<section class="slide" data-chap="The bridge" data-stage="Challenger · Your solution (the promise)"
+  data-notes="The core message: citizen development promised empowerment, and Managed Environments promised governance at scale. Historically they pulled against each other. Managed Apps sit where both are true at once.">
+  <div class="in-s center">
+    <p class="kicker">The promise, kept</p>
+    <h2>Empowerment <span class="dim">and</span> guardrails.<br/><span class="grad">Not a trade-off anymore.</span></h2>
+    <div class="venn f" style="margin-top:14px">
+      <svg viewBox="0 0 640 300" role="img" aria-label="Venn diagram: citizen developer empowerment overlapping with Managed Environments guardrails; Managed Apps in the middle">
+        <circle cx="240" cy="150" r="130" fill="#6fb4ff" fill-opacity=".12" stroke="#6fb4ff"/>
+        <circle cx="400" cy="150" r="130" fill="#3ddc97" fill-opacity=".12" stroke="#3ddc97"/>
+        <g font-family="system-ui" text-anchor="middle">
+          <text x="175" y="110" fill="#6fb4ff" font-size="15" font-weight="700">Citizen developer</text>
+          <text x="175" y="130" fill="#6fb4ff" font-size="15" font-weight="700">empowerment</text>
+          <text x="175" y="162" fill="#a29ead" font-size="12.5">Anyone with an idea</text>
+          <text x="175" y="180" fill="#a29ead" font-size="12.5">Build in plain language</text>
+          <text x="175" y="198" fill="#a29ead" font-size="12.5">Ship in an afternoon</text>
+          <text x="465" y="110" fill="#3ddc97" font-size="15" font-weight="700">Managed Environments</text>
+          <text x="465" y="130" fill="#3ddc97" font-size="15" font-weight="700">guardrails</text>
+          <text x="465" y="162" fill="#a29ead" font-size="12.5">Data policies</text>
+          <text x="465" y="180" fill="#a29ead" font-size="12.5">Sharing and access controls</text>
+          <text x="465" y="198" fill="#a29ead" font-size="12.5">Visibility and insights</text>
+          <text x="320" y="146" fill="#e8e6ee" font-size="16" font-weight="800">Managed</text>
+          <text x="320" y="166" fill="#e8e6ee" font-size="16" font-weight="800">Apps</text>
+        </g>
+      </svg>
+    </div>
+    <p class="lede f" style="max-width:70ch">Citizen development promised that anyone could build. Managed Environments gave admins the controls to govern at scale.
+      Managed Apps are built inside a Power Platform environment, so <b>the maker's freedom and the admin's guardrails apply to the same app.</b></p>
+  </div>
+</section>
+
+<!-- 15 SCALE / TEMPLATE -->
+<section class="slide" data-chap="Epilogue · From one to many" data-stage="Challenger · Your solution (at scale)"
+  data-notes="Tie the story to this repo. One app is easy. An enterprise needs dev/test/prod, schema that moves with the code, and a standard every team can start from. That's what this template provides.">
+  <div class="in-s">
+    <p class="kicker">Epilogue</p>
+    <h2>Maya's app takes off.<br/><span class="grad">Now it needs to grow up.</span></h2>
+    <p class="lede">Other sites want it. IT wants to review changes before they reach everyone. This is where this template comes in.</p>
+    <div class="jour" style="margin-top:22px">
+      <div class="st d f"><b>dev</b><span>Maya and the agent keep iterating. Nothing she tries reaches users yet.</span></div>
+      <div class="st t f"><b>test</b><span>A pull request promotes it. Colleagues try it before anyone depends on it.</span></div>
+      <div class="st p f"><b>prod</b><span>Approved and live. The code and the Dataverse schema arrive together.</span></div>
+      <div class="st f" style="border-top:3px solid var(--accent)"><b>and again</b><span>The next team starts from the same template and gets the same standards.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 CLOSE -->
+<section class="slide" data-chap="Your turn" data-stage="Close"
+  data-notes="End on the audience's own idea. Ask: what's your Maya tracker? Then point them to the template and the guides.">
+  <div class="in-s center">
+    <p class="kicker">Your turn</p>
+    <h1>What's <span class="grad">your</span><br/>workaround?</h1>
+    <p class="lede">Everyone has one: the spreadsheet, the list, the file you'd never want forwarded. Now you can turn it into a real, governed app.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">✨ Start from the template</a>
+      <a class="btn" href="index.html">What this template provides</a>
+      <a class="btn" href="guide.html">Visual guide</a>
+      <a class="btn" href="#" id="restart">↺ Replay the story</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="notes" id="notes"><b id="stage"></b><p id="ntext"></p></div>
+
+<div class="bar">
+  <button id="prev" aria-label="Previous">←</button>
+  <button id="next" class="primary" aria-label="Next">Next →</button>
+  <div class="prog" id="prog"></div>
+  <span class="count" id="count"></span>
+  <select id="track" aria-label="Audience">
+    <option value="all">Full story</option>
+    <option value="new">New to this</option>
+    <option value="pro">Power Platform pro</option>
+  </select>
+  <button id="nbtn" title="Presenter notes (N)">📝 Notes</button>
+  <span class="kbd">← → · N · F</span>
+</div>
+
+<script>
+const all=[...document.querySelectorAll('.slide')];
+let track=localStorage.getItem('ma-track')||'all';
+let list=[],i=0,f=0;
+const $=id=>document.getElementById(id);
+const frags=s=>[...s.querySelectorAll('.f')];
+
+function build(){
+  list=all.filter(s=>track!=='new'||s.dataset.track!=='pro');
+  $('track').value=track;
+  $('prog').innerHTML=list.map((_,k)=>`<i data-k="${k}" title="Slide ${k+1}"></i>`).join('');
+  $('prog').querySelectorAll('i').forEach(el=>el.onclick=()=>show(+el.dataset.k,'end'));
+}
+function show(idx,mode){
+  idx=Math.max(0,Math.min(list.length-1,idx));
+  const fwd=idx>=i;
+  all.forEach(s=>{s.classList.remove('on');s.classList.toggle('back',!fwd)});
+  i=idx; const s=list[i]; s.classList.add('on'); s.classList.remove('back'); s.scrollTop=0;
+  const fr=frags(s); f=mode==='end'?fr.length:0;
+  fr.forEach((e,k)=>e.classList.toggle('in',k<f));
+  ui();
+}
+function ui(){
+  const s=list[i];
+  $('chap').textContent=s.dataset.chap||'';
+  $('stage').textContent=s.dataset.stage||'';
+  $('ntext').textContent=s.dataset.notes||'';
+  $('count').textContent=`${i+1} / ${list.length}`;
+  $('prev').disabled=i===0&&f===0;
+  const last=i===list.length-1&&f>=frags(s).length;
+  $('next').disabled=last;
+  $('next').textContent=f<frags(s).length?'Reveal →':'Next →';
+  $('prog').querySelectorAll('i').forEach((el,k)=>{el.className=k<i?'done':k===i?'cur':''});
+  history.replaceState(null,'','#'+(i+1));
+}
+function next(){
+  const fr=frags(list[i]);
+  if(f<fr.length){fr[f].classList.add('in');f++;ui();}
+  else if(i<list.length-1) show(i+1,'start');
+}
+function prev(){
+  const fr=frags(list[i]);
+  if(f>0){f--;fr[f].classList.remove('in');ui();}
+  else if(i>0) show(i-1,'end');
+}
+function setTrack(t){
+  const cur=list[i]; track=t; localStorage.setItem('ma-track',t); build();
+  let k=list.indexOf(cur);
+  if(k<0){k=list.findIndex(s=>all.indexOf(s)>all.indexOf(cur)); if(k<0)k=list.length-1;}
+  i=k; show(k,'end');
+}
+
+$('next').onclick=next; $('prev').onclick=prev;
+$('track').onchange=e=>setTrack(e.target.value);
+$('nbtn').onclick=()=>$('notes').classList.toggle('on');
+$('restart').onclick=e=>{e.preventDefault();i=0;show(0,'start')};
+document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{setTrack(b.dataset.pick);show(1,'start')});
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,select,textarea'))return;
+  if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next();}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
+  else if(e.key==='Home')show(0,'start');
+  else if(e.key==='End')show(list.length-1,'end');
+  else if(e.key==='n'||e.key==='N')$('notes').classList.toggle('on');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();}
+});
+let tx=null;
+$('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+$('deck').addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>60&&!e.target.matches('input')){dx<0?next():prev();} tx=null;});
+
+/* calculator */
+const calc=()=>{const a=+$('s1').value,b=+$('s2').value,c=+$('s3').value;
+  $('v1').textContent=a.toLocaleString();$('v2').textContent=b;$('v3').textContent=c;
+  $('out').textContent=(a*b*c*12).toLocaleString();};
+['s1','s2','s3'].forEach(id=>$(id).addEventListener('input',calc)); calc();
+
+build();
+const h=parseInt(location.hash.slice(1),10);
+show(h>0?h-1:0,h>1?'end':'start');
+</script>
+</body>
+</html>

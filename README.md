@@ -318,6 +318,10 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
 - **[Overview site](https://martycarreras-psnl.github.io/managed-apps-template/)** (`docs/index.html`):
   what this template provides, why it exists, and how it scales across an enterprise. It is
   published with GitHub Pages from `main:/docs`.
+- **[The story](https://martycarreras-psnl.github.io/managed-apps-template/story.html)** (`docs/story.html`):
+  a click-through presentation on what Managed Apps are and why they matter. It follows one
+  knowledge worker's workaround and uses Challenger-style framing, with an optional Power Platform
+  track and presenter notes (press <kbd>N</kbd>).
 - **[docs/guide.html](https://martycarreras-psnl.github.io/managed-apps-template/guide.html)**(docs/guide.html)** — an interactive visual guide: animated architecture
   diagrams, OS-aware commands, a click-through promotion walkthrough, and the troubleshooting
   section as an accordion. Open it in a browser; it is a single self-contained file with no
