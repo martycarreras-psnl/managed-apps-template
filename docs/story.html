@@ -85,7 +85,7 @@
     .slide .tier{padding:8px 14px}.slide .tier p{margin-top:4px;font-size:14px}.slide .tier.ins.f.in{padding-top:8px;padding-bottom:8px}.slide .tiers{gap:8px}.slide .node{padding:7px 12px}.slide .need{padding:5px 12px}.slide .need span{font-size:12.5px}.slide .needs{gap:5px}.slide .lyr{padding:9px 12px}.slide .eco-hub{padding:16px}
     .slide .stage{gap:22px;margin-top:14px}.slide .st-row{padding:10px 16px}.slide .st-col,.slide .st-fill{padding:12px}.slide .st-col::before,.slide .st-fill::before{top:-23px;height:22px}.slide .st-col::after,.slide .st-fill::after{bottom:-23px;height:22px}.slide .st-cap{margin-top:14px}
     .slide .lic .card p,.slide .lic .row{font-size:13.5px}.slide .lic .row{margin-top:6px}.slide .lic .card h3{margin-bottom:4px}.slide .lic,.slide .tiersc{gap:12px}.slide .tiersc{margin-top:12px}
-    .slide .tc{padding:9px 12px}.slide .tc span{display:none}.slide .tc b{margin-bottom:4px}.slide .lim{padding:10px 12px}.slide .lim .n{font-size:26px}.slide .lim p{font-size:13px}.slide .fine{margin-top:6px}
+    .slide .lcol{gap:10px}.slide .tiersc{gap:6px}.slide .tc{padding:6px 12px}.slide .tc span{font-size:12px}.slide .tc b{margin-bottom:4px}.slide .lim{padding:10px 12px}.slide .lim .n{font-size:26px}.slide .lim p{font-size:13px}.slide .fine{margin-top:6px}
   }
 
   /* fragments */
@@ -256,9 +256,8 @@
   /* licensing */
   .lic{display:grid;grid-template-columns:1fr 1.25fr;gap:16px}
   .lic>*{min-width:0}
-  .lic .run{grid-column:2;grid-row:1/span 2}.lic .lim{grid-column:1;grid-row:2;align-self:end}
-  @media (max-width:860px){.lic .run,.lic .lim{grid-column:auto;grid-row:auto}}
-  @media (max-width:860px){.lic{grid-template-columns:1fr}}
+  
+  @media (max-width:860px){.lic{grid-template-columns:1fr}.lic .lim{margin-left:0}.lic .tc{grid-template-columns:1fr}.lic .tc dl{grid-column:1;grid-row:auto;grid-template-columns:auto 1fr;margin-top:6px}.lic .tc dd{text-align:right}}
   .lic .card h3 small{display:block;font:600 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
   .lic .row{display:flex;gap:10px;align-items:flex-start;margin-top:10px;font-size:14.5px;color:var(--dim)}
   .lic .row i{flex:none;font-style:normal;font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;margin-top:1px}
@@ -266,19 +265,22 @@
   .lic .row i.pp{background:rgba(61,220,151,.14);color:var(--ok)}
   .lic .row i.ai{background:rgba(111,180,255,.14);color:#6fb4ff}
   .lic .row b{color:var(--ink)}
-  .lim{display:flex;gap:16px;align-items:center;background:var(--bg3);border:1px solid rgba(61,220,151,.35);border-radius:12px;padding:12px 14px}
+  .lim{display:flex;gap:16px;align-items:center;margin:8px 0 4px 74px;background:var(--bg3);border:1px solid rgba(61,220,151,.35);border-radius:12px;padding:12px 14px}
   .lim .n{font:800 30px var(--sans);color:var(--ok);line-height:1;white-space:nowrap}
   .lim .n small{display:block;font:600 11px var(--sans);color:var(--dim);letter-spacing:.06em;margin-top:4px}
   .lim p{margin:0;font-size:14px;color:var(--dim)}
-  .tiersc{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+  .lcol{display:grid;gap:16px;align-content:start}
+  .tiersc{display:grid;gap:8px}
   .tiersc>*{min-width:0}
-  @media (max-width:860px){.tiersc{grid-template-columns:1fr}}
+  .tl{margin:0;font:700 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--faint);max-width:none}
   .tc{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-  .tc b{display:block;font-size:15px}
-  .tc span{display:block;color:var(--dim);font-size:13px;margin:2px 0 8px}
-  .tc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px}
+  .tc{display:grid;grid-template-columns:1fr auto;gap:2px 14px;align-items:center}
+  .tc b{font-size:15px}
+  .tc span{grid-column:1;color:var(--dim);font-size:13px}
+  .tc dl{grid-column:2;grid-row:1/span 2;margin:0;display:grid;grid-template-columns:auto auto;gap:3px 10px;font-size:13px}
   .tc dt{color:var(--faint)} .tc dd{margin:0;font-weight:700;text-align:right}
   .fine{font-size:12px;color:var(--faint);margin-top:10px;max-width:none}
+  .fine a{color:#c77dff;font-weight:600}
   .grad-gate{display:flex;align-items:center;gap:14px;margin:16px 0 0;color:var(--dim);font-size:14.5px}
   .grad-gate::before,.grad-gate::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
   .grad-gate span{border:1px solid var(--accent);border-radius:999px;padding:6px 16px;background:rgba(170,59,255,.1);text-align:center}
@@ -887,28 +889,29 @@
     <p class="kicker">The practical question</p>
     <h2>How is it licensed? <span class="grad">Simpler than it sounds.</span></h2>
     <div class="lic">
-      <div class="card f"><h3><small>Step 1 · Building the app</small>💬 Copilot Credits</h3>
+      <div class="lcol"><div class="card f"><h3><small>Step 1 · Building the app</small>💬 Copilot Credits</h3>
         <p>Maya describes the app and Cowork generates the data schema and interface. Building is billed through <b>Copilot Credits</b> usage-based billing.</p>
         <div class="row"><i class="cc">Varies</i><span>By the AI model used, how complex the app is, and how much she iterates.</span></div>
+      </div>
+      <div class="tiersc f"><p class="tl">Estimated Copilot Credits by app size</p>
+        <div class="tc"><b>Light</b><span>Personal or team apps, a handful of people</span>
+          <dl><dt>Build</dt><dd>~250–450 credits</dd><dt>Run</dt><dd>~10–50 / app / month</dd></dl></div>
+        <div class="tc"><b>Medium</b><span>Departmental apps, several connectors</span>
+          <dl><dt>Build</dt><dd>~400–750 credits</dd><dt>Run</dt><dd>~300–500 / app / month</dd></dl></div>
+        <div class="tc"><b>Heavy</b><span>Business-unit apps, many users, heavy traffic</span>
+          <dl><dt>Build</dt><dd>~700–1,350+ credits</dd><dt>Run</dt><dd>~3,000–5,000 / app / month</dd></dl></div>
+      </div>
       </div>
       <div class="card f run" style="border-color:var(--accent)"><h3><small>Step 2 · Running the app</small>🚀 Copilot Managed Runtime Host</h3>
         <p>Published apps run on a host with Microsoft Entra sign-in and enterprise governance, security, and admin controls built in.</p>
         <div class="row"><i class="cc">Default</i><span>Hosting and running are billed through <b>Copilot Credits</b>, based on how much work the app does.</span></div>
         <div class="row"><i class="pp">Premium</i><span>Users with a <b>Power Apps Premium</b> license: running apps is <b>included</b>, within existing Power Apps Premium request limits. Usage beyond the limit falls back to Copilot Credits.</span></div>
+        <div class="lim"><div class="n">40,000<small>REQUESTS / USER / DAY</small></div>
+            <p>The Premium request limit, about one every two seconds, around the clock. Everyday app use rarely comes close: <b style="color:var(--ink)">it's a safety net, not a throttle.</b></p></div>
         <div class="row"><i class="ai">AI</i><span>AI-powered runtime, such as agents and Work IQ APIs, isn't covered by those limits and always uses Copilot Credits.</span></div>
       </div>
-      <div class="lim f"><div class="n">40,000<small>REQUESTS / USER / DAY</small></div>
-          <p>That's the Power Apps Premium allowance: roughly one request every two seconds, around the clock. Everyday use of a business app rarely comes close, so in practice <b style="color:var(--ink)">it's a safety net, not a throttle.</b></p></div>
     </div>
-    <div class="tiersc f">
-      <div class="tc"><b>Light</b><span>Personal or team apps for a handful of people, simple forms, light connector use.</span>
-        <dl><dt>Build</dt><dd>~250–450 credits</dd><dt>Run</dt><dd>~10–50 / app / month</dd></dl></div>
-      <div class="tc"><b>Medium</b><span>Departmental apps with several connectors and moderate daily use.</span>
-        <dl><dt>Build</dt><dd>~400–750 credits</dd><dt>Run</dt><dd>~300–500 / app / month</dd></dl></div>
-      <div class="tc"><b>Heavy</b><span>Enterprise or business-unit apps with many users and heavy connector traffic.</span>
-        <dl><dt>Build</dt><dd>~700–1,350+ credits</dd><dt>Run</dt><dd>~3,000–5,000 / app / month</dd></dl></div>
-    </div>
-    <p class="fine f">Estimated Copilot Credits from the Microsoft Copilot Credits Guide (Sept 2026), Apps in Copilot Cowork (Frontier Program). Rough planning figures; actual usage varies.</p>
+    <p class="fine f">Figures from the Microsoft Copilot Credits Guide (Sept 2026), Apps in Copilot Cowork (Frontier Program). Rough planning figures; actual usage varies. <a href="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/ai/CopilotCreditsGuideSeptember2026.pdf" target="_blank" rel="noopener">Read the full guide (PDF) ↗</a></p>
   </div>
 </section>
 
