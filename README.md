@@ -245,6 +245,23 @@ npm run alm:deploy -- prod
 | `npm run alm:bootstrap -- <env>` | Join a new platform repo's history |
 | `npm run alm:upgrade [-- --check]` | Pull scaffolding updates from this template |
 
+### Not sure which command? Ask for the menu
+
+The repo ships an agent skill, [`managed-apps-devkit`](.github/skills/managed-apps-devkit/SKILL.md),
+that GitHub Copilot CLI / Copilot App pick up automatically. Ask your agent *"show me the
+devkit menu"* (or just state a goal — *"add a QA environment"*, *"which environment is each of
+my apps in?"*) and it offers the options, then follows a playbook: environments and app
+inventory, health check, new app, importing existing code, data sources and schema, deploy and
+promote, preview, rollback, hotfix, adding a stage, sharing and data access, sync, and
+troubleshooting.
+
+Two read-only helpers work on their own too:
+
+```bash
+node .github/skills/managed-apps-devkit/scripts/doctor.mjs [--remote]         # project health
+node .github/skills/managed-apps-devkit/scripts/apps-inventory.mjs [--csv f]  # every app + its environment
+```
+
 ---
 
 ## Staying current

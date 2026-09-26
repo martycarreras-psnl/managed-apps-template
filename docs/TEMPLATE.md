@@ -11,6 +11,7 @@ scripts/alm/              the ALM tooling
 .github/workflows/ci.yml  build, lint, promotion guards
 docs/ALM.md               the promotion model
 .gitattributes            pins ms.config.json per branch
+.github/skills/managed-apps-devkit/   agent menu + playbooks for every developer task
 ```
 
 **Project content** — yours to replace:
