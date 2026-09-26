@@ -151,6 +151,27 @@
                     background:var(--bg4);color:var(--accent);font-weight:700;font-size:14px}
   .steps code,p code,.card code{font:13px var(--mono);background:#0b0910;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#d7d2e0}
 
+  /* ask the agent */
+  .menu-demo .term-body{min-height:0}
+  .menu-demo .opt{display:block;padding-left:1.4em;text-indent:-1.4em}
+  .menu-demo .opt.pick{color:var(--ink)}
+  .menu-demo .opt.pick::before{content:"› ";color:var(--accent)}
+  .prompts{display:grid;gap:14px}
+  .pgroup h3{font-size:13px;color:var(--faint);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
+  .pgroup .list{display:flex;flex-wrap:wrap;gap:8px}
+  .say{background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 14px;
+       font:14px var(--sans);cursor:pointer;text-align:left;transition:border-color .2s,background .2s}
+  .say::before{content:"“";color:var(--accent)}
+  .say::after{content:"”";color:var(--accent)}
+  .say:hover{border-color:var(--accent)}
+  .say.copied{border-color:var(--ok);background:rgba(61,220,151,.1)}
+  .agents{margin-top:26px}
+  .agents .card h3{font-size:16px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+         background:var(--bg4);border:1px solid var(--ok);color:var(--ink);border-radius:10px;padding:10px 16px;
+         font-size:14px;transition:opacity .25s,transform .25s;z-index:50}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
   .final{text-align:center;padding:110px 0 70px;position:relative}
   .final::before{content:"";position:absolute;inset:0 -30vw;z-index:-1;
     background:radial-gradient(500px 260px at 50% 60%,rgba(170,59,255,.22),transparent 70%)}
@@ -175,6 +196,7 @@
   <a href="#alm">ALM</a>
   <a href="#scale">Scale</a>
   <a href="#start">Get started</a>
+  <a href="#ask">Ask your agent</a>
   <a href="guide.html">Visual guide</a>
   <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">Use this template</a>
 </div></nav>
@@ -455,6 +477,89 @@
   </ol></div>
 </section>
 
+<!-- ============ ASK ============ -->
+<section id="ask" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Not sure what to type?</p>
+      <h2>Ask for the menu.<br/><span class="grad">Your agent knows the rest.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">You don't need to memorize any commands. Every project from this template
+      includes a built-in guide, the <b>devkit</b>. Ask your coding agent what you can do, pick an option, and it
+      walks you through the steps. It checks with you before anything goes live.</p>
+  </div>
+
+  <div class="grid g2" style="align-items:start">
+    <div class="term menu-demo" aria-label="Example conversation with the devkit menu">
+      <div class="term-top"><i></i><i></i><i></i><span>your coding agent</span></div>
+      <div class="term-body">
+        <div><span class="you">you ›</span> show me the devkit menu</div>
+        <div class="dim">checking your project… healthy, on dev</div>
+        <div style="margin-top:8px">What would you like to do?</div>
+        <span class="opt">1. See what I have</span>
+        <span class="opt">2. Start something new</span>
+        <span class="opt">3. Build</span>
+        <span class="opt pick">4. Ship: deploy, promote, preview, roll back</span>
+        <span class="opt">5. Environments</span>
+        <span class="opt">6. Access</span>
+        <span class="opt">7. Maintain</span>
+        <div style="margin-top:8px">Which one?</div>
+        <span class="opt pick">Promote and deploy to test</span>
+        <div class="dim" style="margin-top:8px">promote dev → test · schema v1.0.3 already in test</div>
+        <div>Deploy to <b>test</b>? This updates the live app.</div>
+        <div><span class="you">you ›</span> yes</div>
+        <div class="ok">✓ Deployed test @ 3f9c2a1</div>
+      </div>
+    </div>
+
+    <div class="prompts">
+      <p style="margin:0;color:var(--dim);font-size:15px">Or just say what you want. Click any phrase to copy it, then paste it into your agent.</p>
+      <div class="pgroup"><h3>Get oriented</h3><div class="list">
+        <button class="say">Show me the devkit menu</button>
+        <button class="say">What can I do with this project?</button>
+        <button class="say">Is my project healthy?</button>
+      </div></div>
+      <div class="pgroup"><h3>See what I have</h3><div class="list">
+        <button class="say">Which Power Platform environments can I use?</button>
+        <button class="say">Which environment is each of my apps in?</button>
+        <button class="say">Export my apps and their environments to a CSV</button>
+      </div></div>
+      <div class="pgroup"><h3>Start something new</h3><div class="list">
+        <button class="say">Create a new app</button>
+        <button class="say">Import this ZIP of existing code and turn it into a Managed App</button>
+      </div></div>
+      <div class="pgroup"><h3>Build and ship</h3><div class="list">
+        <button class="say">Run my app locally</button>
+        <button class="say">Connect my app to a SharePoint list</button>
+        <button class="say">Deploy to test</button>
+        <button class="say">Roll back production to the last good version</button>
+        <button class="say">I need a hotfix in production</button>
+      </div></div>
+      <div class="pgroup"><h3>Environments and access</h3><div class="list">
+        <button class="say">Add a QA environment</button>
+        <button class="say">Share the test app with my testers</button>
+        <button class="say">Why can people open the app but not see data?</button>
+      </div></div>
+      <div class="pgroup"><h3>When something goes wrong</h3><div class="list">
+        <button class="say">Help me fix this error</button>
+        <button class="say">Are all my branches in sync?</button>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="grid g3 agents">
+    <div class="card"><h3>🧑‍💻 GitHub Copilot App &amp; Copilot CLI</h3>
+      <p>Loads automatically from <code>.github/skills/</code>. Open the project and type any phrase above.</p></div>
+    <div class="card"><h3>🤖 Claude Code</h3>
+      <p>Point it at the guide once per session: <em>"Read .github/skills/managed-apps-devkit/SKILL.md and show me the menu."</em></p></div>
+    <div class="card"><h3>⌨️ No agent? Two commands</h3>
+      <p><code>node .github/skills/managed-apps-devkit/scripts/doctor.mjs</code> checks your project.
+        <code>…/apps-inventory.mjs --csv apps.csv</code> lists every app and its environment.</p></div>
+  </div>
+</section>
+
+<div class="toast" id="toast" role="status" aria-live="polite">Copied. Paste it into your agent.</div>
+
 <section class="final reveal">
   <h2>What will you <span class="grad">imagine</span> first?</h2>
   <p class="lede">Curiosity is enough to start. This template gives you the guardrails and the ALM,
@@ -551,6 +656,19 @@ document.querySelectorAll('.pit').forEach(c=>{
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
   document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.t));
+});
+
+/* ---------- copy a prompt ---------- */
+const toast=document.getElementById('toast');let toastT;
+document.querySelectorAll('.say').forEach(b=>b.onclick=async()=>{
+  const text=b.textContent.trim();
+  try{await navigator.clipboard.writeText(text)}catch{
+    const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();
+    document.execCommand('copy');t.remove();
+  }
+  document.querySelectorAll('.say.copied').forEach(x=>x.classList.remove('copied'));
+  b.classList.add('copied');toast.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(()=>{toast.classList.remove('on');b.classList.remove('copied')},1800);
 });
 
 /* ---------- count-up + reveal ---------- */
