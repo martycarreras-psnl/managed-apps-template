@@ -100,6 +100,10 @@
   .choose button small{display:block;font-weight:400;color:var(--dim);font-size:13.5px;margin-top:4px}
 
   /* persona */
+  .tagname{display:inline-flex;flex-direction:column;border-radius:14px;overflow:hidden;border:2px solid #d8435a;background:#fff;color:#1a1720;margin:0 0 20px;transform:rotate(-2deg);box-shadow:0 18px 40px -18px #000;min-width:250px}
+  .tagname .hi{background:#d8435a;color:#fff;font:800 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px 16px}
+  .tagname .nm{font:700 46px/1.1 "Segoe Print","Bradley Hand","Comic Sans MS",cursive;text-align:center;padding:8px 18px 2px}
+  .tagname .rl{font:600 12.5px var(--sans);color:#5b5566;text-align:center;padding:0 16px 10px}
   .persona{display:flex;gap:22px;align-items:center}
   .avatar{flex:none;width:118px;height:118px;border-radius:50%;display:grid;place-items:center;font-size:56px;
           background:linear-gradient(135deg,#3a2458,#1c3350);border:2px solid var(--accent)}
@@ -381,7 +385,6 @@
 <!-- 0 COVER -->
 <section class="slide" data-chap="Prologue">
   <div class="in-s center">
-    <p class="kicker">A five-minute story</p>
     <h1>Every great app<br/>starts as a <span class="grad">workaround.</span></h1>
     <p class="lede">This is the story of one of them: what it cost, and what changes when the workaround is built inside the guardrails.</p>
     <div class="choose">
@@ -395,7 +398,6 @@
 <!-- STAGE: THE MISSING PIECE -->
 <section class="slide" data-chap="Setting the stage">
   <div class="in-s">
-    <p class="kicker">Before the story</p>
     <h2 style="font-size:clamp(26px,3.4vw,40px)">Agents and workflows reach the data. <span class="dim">One piece has been missing.</span></h2>
     <div class="stage">
       <div class="st-row st-people">
@@ -424,14 +426,14 @@
   <div class="in-s">
     <div class="two">
       <div>
-        <p class="kicker">Meet Maya</p>
+        <div class="tagname"><span class="hi">Hello, my name is</span><span class="nm">Maya</span><span class="rl">HR Operations · New-hire onboarding</span></div>
         <h2>She's not a developer.<br/><span class="grad">She's a problem solver.</span></h2>
-        <p class="lede">Maya coordinates field equipment across three sites. Drills, meters, and safety kits get loaned out, calibrated, lost, and found again.</p>
+        <p class="lede">Maya runs onboarding for new hires across three offices. Offer letters, background checks, laptops, and first-day logistics live in inboxes, chats, and her memory.</p>
         <p class="lede f">Nobody asked her to fix it. She's going to anyway.</p>
       </div>
       <div class="persona">
-        <div class="avatar">👩🏽‍🔧</div>
-        <div class="thought f">"If I could just see <b>who has what</b> and <b>what's overdue</b> in one place, I'd save the whole team hours every week."</div>
+        <div class="avatar">👩🏽‍💼</div>
+        <div class="thought f">"If I could just see <b>who's starting when</b> and <b>what's still missing</b> in one place, I'd save the whole team hours every week."</div>
       </div>
     </div>
   </div>
@@ -442,7 +444,6 @@
   <div class="in-s">
     <div class="two">
       <div>
-        <p class="kicker">Step one, like always</p>
         <h2>She opens Excel.</h2>
         <p class="lede f">It works beautifully… for about a week.</p>
         <p class="lede f">Then it gets emailed. Then copied. Then edited in two places at once.</p>
@@ -450,13 +451,13 @@
       </div>
       <div>
         <div class="xl">
-          <div class="tb"><span>equipment_tracker_v7_FINAL (2).xlsx</span><span>⋯</span></div>
+          <div class="tb"><span>onboarding_tracker_v7_FINAL (2).xlsx</span><span>⋯</span></div>
           <table>
-            <tr><th>Item</th><th>Site</th><th>Checked out to</th><th>Cal. due</th></tr>
-            <tr><td>Torque meter #4</td><td>North</td><td>J. Ortiz</td><td class="r">Overdue</td></tr>
-            <tr><td>Gas detector #2</td><td>East</td><td class="y">??? ask Sam</td><td>Oct 14</td></tr>
-            <tr><td>Drill kit A</td><td>North</td><td>—</td><td>Nov 02</td></tr>
-            <tr><td>Harness set 3</td><td>South</td><td class="y">Priya (I think)</td><td class="r">Overdue</td></tr>
+            <tr><th>New hire</th><th>Office</th><th>Task owner</th><th>Paperwork due</th></tr>
+            <tr><td>J. Ortiz</td><td>London</td><td>Dana</td><td class="r">Overdue</td></tr>
+            <tr><td>S. Chen</td><td>Chicago</td><td class="y">??? ask Sam</td><td>Oct 14</td></tr>
+            <tr><td>R. Kim</td><td>Singapore</td><td>—</td><td>Nov 02</td></tr>
+            <tr><td>A. Silva</td><td>London</td><td class="y">Priya (I think)</td><td class="r">Overdue</td></tr>
           </table>
         </div>
         <div class="mail">
@@ -472,20 +473,19 @@
 <!-- 3 CLEVER HTML -->
 <section class="slide" data-chap="Act 2 · She gets clever">
   <div class="in-s">
-    <p class="kicker">Act 2</p>
     <h2>Then Maya discovers AI. <span class="grad">And she's brilliant at it.</span></h2>
     <div class="two" style="margin-top:22px">
       <div class="chat">
-        <div class="bub me">Make me an interactive dashboard for this equipment data. Filters, overdue alerts, charts.
-          <div class="paste">▸ pasted: export_from_asset_system.csv
-  1,284 rows · serials, sites, assignees,
-  vendor contracts, cost centers…</div></div>
-        <div class="bub ai f">Here's a single-file interactive dashboard. Open <b>equipment-dashboard.html</b> in any browser. ✨</div>
+        <div class="bub me">Make me an interactive dashboard for our onboarding pipeline. Filters, overdue alerts, charts.
+          <div class="paste">▸ pasted: export_from_hr_system.csv
+  1,284 rows · names, salaries, home addresses,
+  dates of birth, background checks…</div></div>
+        <div class="bub ai f">Here's a single-file interactive dashboard. Open <b>onboarding-dashboard.html</b> in any browser. ✨</div>
       </div>
       <div class="f">
         <div class="dash">
-          <div class="file"><span>📄 equipment-dashboard.html</span><span>2.4 MB</span></div>
-          <div class="kpis"><div><b>1,284</b>assets</div><div><b>37</b>overdue</div><div><b>3</b>sites</div></div>
+          <div class="file"><span>📄 onboarding-dashboard.html</span><span>2.4 MB</span></div>
+          <div class="kpis"><div><b>1,284</b>people</div><div><b>37</b>overdue</div><div><b>3</b>offices</div></div>
           <div class="bars"><i style="height:60%"></i><i style="height:85%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:95%"></i><i style="height:55%"></i></div>
         </div>
         <p class="lede" style="margin-top:16px">It looks amazing. She emails it to <b>twelve colleagues</b>. They love it. They forward it.</p>
@@ -497,7 +497,6 @@
 <!-- 4 SOUND FAMILIAR -->
 <section class="slide" data-chap="Interlude">
   <div class="in-s center">
-    <p class="kicker">Sound familiar?</p>
     <h2>There's a Maya on every team.</h2>
     <div class="grid g4" style="margin-top:28px;text-align:left">
       <div class="card f"><span class="emoji">📊</span><h3>The tracker</h3><p>The Excel file that quietly runs a process.</p></div>
@@ -512,7 +511,6 @@
 <!-- 5 REFRAME -->
 <section class="slide" data-chap="The reframe">
   <div class="in-s center">
-    <p class="kicker">Here's the reframe</p>
     <p class="quote" style="margin:0 auto">The problem was never that people build their own tools.</p>
     <p class="quote f" style="margin:18px auto 0"><span class="grad">It's where those tools are built.</span></p>
     <div class="grid g2 f" style="margin-top:40px;text-align:left;max-width:860px;margin-left:auto;margin-right:auto">
@@ -525,14 +523,13 @@
 <!-- 6 ANATOMY -->
 <section class="slide" data-chap="Look closer">
   <div class="in-s">
-    <p class="kicker">Look closer at that HTML file</p>
     <h2>It's beautiful. <span class="red">It's also a liability.</span></h2>
     <div class="anat" style="margin-top:22px">
-      <div class="doc">&lt;/&gt;<small>equipment-dashboard.html</small></div>
+      <div class="doc">&lt;/&gt;<small>onboarding-dashboard.html</small></div>
       <div class="leaks">
         <div class="leak f"><div>🔓</div><div><b>No sign-in</b><span>Anyone who has the file sees everything in it, forever.</span></div></div>
         <div class="leak f"><div>🧊</div><div><b>A frozen snapshot</b><span>It's out of date the moment it's sent, and people still make decisions from it.</span></div></div>
-        <div class="leak f"><div>🗝️</div><div><b>Pulled from a system of record</b><span>Serial numbers, contracts, and names travel far outside the system's permissions.</span></div></div>
+        <div class="leak f"><div>🗝️</div><div><b>Pulled from a system of record</b><span>Salaries, home addresses, and background checks travel far outside the HR system's permissions.</span></div></div>
         <div class="leak f"><div>🙈</div><div><b>Invisible to IT</b><span>No inventory, no audit trail, no idea how many copies exist.</span></div></div>
         <div class="leak f"><div>🚪</div><div><b>Owned by one person</b><span>When Maya changes roles, the "system" leaves with her.</span></div></div>
       </div>
@@ -543,7 +540,6 @@
 <!-- 7 CALCULATOR -->
 <section class="slide" data-chap="Do the math">
   <div class="in-s">
-    <p class="kicker">Do the math for your organization</p>
     <h2>One Maya is a story.<br/><span class="red">Thousands of Mayas is a data estate.</span></h2>
     <div class="calc" style="margin-top:26px">
       <div class="card">
@@ -565,10 +561,9 @@
   <div class="in-s">
     <div class="two">
       <div>
-        <p class="kicker">Act 3</p>
         <h2>Then, one Tuesday…</h2>
-        <p class="lede f">A colleague forwards the dashboard to a vendor, trying to be helpful.</p>
-        <p class="lede f">Inside it: contract values, cost centers, and the names of everyone on the team.</p>
+        <p class="lede f">A colleague forwards the dashboard to a staffing agency, trying to be helpful.</p>
+        <p class="lede f">Inside it: salaries, home addresses, dates of birth, and background-check results for 1,284 people.</p>
         <p class="lede f">Nobody broke a rule on purpose. And the person in the uncomfortable meeting is <b>Maya</b>.</p>
         <p class="lede f" style="color:var(--ink)"><b>She was just trying to fix a process.</b></p>
       </div>
@@ -576,10 +571,10 @@
         <div class="warnb">⚠ This message is going to someone outside your organization</div>
         <div class="h">
           <div><span>From</span> sam@contoso.com</div>
-          <div><span>To</span> <b class="red">accounts@vendor-partner.com</b></div>
-          <div><span>Subject</span> FW: here's our equipment list 👍</div>
+          <div><span>To</span> <b class="red">recruiting@staffing-partner.com</b></div>
+          <div><span>Subject</span> FW: new hire list for your records 👍</div>
         </div>
-        <div class="att">📄 equipment-dashboard.html · 2.4 MB</div>
+        <div class="att">📄 onboarding-dashboard.html · 2.4 MB</div>
       </div>
     </div>
   </div>
@@ -588,7 +583,6 @@
 <!-- 9 NEW WAY -->
 <section class="slide" data-chap="A new way">
   <div class="in-s">
-    <p class="kicker">Imagine a different way</p>
     <h2>What if the thing Maya was going to build anyway<br/><span class="grad">was born inside the guardrails?</span></h2>
     <div class="grid" style="margin-top:26px;max-width:820px">
       <div class="ba f"><span class="x">Send a file</span><span class="arrow">→</span><span class="y">Share a link people sign in to</span></div>
@@ -605,7 +599,6 @@
   <div class="in-s">
     <div class="two">
       <div>
-        <p class="kicker">Introducing</p>
         <h2>Microsoft 365<br/><span class="grad">Managed Apps</span></h2>
         <p class="lede">Maya describes the app she wants in plain language. An AI coding agent builds it.</p>
         <ul class="lede" style="padding-left:20px">
@@ -618,12 +611,12 @@
       <div class="win f">
         <div class="url"><i></i><i></i><i></i><em>🔒 play.managedapps.cloud.microsoft/apps/…</em></div>
         <div class="app">
-          <div class="hd"><b>Field Equipment</b><span><span class="pill g">● Live · Dataverse</span> <span class="pill">maya@contoso.com</span></span></div>
+          <div class="hd"><b>New Hire Onboarding</b><span><span class="pill g">● Live · Dataverse</span> <span class="pill">maya@contoso.com</span></span></div>
           <div class="rows">
-            <div><span>Torque meter #4</span><span>J. Ortiz</span><span class="red">Overdue</span></div>
-            <div><span>Gas detector #2</span><span>S. Chen</span><span>Oct 14</span></div>
-            <div><span>Drill kit A</span><span>Available</span><span class="ok">✓</span></div>
-            <div><span>Harness set 3</span><span>P. Nair</span><span class="red">Overdue</span></div>
+            <div><span>J. Ortiz</span><span>Background check</span><span class="red">Overdue</span></div>
+            <div><span>S. Chen</span><span>Starts Oct 14</span><span>On track</span></div>
+            <div><span>R. Kim</span><span>All tasks done</span><span class="ok">✓</span></div>
+            <div><span>A. Silva</span><span>Laptop &amp; badge</span><span class="red">Overdue</span></div>
           </div>
         </div>
       </div>
@@ -634,19 +627,18 @@
 <!-- 11 AFTER -->
 <section class="slide" data-chap="Act 4 · Maya, version two">
   <div class="in-s">
-    <p class="kicker">Same Maya. Same idea. Different ending.</p>
     <h2>Fast for the maker. <span class="grad">Visible to IT.</span></h2>
     <div class="two" style="margin-top:22px;align-items:start">
       <div class="grid">
-        <div class="card f"><h3>💬 "Track equipment loans across three sites, and flag overdue calibrations."</h3><p>The agent creates the table, connects the data, and builds the screens.</p></div>
-        <div class="card f"><h3>👀 She previews it and keeps asking</h3><p>"Add a check-out button." "Make it work on my phone." Each request is a conversation, not a support ticket.</p></div>
+        <div class="card f"><h3>💬 "Track onboarding for every new hire across three offices, and flag anything overdue before day one."</h3><p>The agent creates the table, connects the data, and builds the screens.</p></div>
+        <div class="card f"><h3>👀 She previews it and keeps asking</h3><p>"Add a checklist for each new hire." "Make it work on my phone." Each request is a conversation, not a support ticket.</p></div>
         <div class="card f"><h3>🔗 She shares a link, not a file</h3><p>Colleagues sign in. The data never leaves the system of record.</p></div>
       </div>
       <div class="f">
         <div class="admin">
           <div class="t">Microsoft 365 admin center · Apps</div>
           <div class="r"><b>Expense Portal</b><span>Managed App</span></div>
-          <div class="r hl"><b>Field Equipment</b><span>Managed App</span></div>
+          <div class="r hl"><b>New Hire Onboarding</b><span>Managed App</span></div>
           <div class="r"><b>Vendor Onboarding</b><span>Managed App</span></div>
           <div class="r"><b>Site Inspections</b><span>Managed App</span></div>
         </div>
@@ -659,7 +651,6 @@
 <!-- 11b HEARD THIS BEFORE -->
 <section class="slide" data-chap="Let's be honest">
   <div class="in-s">
-    <p class="kicker">Let's be honest</p>
     <h2>You've heard this promise before.<br/><span class="grad">So why did it stall?</span></h2>
     <div class="grid g2" style="margin-top:22px">
       <div class="card f" style="border-top:3px solid var(--warn)"><span class="emoji">🧗</span><h3>Citizen development hit a wall: the tool itself</h3>
@@ -676,7 +667,6 @@
 <!-- 11c WHAT'S DIFFERENT -->
 <section class="slide" data-chap="What's different this time">
   <div class="in-s">
-    <p class="kicker">So what's actually different?</p>
     <h2>The promise isn't new. <span class="grad">The barriers finally are.</span></h2>
     <div class="vs" style="margin-top:20px">
       <div class="vs-h"><span></span><span>Then</span><span>Now</span></div>
@@ -692,7 +682,6 @@
 <!-- 11d WHERE YOU START -->
 <section class="slide" data-chap="Start where you already work">
   <div class="in-s">
-    <p class="kicker">No new tool to learn first</p>
     <h2>Start wherever you <span class="grad">already work.</span></h2>
     <div class="entry" style="margin-top:22px">
       <div class="tiers">
@@ -718,7 +707,6 @@
 <!-- 11e MORE THAN AN AGENT -->
 <section class="slide" data-chap="More than an agent">
   <div class="in-s">
-    <p class="kicker">The subtle part</p>
     <h2>Everyone's building an agent. <span class="grad">The process needs more.</span></h2>
     <div class="agx" style="margin-top:20px">
       <div class="needs">
@@ -745,7 +733,6 @@
 <!-- 11f VIBE BEFORE -->
 <section class="slide" data-chap="Heard this vibe before?">
   <div class="in-s">
-    <p class="kicker">"Didn't Microsoft already show me this?"</p>
     <h2>You've seen glimpses of this. <span class="grad">This is where they land.</span></h2>
     <div class="vibe" style="margin-top:22px">
       <div class="vstep f"><span class="tag">The signal</span><b>App Builder</b><span>The Frontier agent in Microsoft 365 Copilot. It showed that a knowledge worker could describe an app and get one.</span></div>
@@ -766,7 +753,6 @@
 <!-- 12 PRO: ERAS -->
 <section class="slide" data-track="pro" data-chap="For Power Platform pros">
   <div class="in-s">
-    <p class="kicker">If you know Power Platform</p>
     <h2>This is a new era of low-code.<br/><span class="grad">Ironically, it's pro-code for the no-code crowd.</span></h2>
     <div class="eras" style="margin-top:26px">
       <div class="era f"><div class="when">Era 1 · Personal tools</div><h3>Macros & spreadsheets</h3><ul><li>Anyone can start</li><li>Nothing is governed</li><li>Breaks when shared</li></ul></div>
@@ -780,7 +766,6 @@
 <!-- 13 PRO: CARRY OVER -->
 <section class="slide" data-track="pro" data-chap="For Power Platform pros">
   <div class="in-s">
-    <p class="kicker">Your expertise still counts</p>
     <h2>Most of what you know <span class="grad">carries straight over.</span></h2>
     <div class="cmp" style="margin-top:22px">
       <div class="card f"><h3 class="ok">🏛️ Environment governance</h3>
@@ -812,7 +797,6 @@
 <!-- 13b THE SIGNAL -->
 <section class="slide" data-chap="The signal">
   <div class="in-s">
-    <p class="kicker">Look around your organization</p>
     <h2>Your people are already doing this. <span class="grad">The question is where.</span></h2>
     <div class="two" style="margin-top:22px;align-items:stretch">
       <div class="card f"><h3>📡 The demand is already visible</h3>
@@ -832,7 +816,6 @@
 <!-- 14 BRIDGE -->
 <section class="slide" data-chap="The bridge">
   <div class="in-s center">
-    <p class="kicker">The promise, kept</p>
     <h2>Empowerment <span class="dim">and</span> governance.<br/><span class="grad">Not a trade-off anymore.</span></h2>
     <div class="venn f" style="margin-top:14px">
       <svg viewBox="0 0 760 360" role="img" aria-label="Venn diagram: citizen developer empowerment overlapping with Managed Environments governance; Managed Apps securely enabled in the middle">
@@ -863,7 +846,6 @@
 <!-- 15 JOURNEY: PERSONAL -> GRADUATED -->
 <section class="slide" data-chap="Epilogue · How the app grows up">
   <div class="in-s">
-    <p class="kicker">Epilogue · In practice</p>
     <h2 style="font-size:clamp(28px,3.8vw,46px)">Maya's app takes off. <span class="grad">Here's how it grows up.</span></h2>
 
     <p class="lane-l">① Maya's lane: <b>personal, fast, already governed</b></p>
@@ -886,7 +868,6 @@
 <!-- LICENSING -->
 <section class="slide" data-chap="How it's licensed">
   <div class="in-s">
-    <p class="kicker">The practical question</p>
     <h2>How is it licensed? <span class="grad">Simpler than it sounds.</span></h2>
     <div class="lic">
       <div class="lcol"><div class="card f"><h3><small>Step 1 · Building the app</small>💬 Copilot Credits</h3>
@@ -918,7 +899,6 @@
 <!-- 16 CLOSE -->
 <section class="slide" data-chap="Your turn">
   <div class="in-s center">
-    <p class="kicker">Your turn</p>
     <h1>What's <span class="grad">your</span><br/>workaround?</h1>
     <p class="lede">Everyone has one: the spreadsheet, the list, the file you'd never want forwarded. Now you can turn it into a real, governed app.</p>
     <div class="cta">
