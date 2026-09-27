@@ -157,6 +157,8 @@
   .menu-demo .opt.pick{color:var(--ink)}
   .menu-demo .opt.pick::before{content:"› ";color:var(--accent)}
   .prompts{display:grid;gap:14px}
+  .catalogs{margin:6px 0 0;font-size:.92rem;color:var(--dim);line-height:1.6}
+  .catalogs a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
   .pgroup h3{font-size:13px;color:var(--faint);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
   .pgroup .list{display:flex;flex-wrap:wrap;gap:8px}
   .say{background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 14px;
@@ -531,6 +533,7 @@
       <div class="pgroup"><h3>Build and ship</h3><div class="list">
         <button class="say">Run my app locally</button>
         <button class="say">Connect my app to a SharePoint list</button>
+        <button class="say">Can I use the Office 365 Outlook connector in test and prod?</button>
         <button class="say">Deploy to test</button>
         <button class="say">Roll back production to the last good version</button>
         <button class="say">I need a hotfix in production</button>
@@ -544,6 +547,10 @@
         <button class="say">Help me fix this error</button>
         <button class="say">Are all my branches in sync?</button>
       </div></div>
+      <p class="catalogs">Wondering what your app can connect to? Browse Microsoft's up-to-date
+        <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/" target="_blank" rel="noopener">list of connectors</a>
+        and <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-mcpserver-connectors" target="_blank" rel="noopener">list of MCP servers</a>.
+        Then ask your agent whether it's allowed in your environments. Rules can differ between environments.</p>
     </div>
   </div>
 

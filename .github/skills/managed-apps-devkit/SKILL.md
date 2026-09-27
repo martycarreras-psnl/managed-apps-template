@@ -72,6 +72,7 @@ Put the most likely option first given Step 0 (e.g. after a merge to `dev`,
 | 3.3 | Add or change a Dataverse table/column | [develop.md](playbooks/develop.md#schema) |
 | 3.4 | Build, lint, run end-to-end tests | [develop.md](playbooks/develop.md#tests) |
 | 3.5 | Change app settings (header, icon, name) ◇ | [develop.md](playbooks/develop.md#settings) |
+| 3.6 | Check a connector / MCP server is allowed (and which actions) in each environment ◇ | [develop.md](playbooks/develop.md#connectors) |
 | 4.1 | Deploy to dev | [ship.md](playbooks/ship.md#dev) |
 | 4.2 | Promote and deploy to the next environment (test, prod…) | [ship.md](playbooks/ship.md#promote) |
 | 4.3 | Preview a commit or branch without deploying ◇ | [ship.md](playbooks/ship.md#preview) |

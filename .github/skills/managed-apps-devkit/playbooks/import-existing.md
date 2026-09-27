@@ -46,7 +46,8 @@ connector, Power Automate flow, or Dataverse) instead of forcing it.
 Replace direct API calls with connector-backed generated services:
 
 1. For each external system the code calls, find the connector:
-   `ms connector list --search <name> --only-allowed --json`.
+   `ms connector list -e <env-id> --search <name> --only-allowed --json`, once
+   per target environment (see [develop.md](develop.md#connectors)).
 2. Add it with the plugin's **`add-data-source`** skill (or the
    service-specific `microsoft-managed-apps:add-*` skill). This generates
    typed services under `generated/`.

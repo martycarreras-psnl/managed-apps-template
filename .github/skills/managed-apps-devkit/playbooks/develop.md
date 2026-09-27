@@ -19,9 +19,51 @@ ms app dev          # hot reload; prints a local URL and an App Player URL
 - `ms app dev` uses the connections of the environment in `./ms.config.json` —
   on `dev` that is the dev Dataverse.
 
+## Connectors
+
+Before building on a connector or MCP server, confirm that policy allows it
+**in every environment the app will ship to**. Policy is per environment:
+allowed in dev does not mean allowed in prod.
+
+**Browse what exists** (public catalogs, kept current by Microsoft):
+
+- All connectors: <https://learn.microsoft.com/en-us/connectors/connector-reference/>
+  - Power Apps only: <https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-powerapps-connectors>
+- All MCP servers: <https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-mcpserver-connectors>
+
+Being listed in a catalog doesn't mean you can use it. The CLI check below
+decides that for your environment.
+
+**Check it for real**, once per environment. Take the environment IDs from
+`alm.config.json → environments.<stage>.environmentId`, or
+`ms.config.json → environmentId` for a standalone app:
+
+```bash
+ms connector list -e <env-id> --search <text>                      # Policy Status: Allowed / Blocked
+ms connector list -e <env-id> --only-allowed --json                # everything policy allows
+ms connector list-actions --connector <id> -e <env-id> --search <text>   # Behavior + Action ID per action
+```
+
+- **Always pass `-e`.** Without it the CLI checks your *personal developer
+  environment*, which may have different policy. Run it from outside the project,
+  or with an explicit `-e`, so you know which environment is being checked.
+- Run the checks for all environments in parallel. Show one table: rows are
+  connector or action, columns are environments. Flag any cell that isn't
+  Allowed.
+- Use the **Connector** column as the ID, for example `office365`. Put the
+  **Action ID**s from `list-actions` into `allowedActions` in `ms.config.json`
+  (shared connections). Request only the actions `src/` actually calls.
+- What this proves: policy allows the connector. What it doesn't prove: that a
+  connection exists or that users can reach the data. Confirm those by adding
+  the data source and testing with `ms app dev` in each environment.
+- If it's blocked anywhere, stop and tell the user. The environment's admin
+  controls this through the data policy in the Power Platform admin center.
+  Don't work around it.
+
 ## Data source
 
-Delegate to the plugin skill; don't hand-write connector code.
+Delegate to the plugin skill; don't hand-write connector code. Run the checks
+in [Connectors](#connectors) first.
 
 - Dataverse table → **`microsoft-managed-apps:add-dataverse`**
 - Anything else → **`add-data-source`** (discovers the connector, table vs action mode)
@@ -29,8 +71,8 @@ Delegate to the plugin skill; don't hand-write connector code.
 Useful direct commands:
 
 ```bash
-ms connector list --only-allowed --search <text> --json      # what tenant policy allows
-ms connector list-actions --connector <api-id> --json        # actions + policy
+ms connector list -e <env-id> --only-allowed --search <text> --json   # what policy allows there
+ms connector list-actions --connector <api-id> -e <env-id> --json     # actions + policy
 ms app add data-source --connector shared_commondataserviceforapps --as table --table <logicalname> --use-sso
 ms app refresh data-source ...                                # after a schema change
 ms app remove data-source ...
