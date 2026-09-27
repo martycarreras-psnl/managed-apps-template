@@ -101,7 +101,7 @@
     .lede{font-size:17px}
     .card{padding:16px}
     .ba{padding:10px 16px}
-    .slide .venn svg{max-width:520px}
+    .slide .venn svg{max-width:520px}.slide .gov svg{max-width:780px}
     .cmp li{padding:8px 12px}
     .slide .tier{padding:8px 14px}.slide .tier p{margin-top:4px;font-size:14px}.slide .tier.ins.f.in{padding-top:8px;padding-bottom:8px}.slide .tiers{gap:8px}.slide .node{padding:7px 12px}.slide .need{padding:5px 12px}.slide .need span{font-size:12.5px}.slide .needs{gap:5px}.slide .lyr{padding:9px 12px}.slide .eco-hub{padding:16px}
     .slide .stage{gap:22px;margin-top:14px}.slide .st-row{padding:10px 16px}.slide .st-col,.slide .st-fill{padding:12px}.slide .st-col::before,.slide .st-fill::before{top:-23px;height:22px}.slide .st-col::after,.slide .st-fill::after{bottom:-23px;height:22px}.slide .st-cap{margin-top:14px}
@@ -230,6 +230,7 @@
 
   /* venn */
   .venn svg{width:100%;max-width:720px;display:block;margin:auto}
+  .gov svg{width:100%;max-width:960px;display:block;margin:12px auto 0}
 
   /* journey */
   .jour{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
@@ -793,7 +794,7 @@
         <ul>
           <li><b>Connectors & connections</b><span>The same catalog of 1,300+, the same connection model</span></li>
           <li><b>Data policies (DLP)</b><span>Tenant and environment rules decide what an app may connect to</span></li>
-          <li><b>Admin oversight</b><span>Apps are registered to an environment, so they're visible and governed there</span></li>
+          <li><b>Admin oversight</b><span>Each app is pinned to one environment (the maker's personal developer environment by default) and governed there</span></li>
         </ul>
       </div>
       <div class="card f dv"><h3 style="color:var(--accent2)">🗄️ Dataverse</h3>
@@ -863,6 +864,69 @@
   </div>
 </section>
 
+<!-- 14b RUNTIME VS GOVERNANCE -->
+<section class="slide" data-sec="Governance at scale" data-t="Where it runs, where it's governed">
+  <div class="in-s">
+    <h2>It runs on its own runtime.<br/><span class="grad">It's governed where it's pinned.</span></h2>
+    <div class="gov f">
+      <svg viewBox="0 0 960 300" role="img" aria-label="An app created with no environment is pinned to the maker's Personal Developer Environment; an app created with an environment ID is pinned to that governed environment. Both run on the same shared Copilot Managed Runtime and follow their pinned environment's rules.">
+        <defs><marker id="garr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#a29ead"/></marker></defs>
+        <g font-family="system-ui">
+          <text x="125" y="22" text-anchor="middle" fill="#75707f" font-size="11" font-weight="700" letter-spacing="2">THE APP</text>
+          <text x="470" y="22" text-anchor="middle" fill="#75707f" font-size="11" font-weight="700" letter-spacing="2">PINNED TO · GOVERNED BY</text>
+          <text x="832" y="22" text-anchor="middle" fill="#75707f" font-size="11" font-weight="700" letter-spacing="2">WHERE IT RUNS</text>
+
+          <rect x="10" y="40" width="230" height="96" rx="14" fill="#1e1b26" stroke="#c77dff"/>
+          <text x="28" y="72" fill="#e8e6ee" font-size="16" font-weight="700">Maya's app</text>
+          <text x="28" y="96" fill="#a29ead" font-size="13">no environment chosen</text>
+          <text x="28" y="116" fill="#75707f" font-size="12">the default</text>
+
+          <rect x="10" y="170" width="230" height="110" rx="14" fill="#1e1b26" stroke="#aa3bff"/>
+          <text x="28" y="202" fill="#e8e6ee" font-size="16" font-weight="700">The team's app</text>
+          <text x="28" y="226" fill="#a29ead" font-size="13">environment chosen at create,</text>
+          <text x="28" y="244" fill="#a29ead" font-size="13">one per stage</text>
+          <text x="28" y="266" fill="#75707f" font-size="12">the ALM path</text>
+
+          <line x1="244" y1="88" x2="300" y2="88" stroke="#a29ead" stroke-width="1.8" marker-end="url(#garr)"/>
+          <text x="272" y="80" text-anchor="middle" fill="#a29ead" font-size="11">pins to</text>
+          <line x1="244" y1="225" x2="300" y2="225" stroke="#aa3bff" stroke-width="1.8" marker-end="url(#garr)"/>
+          <text x="272" y="217" text-anchor="middle" fill="#c77dff" font-size="11">pins to</text>
+
+          <rect x="304" y="40" width="340" height="96" rx="14" fill="#16141c" stroke="#a29ead" stroke-dasharray="5 4"/>
+          <text x="322" y="72" fill="#e8e6ee" font-size="15" font-weight="700">Her Personal Developer Environment</text>
+          <text x="322" y="96" fill="#a29ead" font-size="13">the rules admins set for developer</text>
+          <text x="322" y="114" fill="#a29ead" font-size="13">environments: DLP, connections, data</text>
+
+          <rect x="304" y="170" width="340" height="110" rx="14" fill="#16141c" stroke="#aa3bff"/>
+          <text x="322" y="202" fill="#e8e6ee" font-size="15" font-weight="700">A governed environment</text>
+          <circle cx="330" cy="224" r="5" fill="#6fb4ff"/><text x="340" y="228" fill="#6fb4ff" font-size="12.5" font-weight="700">dev</text>
+          <circle cx="378" cy="224" r="5" fill="#ffb454"/><text x="388" y="228" fill="#ffb454" font-size="12.5" font-weight="700">test</text>
+          <circle cx="430" cy="224" r="5" fill="#3ddc97"/><text x="440" y="228" fill="#3ddc97" font-size="12.5" font-weight="700">prod</text>
+          <text x="322" y="252" fill="#a29ead" font-size="13">each with its own DLP, connections,</text>
+          <text x="322" y="270" fill="#a29ead" font-size="13">Dataverse, security roles and admins</text>
+
+          <path d="M646,88 C680,88 684,130 712,138" fill="none" stroke="#a29ead" stroke-width="1.6" marker-end="url(#garr)"/>
+          <path d="M646,225 C680,225 684,190 712,182" fill="none" stroke="#aa3bff" stroke-width="1.6" marker-end="url(#garr)"/>
+
+          <rect x="716" y="50" width="234" height="220" rx="16" fill="#1e1b26" stroke="#aa3bff"/>
+          <text x="833" y="86" text-anchor="middle" fill="#c77dff" font-size="15" font-weight="700">Copilot Managed</text>
+          <text x="833" y="106" text-anchor="middle" fill="#c77dff" font-size="15" font-weight="700">Runtime</text>
+          <text x="833" y="132" text-anchor="middle" fill="#a29ead" font-size="12.5">one shared host</text>
+          <text x="833" y="150" text-anchor="middle" fill="#a29ead" font-size="12.5">for every app</text>
+          <line x1="736" y1="170" x2="930" y2="170" stroke="#322d3d"/>
+          <text x="833" y="196" text-anchor="middle" fill="#ffb454" font-size="12.5" font-weight="600">each app still follows</text>
+          <text x="833" y="214" text-anchor="middle" fill="#ffb454" font-size="12.5" font-weight="600">the rules of the</text>
+          <text x="833" y="232" text-anchor="middle" fill="#ffb454" font-size="12.5" font-weight="600">environment it's pinned to</text>
+        </g>
+      </svg>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card f"><h3>🏠 Nothing chosen? It's still governed.</h3><p>With no environment specified, the app is pinned to the maker's <b>Personal Developer Environment</b>, and that environment's rules apply.</p></div>
+      <div class="card f" style="border-color:var(--accent)"><h3>🏛️ Environment chosen? Its governance applies.</h3><p>Pin the app to an environment your admins govern, often a <b>Managed Environment</b>, and it runs under that environment's policies. The pin is set once, at creation.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- 15 JOURNEY: PERSONAL -> GRADUATED -->
 <section class="slide" data-sec="In practice" data-t="How the app grows up">
   <div class="in-s">
@@ -871,7 +935,7 @@
     <p class="lane-l">① Maya's lane: <b>personal, fast, already governed</b></p>
     <div class="jour">
       <div class="st f" style="border-top:3px solid #c77dff"><b>💬 Build</b><span>She describes the app to the <b>App skill in Copilot Cowork</b>, which builds it.</span></div>
-      <div class="st f" style="border-top:3px solid #6fb4ff"><b>🏠 Governed from day one</b><span>It runs in her <b>Personal Developer Environment</b>, which is created for her or configured in advance by the Power Platform governance team.</span></div>
+      <div class="st f" style="border-top:3px solid #6fb4ff"><b>🏠 Governed from day one</b><span>It runs on the shared Managed Apps runtime, pinned to her <b>Personal Developer Environment</b>, so that environment&#39;s policies apply. The Power Platform governance team creates or configures it in advance.</span></div>
       <div class="st f" style="border-top:3px solid #3ddc97"><b>🚀 Publish, share, collaborate</b><span>When she publishes, it's live. She shares it with her team and keeps improving it.</span></div>
     </div>
 
@@ -879,7 +943,7 @@
 
     <p class="lane-l f">② The graduation lane: <b>a seasoned team adds rigor</b></p>
     <div class="grid g2 f">
-      <div class="card"><h3>🛠️ The team takes it on</h3><p>They set up dev, test, and prod environments, branch protection, and solution promotion with this template, then own ongoing maintenance and management.</p></div>
+      <div class="card"><h3>🛠️ The team takes it on</h3><p>They pin a dev, test, and prod app to environments they govern, then add branch protection and solution promotion with this template, and own ongoing maintenance and management.</p></div>
       <div class="card" style="border-style:dashed;border-color:#5a3a80"><h3>🔁 Or hand it back to Maya <span class="fut">Future state</span></h3><p>Maya keeps ownership, but her app now lives in <b>her own GitHub repo</b>, automatically configured for ALM with git automations that apply the organization's best practices.</p></div>
     </div>
   </div>
@@ -904,7 +968,7 @@
       </div>
       </div>
       <div class="card f run" style="border-color:var(--accent)"><h3><small>Step 2 · Running the app</small>🚀 Copilot Managed Runtime Host</h3>
-        <p>Published apps run on a host with Microsoft Entra sign-in and enterprise governance, security, and admin controls built in.</p>
+        <p>Published apps run on a shared host with Microsoft Entra sign-in built in. Each app still follows the governance, security, and admin controls of the environment it&#39;s pinned to.</p>
         <div class="row"><i class="cc">Default</i><span>Hosting and running are billed through <b>Copilot Credits</b>, based on how much work the app does.</span></div>
         <div class="row"><i class="pp">Premium</i><span>Users with a <b>Power Apps Premium</b> license: running apps is <b>included</b>, within existing Power Apps Premium request limits. Usage beyond the limit falls back to Copilot Credits.</span></div>
         <div class="lim"><div class="n">40,000<small>REQUESTS / USER / DAY</small></div>

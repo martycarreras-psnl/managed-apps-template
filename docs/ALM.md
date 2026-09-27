@@ -14,11 +14,28 @@ CLI has no solution commands. So there are two independent pipelines:
 | Unit of promotion | Solution (unmanaged → managed) | Git commit |
 | How it moves | Export managed, import to target | Push to the platform repo, cloud build |
 | Where it lands | **inside** the environment's Dataverse | the shared runtime host |
+| Governed by | that environment | the environment the app is pinned to |
 | Lives in Dataverse? | Yes | No |
 
 **The app is never deployed into a Power Platform environment.** It is *registered* in one — the
 platform git repo URL embeds the environment ID — but the built app is served from
 `play.managedapps.cloud.microsoft`. Deploying places nothing inside Dataverse.
+
+### Separate runtime, environment governance
+
+The runtime is separate, but governance is not. Every app is **pinned to one environment** when
+it is created, and it follows that environment's rules: connector (DLP) policy, connections,
+Dataverse data and security roles, and its admins.
+
+| `ms app create` / `ms app init` | Pinned to, and governed by |
+| --- | --- |
+| no `--environment-id` | the maker's Personal Developer Environment (the CLI prints "resolving your developer environment…") |
+| `--environment-id <id>` | that environment |
+
+The pin is permanent: `ms app deploy` has no environment flag and an app cannot move. That is why
+this template registers **one app per stage**, and `alm:init` always passes `--environment-id`.
+Check connector policy per environment with `ms connector list -e <env>`; `ms app info` shows
+which environment an app is pinned to.
 
 **The schema never moves environment-to-environment either.** It travels through the repo:
 
@@ -38,7 +55,7 @@ artifact, so a single merge promotes both, and `alm:deploy` refuses to ship when
 installed version does not match the one in the branch.
 
 The two paths meet only at runtime: connection references in `ms.config.json` point the running
-app at its own environment's Dataverse.
+app at its pinned environment's Dataverse, under that environment's policies and roles.
 
 If you only change app code, the solution track is not involved at all. That covers most
 changes, including most hotfixes.

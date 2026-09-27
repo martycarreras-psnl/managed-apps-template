@@ -282,7 +282,7 @@
     </div>
     <div class="card pit" tabindex="0">
       <div class="before"><span class="tag bad">Pitfall</span><h3>Three identical apps in the admin center</h3>
-        <p>Dev, test, and prod all run on one runtime and show up in one flat list with no environment column.</p></div>
+        <p>Dev, test, and prod share one runtime, each governed by its own environment, and show up in one flat list with no environment column.</p></div>
       <div class="after"><span class="tag good">Built in</span><h3>Each environment is labeled</h3>
         <p>Each branch owns its display name: <code>[DEV]</code>, <code>[TEST]</code>, or <code>[PROD]</code>. Admins can see which app is which.</p></div>
     </div>
@@ -324,9 +324,9 @@
     <div class="row r3" id="r3"></div>
     <div class="shield">
       <div class="ico">🛡️</div>
-      <p><b>Governed by the controls you already run.</b> DLP policies, tenant connector allow/block lists,
-        environment security, and Entra identity all apply automatically. Makers move fast inside the lines
-        IT has already drawn.</p>
+      <p><b>Governed by the controls you already run.</b> Every app is pinned to a Power Platform environment
+        (your personal developer environment unless you choose one) and follows its DLP policies, connector
+        allow/block lists, and security, with Entra identity on top. Makers move fast inside the lines IT has already drawn.</p>
     </div>
   </div>
   <div class="grid g3" style="margin-top:22px">
@@ -347,22 +347,22 @@
       <h2>One branch per environment.<br/><span class="grad">Everything moves together.</span></h2>
     </div>
     <p class="lede" style="max-width:46ch">Each branch carries the app code and the managed solution side by side.
-      Promotion is a git merge. The app is built and served by the Managed Apps runtime, and the solution
-      is imported into each environment's Dataverse.</p>
+      Promotion is a git merge. Every app is served by the one shared Managed Apps runtime, but each is
+      <b>pinned to, and governed by, its own environment</b>: that environment's policies, connections, and Dataverse.</p>
   </div>
   <div class="diagram">
-    <svg viewBox="0 0 1000 380" role="img" aria-label="Branch spine: dev, test, prod branches each carry src and solutions; solution exports from dev Dataverse and imports into test and prod">
+    <svg viewBox="0 0 1000 380" role="img" aria-label="Branch spine: dev, test, prod branches each carry src and solutions; solution exports from the dev environment and imports into test and prod; each environment governs its own app on the shared runtime">
       <defs>
         <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#a29ead"/></marker>
         <marker id="arA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#aa3bff"/></marker>
       </defs>
       <text x="40" y="34" fill="#75707f" font-size="12" font-family="system-ui" letter-spacing="2">GIT BRANCH</text>
-      <text x="470" y="34" fill="#75707f" font-size="12" font-family="system-ui" letter-spacing="2">POWER PLATFORM ENVIRONMENT</text>
+      <text x="470" y="34" fill="#75707f" font-size="12" font-family="system-ui" letter-spacing="2">PINNED ENVIRONMENT · GOVERNS</text>
       <text x="790" y="34" fill="#75707f" font-size="12" font-family="system-ui" letter-spacing="2">MANAGED APPS RUNTIME</text>
 
       <!-- runtime -->
       <rect x="780" y="54" width="190" height="300" rx="16" fill="#1e1b26" stroke="#aa3bff" stroke-opacity=".6"/>
-      <text x="875" y="84" text-anchor="middle" fill="#e8e6ee" font-size="14" font-weight="700" font-family="system-ui">One runtime</text>
+      <text x="875" y="84" text-anchor="middle" fill="#e8e6ee" font-size="14" font-weight="700" font-family="system-ui">One shared runtime</text>
       <text x="875" y="102" text-anchor="middle" fill="#a29ead" font-size="11" font-family="system-ui">play.managedapps.cloud…</text>
 
       <g font-family="system-ui">
@@ -373,10 +373,11 @@
           <rect x="100" y="134" width="96" height="30" rx="7" fill="#262231"/><text x="148" y="154" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">src/ + config</text>
           <rect x="206" y="134" width="138" height="30" rx="7" fill="#262231" stroke="#aa3bff" stroke-opacity=".6"/><text x="275" y="154" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">solutions/*.zip</text>
           <rect x="450" y="120" width="250" height="62" rx="12" fill="#16141c" stroke="#322d3d"/>
-          <text x="470" y="146" fill="#e8e6ee" font-size="13.5" font-weight="600">Dev Dataverse</text>
-          <text x="470" y="166" fill="#a29ead" font-size="11.5">you build schema here</text>
+          <text x="470" y="146" fill="#e8e6ee" font-size="13.5" font-weight="600">Dev environment</text>
+          <text x="470" y="166" fill="#a29ead" font-size="11.5">DLP · roles · Dataverse (build schema)</text>
           <path class="flow" d="M450,151 L352,151" stroke="#aa3bff" stroke-width="2" fill="none" marker-end="url(#arA)"/>
           <text x="400" y="142" text-anchor="middle" fill="#aa3bff" font-size="10.5" font-weight="700">export</text>
+          <path class="flow" d="M702,151 L796,151" stroke="#6fb4ff" stroke-width="1.6" fill="none" stroke-dasharray="3 4" marker-end="url(#ar)"/><text x="750" y="144" text-anchor="middle" fill="#6fb4ff" font-size="10.5" font-weight="700">governs</text>
           <rect x="800" y="130" width="150" height="40" rx="9" fill="#262231" stroke="#6fb4ff"/><text x="875" y="155" text-anchor="middle" fill="#e8e6ee" font-size="12">Inventory [DEV]</text>
         </g>
         <g>
@@ -385,10 +386,11 @@
           <rect x="100" y="224" width="96" height="30" rx="7" fill="#262231"/><text x="148" y="244" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">src/ + config</text>
           <rect x="206" y="224" width="138" height="30" rx="7" fill="#262231" stroke="#aa3bff" stroke-opacity=".6"/><text x="275" y="244" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">solutions/*.zip</text>
           <rect x="450" y="210" width="250" height="62" rx="12" fill="#16141c" stroke="#322d3d"/>
-          <text x="470" y="236" fill="#e8e6ee" font-size="13.5" font-weight="600">Test Dataverse</text>
-          <text x="470" y="256" fill="#a29ead" font-size="11.5">managed import only</text>
+          <text x="470" y="236" fill="#e8e6ee" font-size="13.5" font-weight="600">Test environment</text>
+          <text x="470" y="256" fill="#a29ead" font-size="11.5">DLP · roles · Dataverse (import only)</text>
           <path class="flow" d="M352,241 L450,241" stroke="#aa3bff" stroke-width="2" fill="none" marker-end="url(#arA)"/>
           <text x="400" y="232" text-anchor="middle" fill="#aa3bff" font-size="10.5" font-weight="700">import</text>
+          <path class="flow" d="M702,241 L796,241" stroke="#ffb454" stroke-width="1.6" fill="none" stroke-dasharray="3 4" marker-end="url(#ar)"/><text x="750" y="234" text-anchor="middle" fill="#ffb454" font-size="10.5" font-weight="700">governs</text>
           <rect x="800" y="220" width="150" height="40" rx="9" fill="#262231" stroke="#ffb454"/><text x="875" y="245" text-anchor="middle" fill="#e8e6ee" font-size="12">Inventory [TEST]</text>
         </g>
         <g>
@@ -397,18 +399,19 @@
           <rect x="100" y="314" width="96" height="30" rx="7" fill="#262231"/><text x="148" y="334" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">src/ + config</text>
           <rect x="206" y="314" width="138" height="30" rx="7" fill="#262231" stroke="#aa3bff" stroke-opacity=".6"/><text x="275" y="334" text-anchor="middle" fill="#e8e6ee" font-size="11.5" font-family="ui-monospace,Consolas,monospace">solutions/*.zip</text>
           <rect x="450" y="300" width="250" height="62" rx="12" fill="#16141c" stroke="#322d3d"/>
-          <text x="470" y="326" fill="#e8e6ee" font-size="13.5" font-weight="600">Prod Dataverse</text>
-          <text x="470" y="346" fill="#a29ead" font-size="11.5">managed import only</text>
+          <text x="470" y="326" fill="#e8e6ee" font-size="13.5" font-weight="600">Prod environment</text>
+          <text x="470" y="346" fill="#a29ead" font-size="11.5">DLP · roles · Dataverse (import only)</text>
           <path class="flow" d="M352,331 L450,331" stroke="#aa3bff" stroke-width="2" fill="none" marker-end="url(#arA)"/>
           <text x="400" y="322" text-anchor="middle" fill="#aa3bff" font-size="10.5" font-weight="700">import</text>
+          <path class="flow" d="M702,331 L796,331" stroke="#3ddc97" stroke-width="1.6" fill="none" stroke-dasharray="3 4" marker-end="url(#ar)"/><text x="750" y="324" text-anchor="middle" fill="#3ddc97" font-size="10.5" font-weight="700">governs</text>
           <rect x="800" y="310" width="150" height="40" rx="9" fill="#262231" stroke="#3ddc97"/><text x="875" y="335" text-anchor="middle" fill="#e8e6ee" font-size="12">Inventory [PROD]</text>
         </g>
         <!-- merges -->
         <path d="M18,160 C0,180 0,205 22,225" stroke="#a29ead" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
         <path d="M18,250 C0,270 0,295 22,315" stroke="#a29ead" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
-        <!-- code to runtime (bypasses environments) -->
+        <!-- code to runtime (served there, governed by its environment) -->
         <path d="M148,120 C148,70 600,70 790,110" stroke="#6fb4ff" stroke-width="1.6" fill="none" stroke-dasharray="4 5" marker-end="url(#ar)"/>
-        <text x="470" y="72" text-anchor="middle" fill="#a29ead" font-size="11">app code is built and served by the runtime, never deployed into an environment</text>
+        <text x="470" y="72" text-anchor="middle" fill="#a29ead" font-size="11">app code is built and served by the runtime; nothing is deployed into Dataverse</text>
       </g>
     </svg>
   </div>

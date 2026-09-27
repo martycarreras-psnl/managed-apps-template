@@ -21,6 +21,13 @@ Works on **Windows** and **macOS**, with **GitHub Copilot App**, **Copilot CLI**
 **Branch-per-environment ALM.** `dev` / `test` / `prod`, each bound to its own Power Platform
 environment and its own platform-managed git repo. `main` is not used.
 
+**Separate runtime, environment governance.** Every app is served from the shared Managed Apps
+runtime, but it is pinned to one Power Platform environment and follows that environment's
+connector policies, connections, Dataverse data and security roles. Create an app without
+`--environment-id` and it's pinned to your Personal Developer Environment. This template always
+pins each stage to the environment you choose. See
+[ALM.md](docs/ALM.md#separate-runtime-environment-governance).
+
 **Guarded deploys.** `ms app deploy` has no `--environment-id` — it trusts whatever
 `ms.config.json` is on disk. The scripts refuse to deploy unless the branch, app ID, environment
 ID, connection references, and solution version all line up:
