@@ -91,6 +91,11 @@ never drifts from what everyone else receives.
 4. Commit the local `alm.config.json` version bump that `push` writes back.
 5. Downstream projects pick it up with `npm run alm:upgrade`.
 
+**User-facing changes need the guides updated too.** If the change adds something a user can
+do (a devkit menu item, an `alm:*` command or flag, a script, a workflow), update
+`docs/index.html#ask` (a copyable phrase) and the matching section of `docs/guide.html` in the
+same release. Newcomers learn what's possible from those pages, not from the code.
+
 ### Releases
 
 `--bump patch|minor|major` derives the next version **and** its tag, and writes the version into

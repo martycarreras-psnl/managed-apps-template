@@ -149,6 +149,7 @@
     <a href="#promote">Promotion</a>
     <a href="#access">Access</a>
     <a href="#trouble">Troubleshooting</a>
+    <a href="#devkit">Ask your agent</a>
     <div class="os-toggle">
       <button id="btn-mac" class="on" onclick="setOS('mac')">macOS</button>
       <button id="btn-win" onclick="setOS('win')">Windows</button>
@@ -783,6 +784,63 @@ npm run alm:role -- show     <span class="cm"># verify across all environments</
       <code>npm run alm:setup</code>. Always keep the <strong>target</strong> branch's copy.</p>
     </div>
   </details>
+</section>
+
+<!-- ================= DEVKIT ================= -->
+<section id="devkit">
+  <p class="eyebrow">07 — You don't have to remember any of this</p>
+  <h2>Ask your agent for the menu</h2>
+  <p class="lede">
+    Every project from this template includes a built-in guide, the <strong>devkit</strong>
+    (<code>.github/skills/managed-apps-devkit/</code>). Ask your coding agent for the menu, or
+    just describe what you want. It picks the right steps, runs them, and checks with you before
+    anything goes live.
+  </p>
+
+  <div class="grid g3">
+    <div class="card"><h4>GitHub Copilot App &amp; CLI</h4>
+      <p>Loads it automatically. Open the project and type <em>"Show me the devkit menu"</em>.</p></div>
+    <div class="card"><h4>Claude Code</h4>
+      <p>Once per session: <em>"Read .github/skills/managed-apps-devkit/SKILL.md and show me the menu."</em></p></div>
+    <div class="card"><h4>No agent</h4>
+      <p>Two scripts work on their own: a health check and a list of every app with its environment.</p></div>
+  </div>
+
+  <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>node .github/skills/managed-apps-devkit/scripts/doctor.mjs            <span class="cm"># is my project healthy?</span>
+node .github/skills/managed-apps-devkit/scripts/apps-inventory.mjs --csv apps.csv   <span class="cm"># every app + its environment</span></pre></div>
+
+  <h3>What's on the menu</h3>
+  <table>
+    <tr><th>Category</th><th>For example</th></tr>
+    <tr><td>See what I have</td><td>Which environments can I use? Which environment is each app in? Is my project healthy?</td></tr>
+    <tr><td>Start something new</td><td>New app from the template, a quick standalone app, import existing code, clone an app</td></tr>
+    <tr><td>Build</td><td>Run locally, add a data source, change a Dataverse table, <strong>check a connector is allowed</strong>, run tests</td></tr>
+    <tr><td>Ship</td><td>Deploy to dev, promote to test or prod, preview without deploying, roll back, hotfix</td></tr>
+    <tr><td>Environments</td><td>Add a QA pathway, set up test or prod, rename the app per environment</td></tr>
+    <tr><td>Access</td><td>Share the app, create a share link, grant data access, see who has access</td></tr>
+    <tr><td>Maintain</td><td>Sync all branches, pull template updates, delete an app, fix an error</td></tr>
+  </table>
+  <p class="muted">More phrases you can copy are on the <a href="index.html#ask">home page</a>.</p>
+
+  <h3>Will this connector work in my environments?</h3>
+  <p>
+    Start with Microsoft's up-to-date catalogs, the
+    <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/" target="_blank" rel="noopener">list of connectors</a>
+    and the
+    <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-mcpserver-connectors" target="_blank" rel="noopener">list of MCP servers</a>.
+    Being listed doesn't mean you can use it. Your organization's data policy decides that for
+    each environment separately.
+  </p>
+  <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>ms connector list -e &lt;env-id&gt; --search outlook                          <span class="cm"># Policy Status: Allowed / Blocked</span>
+ms connector list-actions --connector office365 -e &lt;env-id&gt; --search send  <span class="cm"># which actions are allowed</span></pre></div>
+  <div class="callout warn">
+    <h4>Always name the environment and check each one</h4>
+    <p>
+      Without <code>-e</code> the CLI checks your personal developer environment instead. A
+      connector allowed in dev can still be blocked in prod. Or just ask your agent: <em>"Can I use
+      the Office 365 Outlook connector in test and prod?"</em>
+    </p>
+  </div>
 </section>
 
 <footer>
