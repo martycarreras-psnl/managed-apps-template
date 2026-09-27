@@ -427,9 +427,37 @@
 <section id="setup">
   <p class="eyebrow">03 — Getting started</p>
   <h2>Set up your machine</h2>
-  <p class="lede">Pick your agent. The OS toggle in the nav switches the commands below.</p>
+  <p class="lede">The quickest way is to let your coding agent do it. The manual steps are below if you
+    prefer them, and the OS toggle in the nav switches the commands.</p>
 
-  <h3>Prerequisites</h3>
+  <div class="callout ok">
+    <h4>Let your agent do the setup</h4>
+    <p>
+      Create your repo from the template and open it in GitHub Copilot (App, CLI or VS Code),
+      Claude Code or Cursor. Then paste:
+    </p>
+  </div>
+  <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>Read AGENTS.md, then set up this project for me.</pre></div>
+  <table>
+    <tr><th>The agent does</th><th>You do</th></tr>
+    <tr><td>Checks Node, Git, Git Credential Manager and the Managed Apps CLI, and installs what's missing</td>
+        <td>Type your password if an installer needs admin rights</td></tr>
+    <tr><td>Starts the Microsoft sign-in</td><td>Finish it in the browser (MFA or passkey)</td></tr>
+    <tr><td>Lists your environments</td><td>Pick one for dev. <strong>It's permanent for this app.</strong></td></tr>
+    <tr><td>Installs the Managed Apps plugin (Copilot) or tells you the two commands to type (Claude Code)</td><td>In Claude Code, type the <code>/plugin</code> commands</td></tr>
+    <tr><td>Runs <code>alm:setup</code>, sets up remotes, registers the dev app, builds, and checks health</td><td>Say yes before the app is registered</td></tr>
+    <tr><td>Starts <code>ms app dev</code> and gives you the App Player link</td><td>Open it</td></tr>
+  </table>
+  <p class="muted">
+    It's safe to run again: it checks each step and only fixes what's missing. It stops and tells you
+    who can help if something is blocked, such as a locked-down laptop, a missing licence or a
+    blocked connector. The steps it follows are in
+    <code>.github/skills/managed-apps-devkit/playbooks/setup.md</code>.
+  </p>
+
+  <h3>Or do it by hand</h3>
+
+  <h4 style="margin:18px 0 6px">Prerequisites</h4>
   <div class="mac">
     <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre><span class="cm"># macOS</span>
 brew install node git
@@ -798,10 +826,10 @@ npm run alm:role -- show     <span class="cm"># verify across all environments</
   </p>
 
   <div class="grid g3">
-    <div class="card"><h4>GitHub Copilot App &amp; CLI</h4>
+    <div class="card"><h4>GitHub Copilot: App, CLI &amp; VS Code</h4>
       <p>Loads it automatically. Open the project and type <em>"Show me the devkit menu"</em>.</p></div>
-    <div class="card"><h4>Claude Code</h4>
-      <p>Once per session: <em>"Read .github/skills/managed-apps-devkit/SKILL.md and show me the menu."</em></p></div>
+    <div class="card"><h4>Claude Code &amp; Cursor</h4>
+      <p>Both read <code>AGENTS.md</code>, which points them to the devkit. If one seems unaware of it, start with <em>"Read AGENTS.md"</em>.</p></div>
     <div class="card"><h4>No agent</h4>
       <p>Two scripts work on their own: a health check and a list of every app with its environment.</p></div>
   </div>
@@ -812,6 +840,7 @@ node .github/skills/managed-apps-devkit/scripts/apps-inventory.mjs --csv apps.cs
   <h3>What's on the menu</h3>
   <table>
     <tr><th>Category</th><th>For example</th></tr>
+    <tr><td>Set up this project</td><td>First run: install tools, sign in, register the dev app, run it locally. See <a href="#setup">Setup</a></td></tr>
     <tr><td>See what I have</td><td>Which environments can I use? Which environment is each app in? Is my project healthy?</td></tr>
     <tr><td>Start something new</td><td>New app from the template, a quick standalone app, import existing code, clone an app</td></tr>
     <tr><td>Build</td><td>Run locally, add a data source, change a Dataverse table, <strong>check a connector is allowed</strong>, run tests</td></tr>

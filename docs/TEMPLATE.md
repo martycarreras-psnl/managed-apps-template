@@ -12,6 +12,7 @@ scripts/alm/              the ALM tooling
 docs/ALM.md               the promotion model
 .gitattributes            pins ms.config.json per branch
 .github/skills/managed-apps-devkit/   agent menu + playbooks for every developer task
+AGENTS.md                 entry point every coding agent reads; points to setup + devkit
 ```
 
 **Project content** — yours to replace:

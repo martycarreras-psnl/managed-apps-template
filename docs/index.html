@@ -157,6 +157,10 @@
   .menu-demo .opt.pick{color:var(--ink)}
   .menu-demo .opt.pick::before{content:"› ";color:var(--accent)}
   .prompts{display:grid;gap:14px}
+  .oneprompt{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--bg2);border:1px solid var(--accent);
+    border-radius:14px;padding:14px 18px;margin:0 0 22px}
+  .oneprompt .lbl{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .oneprompt .hint{color:var(--dim);font-size:13px}
   .catalogs{margin:6px 0 0;font-size:.92rem;color:var(--dim);line-height:1.6}
   .catalogs a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
   .pgroup h3{font-size:13px;color:var(--faint);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
@@ -443,7 +447,7 @@
       <div class="card"><h3>🧬 Standardized from day one</h3><p>Branches, protection rules, CI, hooks, ALM scripts, and docs are all in place before the first line of app code.</p></div>
       <div class="card"><h3>⬆️ Improvements flow downstream</h3><p>Fix it once in the reference project, then <code>alm:template push --bump</code> releases it. Teams upgrade when they're ready.</p></div>
       <div class="card"><h3>🧭 A reference app to learn from</h3><p>The template includes a working Dataverse CRUD inventory app with tests. Use it as a pattern, or delete it and build your own.</p></div>
-      <div class="card"><h3>🤖 Works with your agent</h3><p>Use GitHub Copilot App, Copilot CLI, or Claude Code on Windows or macOS. The same skills and the same results.</p></div>
+      <div class="card"><h3>🤖 Works with your agent</h3><p>Use GitHub Copilot (App, CLI or VS Code), Claude Code or Cursor on Windows or macOS. One prompt sets up the project.</p></div>
     </div>
   </div>
 </section>
@@ -452,30 +456,46 @@
 <section id="start" class="reveal">
   <p class="eyebrow">Get started</p>
   <h2>From idea to governed app <span class="grad">this afternoon.</span></h2>
-  <p class="lede" style="margin-bottom:30px">Pick your agent. The <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a> has
-    full instructions for Windows and macOS, and the <a href="guide.html">visual guide</a> walks through every step.</p>
+  <p class="lede" style="margin-bottom:22px">Create your repo, open it in your coding agent, and paste one prompt.
+    The agent installs what's missing, signs you in, registers your dev app and runs it. You only finish the
+    sign-ins and say yes. Prefer to do it by hand? The <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a>
+    and <a href="guide.html#setup">visual guide</a> have every step.</p>
+  <div class="oneprompt">
+    <span class="lbl">The one prompt</span>
+    <button class="say">Read AGENTS.md, then set up this project for me.</button>
+    <span class="hint">Click to copy. Safe to run again: it only fixes what's missing.</span>
+  </div>
   <div class="tabs" role="tablist">
     <button class="on" data-t="app">GitHub Copilot App</button>
     <button data-t="cli">Copilot CLI</button>
+    <button data-t="vscode">VS Code</button>
     <button data-t="claude">Claude Code</button>
+    <button data-t="cursor">Cursor</button>
   </div>
   <div class="pane on" id="p-app"><ol class="steps">
-    <li><div><b>Create your repo</b> from this template (<em>Use this template → Create a new repository</em>), then add it as a project in the Copilot App.</div></li>
-    <li><div><b>Install the plugins:</b> Managed Apps (<code>microsoft/Managed-Apps</code>) and Dataverse (<code>awesome-copilot</code>).</div></li>
-    <li><div><b>Describe your app</b> in a new session: <em>"Build me an app that…"</em>. The agent scaffolds it, connects data, and runs it locally.</div></li>
-    <li><div><b>Wire up ALM</b> with <code>npm run alm:setup</code>, then promote with <code>alm:promote</code> when you're ready.</div></li>
+    <li><div><b>Create your repo</b> from this template (<em>Use this template → Create a new repository</em>).</div></li>
+    <li><div><b>Add it as a project</b> in the Copilot App and start a session.</div></li>
+    <li><div><b>Paste the prompt.</b> The agent can install the Managed Apps plugin for you too.</div></li>
   </ol></div>
   <div class="pane" id="p-cli"><ol class="steps">
     <li><div><b>Create and clone</b> your repo: <code>gh repo create my-app --template martycarreras-psnl/managed-apps-template --private --clone</code></div></li>
-    <li><div><b>Add the plugins:</b> <code>/plugin marketplace add microsoft/Managed-Apps</code> then <code>/plugin install microsoft-managed-apps@Managed-Apps</code></div></li>
-    <li><div><b>Run <code>copilot</code></b> in the folder and describe your app. The <code>create-app</code> skill takes it from there.</div></li>
-    <li><div><b>Wire up ALM</b> with <code>npm run alm:setup</code>, then promote with <code>alm:promote</code> when you're ready.</div></li>
+    <li><div><b>Run <code>copilot</code></b> in the folder.</div></li>
+    <li><div><b>Paste the prompt.</b> The agent can install the Managed Apps plugin for you too.</div></li>
+  </ol></div>
+  <div class="pane" id="p-vscode"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo from this template, then open the folder in VS Code.</div></li>
+    <li><div><b>Open Copilot Chat</b> and switch to <b>Agent</b> mode.</div></li>
+    <li><div><b>Paste the prompt.</b> VS Code also picks up the devkit from <code>.github/skills/</code>.</div></li>
   </ol></div>
   <div class="pane" id="p-claude"><ol class="steps">
     <li><div><b>Create and clone</b> your repo: <code>gh repo create my-app --template martycarreras-psnl/managed-apps-template --private --clone</code></div></li>
-    <li><div><b>Add the plugins:</b> <code>/plugin marketplace add microsoft/Managed-Apps</code> then <code>/plugin install microsoft-managed-apps@Managed-Apps</code></div></li>
-    <li><div><b>Run <code>claude</code></b> in the folder and describe your app. The same skills scaffold, connect, and run it.</div></li>
-    <li><div><b>Wire up ALM</b> with <code>npm run alm:setup</code>, then promote with <code>alm:promote</code> when you're ready.</div></li>
+    <li><div><b>Run <code>claude</code></b> in the folder.</div></li>
+    <li><div><b>Paste the prompt.</b> It will ask you to type <code>/plugin install microsoft-managed-apps@Managed-Apps</code> for the Managed Apps plugin.</div></li>
+  </ol></div>
+  <div class="pane" id="p-cursor"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo from this template, then open the folder in Cursor.</div></li>
+    <li><div><b>Open the Agent</b> panel.</div></li>
+    <li><div><b>Paste the prompt.</b> Cursor reads <code>AGENTS.md</code>, which points it to the setup steps and the devkit.</div></li>
   </ol></div>
 </section>
 
@@ -516,6 +536,9 @@
 
     <div class="prompts">
       <p style="margin:0;color:var(--dim);font-size:15px">Or just say what you want. Click any phrase to copy it, then paste it into your agent.</p>
+      <div class="pgroup"><h3>First time</h3><div class="list">
+        <button class="say">Read AGENTS.md, then set up this project for me.</button>
+      </div></div>
       <div class="pgroup"><h3>Get oriented</h3><div class="list">
         <button class="say">Show me the devkit menu</button>
         <button class="say">What can I do with this project?</button>
@@ -555,10 +578,10 @@
   </div>
 
   <div class="grid g3 agents">
-    <div class="card"><h3>🧑‍💻 GitHub Copilot App &amp; Copilot CLI</h3>
-      <p>Loads automatically from <code>.github/skills/</code>. Open the project and type any phrase above.</p></div>
-    <div class="card"><h3>🤖 Claude Code</h3>
-      <p>Point it at the guide once per session: <em>"Read .github/skills/managed-apps-devkit/SKILL.md and show me the menu."</em></p></div>
+    <div class="card"><h3>🧑‍💻 GitHub Copilot: App, CLI &amp; VS Code</h3>
+      <p>Loads the devkit automatically from <code>.github/skills/</code>. Open the project and type any phrase above.</p></div>
+    <div class="card"><h3>🤖 Claude Code &amp; Cursor</h3>
+      <p>Both read <code>AGENTS.md</code>, which points them to the devkit. If one seems unaware of it, start with <em>"Read AGENTS.md"</em>.</p></div>
     <div class="card"><h3>⌨️ No agent? Two commands</h3>
       <p><code>node .github/skills/managed-apps-devkit/scripts/doctor.mjs</code> checks your project.
         <code>…/apps-inventory.mjs --csv apps.csv</code> lists every app and its environment.</p></div>

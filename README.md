@@ -8,8 +8,8 @@ It ships as a **working reference application** — an inventory of Managed Apps
 Dataverse table, with a full CRUD UI — so you can run it immediately and then reshape it for
 your own use case, rather than starting from an empty folder and a pile of scripts.
 
-Works on **Windows** and **macOS**, with **GitHub Copilot App**, **Copilot CLI**, or
-**Claude Code**.
+Works on **Windows** and **macOS**, with **GitHub Copilot App**, **Copilot CLI**,
+**VS Code**, **Claude Code**, or **Cursor**.
 
 🌐 **Overview site:** <https://martycarreras-psnl.github.io/managed-apps-template/> ·
 📘 **Visual guide:** <https://martycarreras-psnl.github.io/managed-apps-template/guide.html>
@@ -38,6 +38,50 @@ delete confirmation, summary header — wired to generated typed Dataverse servi
 `fetch`/`axios`.
 
 **Playwright tests** and **GitHub Actions** for build, lint, and promotion guardrails.
+
+---
+
+## ⚡ Quick start: let your agent do the setup
+
+You don't have to work through the terminal steps below yourself.
+
+1. Click **Use this template → Create a new repository**, then open your new repo in your
+   coding agent:
+
+   | Agent | How to open it |
+   | --- | --- |
+   | **GitHub Copilot App** | Add the repo as a project, then start a session |
+   | **Copilot CLI** | `git clone` it, `cd` into it, run `copilot` |
+   | **VS Code** (Copilot Chat, Agent mode) | Clone it, open the folder, open Chat |
+   | **Claude Code** | `git clone` it, `cd` into it, run `claude` |
+   | **Cursor** | Clone it, open the folder, open Agent |
+
+2. Paste this prompt:
+
+   ```text
+   Read AGENTS.md, then set up this project for me.
+   ```
+
+The agent checks your machine and installs what's missing (Node, Git, Git Credential Manager,
+the Managed Apps CLI). It asks four quick questions: which environment, the app name, whether
+to start fresh, and whether to set up test and prod now or later. Then it registers your dev
+app, builds it, and hands you a link to your app running locally. It's safe to run again; it
+only fixes what's missing.
+
+**What you still do yourself:** finish the browser sign-ins (Microsoft and, if prompted, Git),
+type your password if an installer needs admin rights, and say yes before the app is
+registered. The app's environment is permanent, so the agent always checks with you first.
+
+**Things that can stop it:** a locked-down laptop that blocks installs, a missing licence,
+or an organization policy that blocks the connectors you need. The agent will tell you which
+one and who can fix it.
+
+It works in every agent above because they all read [`AGENTS.md`](AGENTS.md), which points
+them to the setup playbook: [`.github/skills/managed-apps-devkit/playbooks/setup.md`](.github/skills/managed-apps-devkit/playbooks/setup.md).
+In **Copilot CLI** or the **Copilot App**, the agent can also install the Microsoft Managed Apps
+plugin for you. In **Claude Code** it will ask you to type two `/plugin` commands.
+
+Prefer to do it by hand, or want to know what's happening? The manual steps follow.
 
 ---
 
@@ -247,8 +291,9 @@ npm run alm:deploy -- prod
 
 ### Not sure which command? Ask for the menu
 
-The repo ships an agent skill, [`managed-apps-devkit`](.github/skills/managed-apps-devkit/SKILL.md),
-that GitHub Copilot CLI / Copilot App pick up automatically. Ask your agent *"show me the
+The repo ships an agent skill, [`managed-apps-devkit`](.github/skills/managed-apps-devkit/SKILL.md).
+GitHub Copilot (CLI, App and VS Code) picks it up automatically, and every agent that reads
+[`AGENTS.md`](AGENTS.md) is pointed to it. That includes Claude Code and Cursor. Ask your agent *"show me the
 devkit menu"* (or just state a goal — *"add a QA environment"*, *"which environment is each of
 my apps in?"*) and it offers the options, then follows a playbook: environments and app
 inventory, health check, new app, importing existing code, data sources and schema, deploy and

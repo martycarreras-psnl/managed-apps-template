@@ -4,15 +4,17 @@ description: >-
   Menu-driven developer guide for Microsoft Managed Apps projects built on the
   managed-apps-template ALM (dev → test → prod branches). Presents "here is
   everything we can do" as a selectable menu, then runs the matching playbook
-  as efficiently as possible. Covers: listing Power Platform environments;
+  as efficiently as possible. Covers: first-run project setup (tools, sign-in,
+  plugin, register the dev app, run locally); listing Power Platform environments;
   seeing which environment each app is registered in; project health checks;
   creating a new app or project; importing existing source code and converting
   it to a Managed App; cloning an app; adding data sources and Dataverse
   schema; local dev and tests; deploying and promoting to test/prod; preview,
   rollback and hotfixes; adding a new environment pathway such as QA; sharing
   and data access; syncing remotes and template upgrades; troubleshooting.
-  Use when the user asks "what can I do", "show me the options", "menu",
-  "devkit", "help with managed apps", or states any of those goals directly.
+  Use when the user asks "set up this project", "what can I do", "show me the
+  options", "menu", "devkit", "help with managed apps", or states any of those
+  goals directly.
 ---
 
 # Managed Apps Devkit
@@ -37,6 +39,11 @@ If `alm.config.json` does not exist, this is not a template project: only the
 
 If doctor reports ✗, surface those first (one line each) — most goals fail on them.
 
+**First run.** If `alm.config.json` exists but its first environment has
+`"provisioned": false`, the project hasn't been set up yet. Unless the user
+asked for something else, go straight to [setup.md](playbooks/setup.md). Say so
+in one line.
+
 ## Step 1 — Menu (skip if the user already named a goal)
 
 If the user's request already maps to a row below, **go straight to its
@@ -44,6 +51,7 @@ playbook**. Otherwise present the menu with `ask_user`, two questions max:
 
 **Question 1 — "What would you like to do?"** choices (one per category):
 
+0. **Set up this project** — first run: tools, sign-in, register the dev app, run it
 1. **See what I have** — environments, apps, project health
 2. **Start something new** — new app, import existing code, clone an app
 3. **Build** — run locally, add data sources, change schema, test
@@ -58,6 +66,7 @@ Put the most likely option first given Step 0 (e.g. after a merge to `dev`,
 
 | # | Action | Playbook |
 | --- | --- | --- |
+| 0.1 | Set up this project from scratch (tools, sign-in, plugin, dev app, run locally) | [setup.md](playbooks/setup.md) |
 | 1.1 | See Power Platform environments I can use ◇ | [inventory.md](playbooks/inventory.md#environments) |
 | 1.2 | See every app and the environment it is registered in ◇ | [inventory.md](playbooks/inventory.md#apps) |
 | 1.3 | Project health check (tools, bindings, drift) | [inventory.md](playbooks/inventory.md#health) |

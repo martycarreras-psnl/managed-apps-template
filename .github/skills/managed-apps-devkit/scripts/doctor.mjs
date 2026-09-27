@@ -105,7 +105,9 @@ for (const key of order) {
   const env = alm.environments[key]
   const here = env.branch === branch ? ` ${B}← current branch${O}` : ''
   if (!env.provisioned) {
-    warn(`${key}: not provisioned${here}`, 'See playbooks/environments.md → "Provision a placeholder".')
+    key === order[0]
+      ? warn(`${key}: not provisioned — first run${here}`, 'Set up the project: playbooks/setup.md (or ask your agent: "set up this project for me").')
+      : warn(`${key}: not provisioned${here}`, 'See playbooks/environments.md → "Provision a placeholder".')
     continue
   }
   const hasRemote = remotes.includes(env.remote)
