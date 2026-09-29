@@ -149,6 +149,10 @@ action from the menu — not the whole menu again.
   (`scaffold.paths`) or docs — they belong in `alm.config.json` / `memory-bank.md`.
 - Commit, push, or switch branches unless the playbook step requires it and the
   user has agreed.
+- Quietly skip or work around a blocked connector. As soon as one shows up as
+  blocked or "policy-blocked", follow [develop.md → When a connector is
+  blocked](playbooks/develop.md#when-a-connector-is-blocked). Name the
+  connector and the environment the app is pinned to.
 
 **Credentials.** The first fetch or push to each platform-managed repo needs a
 one-time Git Credential Manager sign-in. Agent shells can't answer it: the

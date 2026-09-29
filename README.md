@@ -80,7 +80,8 @@ registered. The app's environment is permanent, so the agent always checks with 
 
 **Things that can stop it:** a locked-down laptop that blocks installs, a missing licence,
 or an organization policy that blocks the connectors you need. The agent will tell you which
-one and who can fix it.
+one and who can fix it. For a blocked connector, it also names the environment your app is pinned to
+and whether your other stages allow it.
 
 It works in every agent above because they all read [`AGENTS.md`](AGENTS.md), which points
 them to the setup playbook: [`.github/skills/managed-apps-devkit/playbooks/setup.md`](.github/skills/managed-apps-devkit/playbooks/setup.md).

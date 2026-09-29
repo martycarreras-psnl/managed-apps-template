@@ -57,9 +57,77 @@ ms connector list-actions --connector <id> -e <env-id> --search <text>   # Behav
 - What this proves: policy allows the connector. What it doesn't prove: that a
   connection exists or that users can reach the data. Confirm those by adding
   the data source and testing with `ms app dev` in each environment.
-- If it's blocked anywhere, stop and tell the user. The environment's admin
-  controls this through the data policy in the Power Platform admin center.
-  Don't work around it.
+- If it's blocked anywhere, stop and tell the user using
+  [When a connector is blocked](#when-a-connector-is-blocked). The environment's admin controls
+  this through the data policy in the Power Platform admin center. Don't work
+  around it.
+
+## When a connector is blocked
+
+This rule applies whenever you learn that a connector or MCP server the user
+wants is blocked, including partway through another task. Triggers include:
+
+- `ms connector list` showing **Policy Status: Blocked** (or `--only-allowed`
+  leaving it out)
+- `ms connector list-actions` showing an action that isn't allowed
+- a plugin skill (`add-data-source`, `add-workiq`, `add-office365`…) or
+  `ms app add data-source` reporting that the connector is blocked, "policy-blocked",
+  denied by DLP / data policy / tenant policy
+- your own analysis concluding something like *"Work IQ connectors are all
+  policy-blocked"*
+
+**Stop building on it right away.** Don't write code for it, don't add it as a
+data source, and don't substitute a different connector, raw `fetch`, or a
+workaround without the user agreeing. Then give the user direct feedback
+**before anything else in your reply**.
+
+1. **Find the pinned environment.** Read `environmentId` and `appId` from
+   `./ms.config.json` on the current branch. Match it to a stage in
+   `alm.config.json → environments` (dev, test, prod…). Look up its display
+   name and type with `pac admin list --json`. If `pac` isn't available, use the
+   ID. For a standalone app, `ms.config.json` is the only source. If the
+   environment is a **Developer**-type environment named after a person, it's
+   the user's personal developer environment (PDE).
+2. **Check the other stages**, in parallel, with the same
+   `ms connector list -e <env-id> --search <text>` for each provisioned
+   environment in `alm.config.json`. Skip this for standalone apps.
+3. **Tell the user, in this shape.** Keep it short and plain. Fill in every
+   `<…>`, and never leave the environment unnamed:
+
+   > ⛔ **<Connector name> is blocked for this app.**
+   > Your app **<app display name>** is pinned to **<environment name>**
+   > (<stage>, <type>, `<environment-id>`). That environment's data policy
+   > blocks **<connector name>** (`<connector-id>`), so the app can't use it.
+   > An app's environment is fixed when it's created and can't be changed.
+   >
+   > | Connector | dev | test | prod |
+   > | --- | --- | --- | --- |
+   > | <connector name> | ⛔ Blocked | ✅ Allowed | ⛔ Blocked |
+   >
+   > **What you can do:**
+   > - Ask your Power Platform admin to allow `<connector-id>` in the data policy for
+   >   **<environment name>**, and in every other environment marked ⛔ that the app
+   >   will ship to.
+   > - Or use a connector that's already allowed. I can list them.
+
+   Leave out the table for a standalone app. If a whole family is blocked (for example
+   every Work IQ connector), list each one in the table.
+4. **Add the context that applies:**
+   - **Pinned to a PDE:** say so. The app was probably created without an
+     environment, so it follows the rules for personal developer environments.
+     Suggest registering the project against a governed environment where the
+     connector is allowed ([create.md](create.md)). The existing app can't be moved.
+   - **Allowed in dev but blocked downstream:** the app will work locally and in dev,
+     then fail in test or prod. Recommend fixing the policy before building on it.
+   - **Blocked only in dev:** the user can't build or test it until dev allows it,
+     even if prod does.
+5. **Offer choices with `ask_user`:** draft the admin request (connector ID,
+   environment names and IDs, why the app needs it, and the actions it needs from
+   `list-actions`), list allowed alternatives with
+   `ms connector list -e <env-id> --only-allowed --search <text>`, or continue
+   without this connector.
+6. Record it in `memory-bank.md` under *Gotchas* (add the heading if it's missing): the connector, the environments
+   where it's blocked, and the date. Next time, you'll know without re-checking.
 
 ## Data source
 

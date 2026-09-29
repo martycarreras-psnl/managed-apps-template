@@ -25,6 +25,7 @@ failures are a missing prerequisite or a wrong binding. Then match the error.
 | `Invalid ms.config.json for shared connection policy enforcement` | Shared connection missing `allowedActions` | Declare least-privilege actions per table/connector (plugin `allowed-actions` guidance) |
 | `The Microsoft GitHub App can't access the bound repository` | GitHub App not installed on the owner (EMU accounts usually can't) | Use a platform-managed repo (`--repo native`) |
 | `External artifact deployment is not enabled` | App registered with `--repo none` | Admin enables *External artifacts* (PPAC → Copilot → Settings → Managed apps), or re-register with `--repo native` |
+| A connector shows **Policy Status: Blocked**, a skill reports it "policy-blocked", or `add data-source` is denied by data policy | The data (DLP) policy for the environment the app is pinned to blocks it. The pin is permanent | Stop. Follow [develop.md → When a connector is blocked](develop.md#when-a-connector-is-blocked): tell the user the connector and the pinned environment, compare it with the other stages, and offer an admin request or an allowed alternative |
 | App opens, then errors on first data load for some users | Shared, but no Dataverse role | [access.md → Role](access.md#role) |
 | `dataverse: command not found` in scripts | Dataverse CLI not on PATH | Install/sign in via `dv-connect`; add its bin dir to PATH |
 | Token / 401 errors from `ms` | Expired sign-in | `ms auth login` (check `ms auth status` shows the expected account) |

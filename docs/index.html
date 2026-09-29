@@ -865,6 +865,17 @@ ms connector list-actions --connector office365 -e &lt;env-id&gt; --search send 
       the Office 365 Outlook connector in test and prod?"</em>
     </p>
   </div>
+  <div class="callout">
+    <h4>If a connector is blocked, your agent stops and tells you</h4>
+    <p>
+      An app is pinned to the environment it was registered in, and that pin can't change. When
+      a connector or MCP server is blocked there, the devkit stops before adding it or writing
+      code for it. It tells you which connector is blocked, which environment your app is pinned
+      to, and whether it's allowed in your other stages. Your choices are to ask your Power Platform
+      admin to allow it in the data policy, or to pick an allowed alternative. The agent never
+      works around it.
+    </p>
+  </div>
 </section>
 
 <!-- ============ SCALE ============ -->
@@ -1319,6 +1330,7 @@ npm run alm:role -- show     <span class="cm"># verify across all environments</
         <button class="say">Add a Dataverse table to my app</button>
         <button class="say">Connect my app to a SharePoint list</button>
         <button class="say">Can I use the Office 365 Outlook connector in test and prod?</button>
+        <button class="say">Why is this connector blocked, and which environment is my app pinned to?</button>
         <button class="say">Deploy to test</button>
         <button class="say">Roll back production to the last good version</button>
         <button class="say">I need a hotfix in production</button>
@@ -1470,6 +1482,21 @@ npm run alm:role -- show     <span class="cm"># verify across all environments</
       manual push:</p>
       <div class="code mac"><pre>GIT_TERMINAL_PROMPT=1 GCM_INTERACTIVE=1 GCM_GUI_PROMPT=0 git push origin HEAD</pre></div>
       <div class="code win"><pre>$env:GIT_TERMINAL_PROMPT="1"; $env:GCM_INTERACTIVE="1"; git push origin HEAD</pre></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>A connector is "policy-blocked" / Policy Status: Blocked</summary>
+    <div class="body">
+      <p>The data (DLP) policy of the environment your app is <strong>pinned</strong> to blocks
+      that connector. You'll see this for Work IQ, for example, when every Work IQ connector is blocked. Apps
+      can't move environments, so there's no setting on your side that fixes it. Run
+      <code>ms connector list -e &lt;env-id&gt; --search &lt;name&gt;</code> for each environment to see where
+      it's allowed. Then ask your Power Platform admin to allow it in the data policy, or use a
+      connector that's already allowed. If the app is pinned to your personal developer
+      environment, it was registered without <code>--environment-id</code>. Register the project
+      against a governed environment instead. Or ask your agent: <em>&ldquo;Why is this
+      connector blocked?&rdquo;</em></p>
     </div>
   </details>
 
