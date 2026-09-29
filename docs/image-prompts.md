@@ -11,7 +11,7 @@ Each is self-contained — paste one in and go.
   *"ensure every numbered callout is legible and connected to its element with a thin leader
   line."*
 - Text in generated images is often imperfect. Treat these as **illustrative diagrams**, not
-  reference documentation, and keep `docs/guide.html` as the source of truth.
+  reference documentation, and keep `docs/index.html` as the source of truth.
 
 ---
 

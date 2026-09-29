@@ -190,24 +190,78 @@
   @media (max-width:760px){.storycard{grid-template-columns:1fr!important}}
   .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
+
+  /* ---------- reference content (how it works, setup, ship, help) ---------- */
+  .muted{color:var(--dim)}
+  h3.sub{font-size:20px;margin:40px 0 10px}
+  h4{font-size:16px;margin:0 0 6px}
+  .card h4{margin:0 0 6px}
+  code{font-family:var(--mono)}
+  li code,td code,.callout code,.muted code,summary code,figcaption code,.lede code{font:13px var(--mono);background:#0b0910;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#d7d2e0;overflow-wrap:anywhere}
+  .code{position:relative;background:#0b0910;border:1px solid var(--line);border-radius:10px;margin:14px 0}
+  .code pre{margin:0;padding:16px 60px 16px 16px;overflow-x:auto;font:13.5px/1.7 var(--mono);color:#d7d2e0}
+  .code .cm{color:var(--faint)} .code .ok{color:var(--ok)} .code .bad{color:var(--danger)} .code .kw{color:var(--accent)}
+  .copy{position:absolute;top:8px;right:8px;background:var(--bg3);border:1px solid var(--line);color:var(--dim);
+        border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+  .copy:hover{color:var(--ink);border-color:var(--accent)}
+  .callout{border-left:3px solid var(--accent);background:var(--bg2);border-radius:0 11px 11px 0;padding:16px 20px;margin:22px 0}
+  .callout.warn{border-left-color:var(--warn)} .callout.danger{border-left-color:var(--danger)} .callout.ok{border-left-color:var(--ok)}
+  .callout p{margin:0;color:var(--dim);font-size:15px}
+  .tw{overflow-x:auto;margin:18px 0}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--faint);font:600 11px var(--sans);letter-spacing:.09em;text-transform:uppercase}
+  .fig{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:22px;margin:24px 0}
+  .fig svg{width:100%;height:auto;display:block}
+  .fig figcaption{color:var(--faint);font-size:13px;margin-top:14px;text-align:center}
+  svg .lbl{font:600 12px var(--sans);fill:var(--ink)}
+  svg .lbl-sm{font:500 10.5px var(--sans);fill:var(--dim)}
+  svg .lbl-mono{font:11px var(--mono);fill:var(--dim)}
+  svg .lbl-tag{font:700 10px var(--sans);letter-spacing:.08em}
+  .stepper{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 10px}
+  .stepper button{flex:1;min-width:130px;text-align:left;background:var(--bg2);border:1px solid var(--line);
+    border-left:3px solid var(--line);color:var(--dim);border-radius:10px;padding:12px 14px;cursor:pointer;font:inherit}
+  .stepper button.on{background:var(--bg3);color:var(--ink);border-left-color:var(--accent)}
+  .stepper .n{display:block;font:700 11px var(--sans);letter-spacing:.1em;color:var(--accent)}
+  .steppane{display:none}.steppane.on{display:block;animation:fade .25s ease}
+  details{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:0 18px;margin:10px 0}
+  details[open]{background:var(--bg3)}
+  summary{cursor:pointer;padding:15px 0;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:'+';color:var(--accent);font:700 17px var(--mono);width:14px;flex:none}
+  details[open]>summary::before{content:'−'}
+  details .body{padding:0 0 16px;color:var(--dim)}
+  details.manual{padding:0 22px;margin-top:26px;border-color:#4a4258}
+  details.manual>summary{font-size:17px}
+  .os-toggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;vertical-align:middle}
+  .os-toggle button{background:var(--bg2);color:var(--dim);border:0;padding:6px 14px;font:600 13px var(--sans);cursor:pointer}
+  .os-toggle button.on{background:var(--accent);color:#fff}
+  .win,.mac{display:none}
+  body[data-os="win"] .win{display:block}
+  body[data-os="mac"] .mac{display:block}
+  .chapter{display:inline-block;background:var(--bg3);border:1px solid var(--line);border-radius:999px;
+           padding:3px 10px;margin-right:8px;color:var(--dim);letter-spacing:.08em}
+  .next{margin-top:30px;color:var(--dim);font-size:15px}
+  .next a{font-weight:600}
+
 </style>
 </head>
-<body>
+<body data-os="mac">
 
 <nav><div class="nav-in">
   <div class="brand">Managed Apps <span>Template</span></div>
   <a href="story.html">The story</a>
-  <a href="#why">Why</a>
+  <a href="#how">How it works</a>
   <a href="#connect">Connect</a>
-  <a href="#alm">ALM</a>
-  <a href="#scale">Scale</a>
   <a href="#start">Get started</a>
+  <a href="#ship">Ship</a>
   <a href="#ask">Ask your agent</a>
-  <a href="guide.html">Visual guide</a>
+  <a href="#trouble">Help</a>
   <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">Use this template</a>
 </div></nav>
 
 <main>
+
 
 <!-- ============ HERO ============ -->
 <section class="hero">
@@ -220,7 +274,8 @@
         a <b>dev → test → prod</b> pipeline that keeps code, schema, and environments in sync.</p>
       <div class="cta">
         <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">✨ Start a project from this template</a>
-        <a class="btn" href="guide.html">See how it works →</a>
+        <a class="btn" href="#how">See how it works ↓</a>
+        <a class="btn" href="#start">Get started</a>
       </div>
       <div class="stats">
         <div class="stat"><b class="grad" data-count="1300">0</b><span>connectors, plus your own custom ones</span></div>
@@ -256,16 +311,360 @@
   </a>
 </section>
 
+<!-- ============ ROADMAP ============ -->
+<section id="map" class="reveal" style="padding:56px 0">
+  <p class="eyebrow">How this page is laid out</p>
+  <div class="grid g4">
+    <a class="card" href="#how" style="text-decoration:none;color:inherit"><h3>🧭 1 · Understand it</h3>
+      <p>What you already know from Power Platform, what changes with Managed Apps, and what goes wrong without a plan.</p></a>
+    <a class="card" href="#alm" style="text-decoration:none;color:inherit"><h3>🧩 2 · See the fix</h3>
+      <p>How this template keeps code, schema and environments in step, and connects to your data inside the guardrails.</p></a>
+    <a class="card" href="#start" style="text-decoration:none;color:inherit"><h3>🚀 3 · Get started</h3>
+      <p>One prompt to your coding agent, or every step by hand for macOS and Windows.</p></a>
+    <a class="card" href="#ship" style="text-decoration:none;color:inherit"><h3>📦 4 · Ship and run it</h3>
+      <p>Promote to test and prod, give people access, ask your agent for anything else, and fix what breaks.</p></a>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS 1: FOUNDATIONS ============ -->
+<section id="how" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow"><span class="chapter">1 of 4</span>How it works · start with what you know</p>
+      <h2>Environments and solutions.<br/><span class="grad">The model you already trust.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">If you&#39;ve built with Power Apps, you know this. An <b>environment</b>
+      is a governed container with its own Dataverse, data policies, connections, security roles and admins.
+      A <b>solution</b> carries your work between environments: build it unmanaged in dev, export it as a managed
+      <code>.zip</code>, and import that same file into test and then prod.</p>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 980 370" role="img"
+         aria-label="Classic Power Platform ALM: a solution containing tables, a canvas app, flows and security roles is built unmanaged in the dev environment's Dataverse, exported as a managed zip, and imported into test and prod. Each environment governs what runs in it.">
+      <defs>
+        <marker id="arf" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#aa3bff"/>
+        </marker>
+      </defs>
+      <text x="145" y="28" text-anchor="middle" class="lbl-tag" fill="#75707f">YOU BUILD HERE</text>
+      <rect x="20" y="46" width="250" height="272" rx="11" fill="#1e1b26" stroke="#6fb4ff"/>
+      <text x="36" y="70" class="lbl-tag" fill="#6fb4ff">DEV ENVIRONMENT</text>
+      <rect x="36" y="82" width="218" height="28" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="48" y="100" class="lbl-sm" style="fill:#ffb454">DLP · connections · roles · admins</text>
+      <rect x="36" y="122" width="218" height="182" rx="9" fill="#16141c" stroke="#322d3d"/>
+      <text x="50" y="142" class="lbl">Dataverse</text>
+      <rect x="48" y="154" width="194" height="138" rx="8" fill="#1e1b26" stroke="#aa3bff" stroke-dasharray="5 4"/>
+      <text x="60" y="174" class="lbl-sm" style="fill:#c77dff">Solution · unmanaged</text>
+      <rect x="60" y="186" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="103" y="203" text-anchor="middle" class="lbl-sm">tables</text>
+      <rect x="152" y="186" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="195" y="203" text-anchor="middle" class="lbl-sm">canvas app</text>
+      <rect x="60" y="220" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="103" y="237" text-anchor="middle" class="lbl-sm">flows</text>
+      <rect x="152" y="220" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="195" y="237" text-anchor="middle" class="lbl-sm">security roles</text>
+      <text x="60" y="276" class="lbl-sm" style="fill:#75707f">the app is inside the solution</text>
+      <text x="490" y="28" text-anchor="middle" class="lbl-tag" fill="#75707f">YOU TEST HERE</text>
+      <rect x="365" y="46" width="250" height="272" rx="11" fill="#1e1b26" stroke="#ffb454"/>
+      <text x="381" y="70" class="lbl-tag" fill="#ffb454">TEST ENVIRONMENT</text>
+      <rect x="381" y="82" width="218" height="28" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="393" y="100" class="lbl-sm" style="fill:#ffb454">DLP · connections · roles · admins</text>
+      <rect x="381" y="122" width="218" height="182" rx="9" fill="#16141c" stroke="#322d3d"/>
+      <text x="395" y="142" class="lbl">Dataverse</text>
+      <rect x="393" y="154" width="194" height="138" rx="8" fill="#1e1b26" stroke="#aa3bff" stroke-dasharray="5 4"/>
+      <text x="405" y="174" class="lbl-sm" style="fill:#c77dff">Solution · managed</text>
+      <rect x="405" y="186" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="448" y="203" text-anchor="middle" class="lbl-sm">tables</text>
+      <rect x="497" y="186" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="540" y="203" text-anchor="middle" class="lbl-sm">canvas app</text>
+      <rect x="405" y="220" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="448" y="237" text-anchor="middle" class="lbl-sm">flows</text>
+      <rect x="497" y="220" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="540" y="237" text-anchor="middle" class="lbl-sm">security roles</text>
+      <text x="405" y="276" class="lbl-sm" style="fill:#75707f">the app is inside the solution</text>
+      <text x="835" y="28" text-anchor="middle" class="lbl-tag" fill="#75707f">USERS RUN IT HERE</text>
+      <rect x="710" y="46" width="250" height="272" rx="11" fill="#1e1b26" stroke="#3ddc97"/>
+      <text x="726" y="70" class="lbl-tag" fill="#3ddc97">PROD ENVIRONMENT</text>
+      <rect x="726" y="82" width="218" height="28" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="738" y="100" class="lbl-sm" style="fill:#ffb454">DLP · connections · roles · admins</text>
+      <rect x="726" y="122" width="218" height="182" rx="9" fill="#16141c" stroke="#322d3d"/>
+      <text x="740" y="142" class="lbl">Dataverse</text>
+      <rect x="738" y="154" width="194" height="138" rx="8" fill="#1e1b26" stroke="#aa3bff" stroke-dasharray="5 4"/>
+      <text x="750" y="174" class="lbl-sm" style="fill:#c77dff">Solution · managed</text>
+      <rect x="750" y="186" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="793" y="203" text-anchor="middle" class="lbl-sm">tables</text>
+      <rect x="842" y="186" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="885" y="203" text-anchor="middle" class="lbl-sm">canvas app</text>
+      <rect x="750" y="220" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="793" y="237" text-anchor="middle" class="lbl-sm">flows</text>
+      <rect x="842" y="220" width="86" height="26" rx="6" fill="#262231" stroke="#322d3d"/>
+      <text x="885" y="237" text-anchor="middle" class="lbl-sm">security roles</text>
+      <text x="750" y="276" class="lbl-sm" style="fill:#75707f">the app is inside the solution</text>
+      <line x1="274" y1="224" x2="359" y2="224" stroke="#aa3bff" stroke-width="1.6" marker-end="url(#arf)" class="flow"/>
+      <text x="317" y="200" text-anchor="middle" class="lbl-sm" style="fill:#c77dff">export as</text>
+      <text x="317" y="214" text-anchor="middle" class="lbl-sm" style="fill:#c77dff">managed .zip</text>
+      <text x="317" y="242" text-anchor="middle" class="lbl-sm" style="fill:#c77dff">import</text>
+      <line x1="619" y1="224" x2="704" y2="224" stroke="#aa3bff" stroke-width="1.6" marker-end="url(#arf)" class="flow"/>
+      <text x="662" y="210" text-anchor="middle" class="lbl-sm" style="fill:#c77dff">same .zip</text>
+      <text x="662" y="242" text-anchor="middle" class="lbl-sm" style="fill:#c77dff">import</text>
+      <text x="490" y="350" text-anchor="middle" class="lbl-sm">Moved by hand or with Power Platform pipelines. The environment is both where the app lives and where it&#39;s governed.</text>
+    </svg>
+    <figcaption>
+      The familiar picture: the app is a solution component, so moving the solution moves the app.
+    </figcaption>
+  </figure>
+
+  <div class="grid g3">
+    <div class="card">
+      <h4>Unmanaged in dev</h4>
+      <p>You author tables, apps, flows and roles directly in the dev environment. Everything stays
+      editable.</p>
+    </div>
+    <div class="card">
+      <h4>Managed downstream</h4>
+      <p>Test and prod receive a managed solution. It&#39;s locked, versioned, and upgraded or removed
+      as one unit.</p>
+    </div>
+    <div class="card">
+      <h4>Governed where it lives</h4>
+      <p>Each environment applies its own data policies, connections and security roles to
+      whatever is imported into it.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h4>Hold onto this picture</h4>
+    <p>
+      In classic Power Platform, the environment is two things at once: <strong>where the app
+      lives</strong> and <strong>where it&#39;s governed</strong>. Managed Apps split those two
+      apart. Solutions and Dataverse still work exactly as they do here.
+    </p>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS 2: RUNTIME ============ -->
+<section id="runtime" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow"><span class="chapter">2 of 4</span>How it works · what&#39;s different</p>
+      <h2>A separate runtime,<br/><span class="grad">governed by its environment.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">A Managed App doesn&#39;t live <em>inside</em> an environment the way a canvas
+      app does. It&#39;s React code in git, built and served by one shared runtime. It is still
+      <b>governed by the environment it&#39;s pinned to</b>. You choose that environment once, when the app is created.
+      If you don&#39;t, it&#39;s pinned to your Personal Developer Environment (PDE).</p>
+  </div>
+
+  <div class="tw"><table>
+    <tr><th></th><th>Classic Power App</th><th>Managed App</th></tr>
+    <tr><td>What it is</td><td>A solution component, edited in a designer</td><td>React + TypeScript code in git</td></tr>
+    <tr><td>Where it lives</td><td>Inside the environment&#39;s Dataverse</td><td>The shared runtime, <code>play.managedapps.cloud.microsoft</code></td></tr>
+    <tr><td>How it moves</td><td>Inside a solution: export, then import</td><td>A git commit, pushed to that environment&#39;s platform repo and built in the cloud</td></tr>
+    <tr><td>Governed by</td><td>The environment it&#39;s in</td><td>The environment it&#39;s pinned to</td></tr>
+    <tr><td>Its tables and roles</td><td>In the solution</td><td>Still in a solution. Dataverse doesn&#39;t change.</td></tr>
+  </table></div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 980 480" role="img"
+         aria-label="ms app create without an environment pins the app to the maker's personal developer environment; with an environment ID it pins to the chosen dev, test or prod environment. Every app is served from the same shared runtime but follows its pinned environment's rules.">
+      <defs>
+        <marker id="arg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#75707f"/>
+        </marker>
+      </defs>
+
+      <text x="145" y="28" text-anchor="middle" class="lbl-tag" fill="#75707f">HOW IT&#39;S CREATED</text>
+      <text x="475" y="28" text-anchor="middle" class="lbl-tag" fill="#75707f">PINNED TO · GOVERNED BY</text>
+      <text x="820" y="28" text-anchor="middle" class="lbl-tag" fill="#75707f">WHERE IT RUNS</text>
+
+      <!-- create: no flag -->
+      <rect x="20" y="50" width="250" height="120" rx="11" fill="#1e1b26" stroke="#75707f"/>
+      <text x="38" y="78" class="lbl-mono" style="fill:#e8e6ee">ms app create</text>
+      <text x="38" y="100" class="lbl-sm">no environment specified</text>
+      <text x="38" y="128" class="lbl-sm" style="fill:#75707f">CLI: &#8220;resolving your</text>
+      <text x="38" y="144" class="lbl-sm" style="fill:#75707f">developer environment&#8230;&#8221;</text>
+
+      <!-- create: with env -->
+      <rect x="20" y="210" width="250" height="220" rx="11" fill="#1e1b26" stroke="#aa3bff"/>
+      <text x="38" y="238" class="lbl-mono" style="fill:#e8e6ee">ms app create</text>
+      <text x="38" y="256" class="lbl-mono" style="fill:#e8e6ee">  --environment-id &lt;id&gt;</text>
+      <text x="38" y="284" class="lbl-sm">or, in this template:</text>
+      <text x="38" y="302" class="lbl-mono" style="fill:#e8e6ee">alm:init</text>
+      <text x="38" y="330" class="lbl-sm" style="fill:#c77dff">you choose the environment</text>
+      <text x="38" y="352" class="lbl-sm">one app registration per stage,</text>
+      <text x="38" y="368" class="lbl-sm">each pinned to its own environment</text>
+
+      <!-- pin arrows -->
+      <line x1="272" y1="110" x2="326" y2="110" stroke="#a29ead" stroke-width="1.6" marker-end="url(#arg)"/>
+      <text x="299" y="102" text-anchor="middle" class="lbl-sm">pins to</text>
+      <line x1="272" y1="320" x2="326" y2="320" stroke="#aa3bff" stroke-width="1.6" marker-end="url(#arg)"/>
+      <text x="299" y="312" text-anchor="middle" class="lbl-sm" style="fill:#c77dff">pins to</text>
+
+      <!-- PDE -->
+      <rect x="330" y="50" width="290" height="120" rx="11" fill="#1e1b26" stroke="#a29ead" stroke-dasharray="5 4"/>
+      <text x="348" y="72" class="lbl-tag" fill="#75707f">THE DEFAULT</text>
+      <text x="348" y="94" class="lbl">Your Personal Developer Environment</text>
+      <text x="348" y="118" class="lbl-sm">the maker&#39;s own environment</text>
+      <text x="348" y="138" class="lbl-sm">its connector policies, connections and</text>
+      <text x="348" y="154" class="lbl-sm">Dataverse, as admins set up for dev envs</text>
+
+      <!-- chosen envs -->
+      <rect x="330" y="210" width="290" height="220" rx="11" fill="#1e1b26" stroke="#aa3bff"/>
+      <text x="348" y="232" class="lbl-tag" fill="#c77dff">THE ENVIRONMENT YOU CHOOSE</text>
+      <rect x="346" y="244" width="258" height="40" rx="7" fill="#262231" stroke="#6fb4ff"/>
+      <text x="360" y="262" class="lbl" style="fill:#6fb4ff">Dev environment</text>
+      <text x="360" y="277" class="lbl-sm">its policies · data · roles · admins</text>
+      <rect x="346" y="292" width="258" height="40" rx="7" fill="#262231" stroke="#ffb454"/>
+      <text x="360" y="310" class="lbl" style="fill:#ffb454">Test environment</text>
+      <text x="360" y="325" class="lbl-sm">its policies · data · roles · admins</text>
+      <rect x="346" y="340" width="258" height="40" rx="7" fill="#262231" stroke="#3ddc97"/>
+      <text x="360" y="358" class="lbl" style="fill:#3ddc97">Prod environment</text>
+      <text x="360" y="373" class="lbl-sm">its policies · data · roles · admins</text>
+      <text x="348" y="404" class="lbl-sm">often a Managed Environment your</text>
+      <text x="348" y="420" class="lbl-sm">admins already govern</text>
+
+      <!-- to runtime -->
+      <path d="M622,110 C650,110 652,190 676,200" fill="none" stroke="#a29ead" stroke-width="1.5" marker-end="url(#arg)" class="flow"/>
+      <path d="M622,320 C650,320 652,290 676,280" fill="none" stroke="#aa3bff" stroke-width="1.5" marker-end="url(#arg)" class="flow"/>
+
+      <!-- runtime -->
+      <rect x="680" y="120" width="280" height="250" rx="12" fill="#16141c" stroke="#aa3bff"/>
+      <text x="820" y="158" text-anchor="middle" class="lbl" style="fill:#c77dff">play.managedapps</text>
+      <text x="820" y="176" text-anchor="middle" class="lbl" style="fill:#c77dff">.cloud.microsoft</text>
+      <text x="820" y="204" text-anchor="middle" class="lbl-sm">one shared runtime for every app</text>
+      <text x="820" y="224" text-anchor="middle" class="lbl-sm" style="fill:#3ddc97">where users open the app</text>
+      <line x1="700" y1="244" x2="940" y2="244" stroke="#322d3d"/>
+      <text x="820" y="270" text-anchor="middle" class="lbl-sm" style="fill:#ffb454">but each app follows the rules</text>
+      <text x="820" y="286" text-anchor="middle" class="lbl-sm" style="fill:#ffb454">of the environment it&#39;s pinned to:</text>
+      <text x="820" y="312" text-anchor="middle" class="lbl-sm">connector policy · connections</text>
+      <text x="820" y="330" text-anchor="middle" class="lbl-sm">Dataverse data · security roles</text>
+
+      <text x="490" y="466" text-anchor="middle" class="lbl-sm" style="fill:#ff5c7a">The pin is set once, at create. It can&#39;t be changed, and ms app deploy has no environment flag.</text>
+    </svg>
+    <figcaption>
+      Separate runtime, environment governance. Leave the environment out and the app is governed
+      by your PDE. Pass one and it&#39;s governed by that environment.
+    </figcaption>
+  </figure>
+
+  <h3 class="sub">What the pinned environment decides</h3>
+  <div class="tw"><table>
+    <tr><th>What</th><th>Comes from</th><th>How to check</th></tr>
+    <tr><td>Which connectors are allowed (DLP)</td><td>The pinned environment</td><td><code>ms connector list -e &lt;env&gt;</code> shows Allowed or Blocked</td></tr>
+    <tr><td>Connections the app uses</td><td>The pinned environment</td><td><code>ms app deploy</code> checks <code>allowedActions</code> on shared connections</td></tr>
+    <tr><td>Dataverse tables, data and security roles</td><td>The pinned environment</td><td>Dataverse security is enforced there on every call</td></tr>
+    <tr><td>The app record and its platform git repo</td><td>The pinned environment</td><td><code>ms app info</code> shows the environment ID; the repo URL embeds it</td></tr>
+    <tr><td>The URL users open</td><td>Shared by every app</td><td><code>play.managedapps.cloud.microsoft</code> + the app ID</td></tr>
+    <tr><td>The admin Apps list</td><td>Shared, tenant-wide</td><td>Microsoft 365 admin center (no environment column, see below)</td></tr>
+  </table></div>
+
+  <div class="callout ok">
+    <h4>Choose the environment on purpose</h4>
+    <p>
+      With no <code>--environment-id</code>, the app is pinned to your PDE and follows whatever rules
+      your admins set for developer environments. That&#39;s fine for a personal app. For team or
+      production apps, pin each stage to an environment your admins govern, so its policies
+      apply. This template&#39;s <code>alm:init</code> always passes the environment ID.
+    </p>
+  </div>
+
+  <h3 class="sub">All three apps land in the same Apps list</h3>
+  <p>
+    "Dev", "test" and "prod" are not runtime concepts. Each is a separate app registration, and
+    every one of them shows up in the same tenant-wide Apps list — with <strong>no environment
+    column</strong> to tell them apart.
+  </p>
+
+  <figure class="fig">
+    <svg viewBox="0 0 980 300" role="img" aria-label="Three apps converge into one admin list">
+      <defs>
+        <marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#75707f"/>
+        </marker>
+      </defs>
+
+      <rect x="20" y="30"  width="200" height="58" rx="10" fill="#1e1b26" stroke="#6fb4ff"/>
+      <text x="38" y="54" class="lbl">Managed Apps Inventory</text>
+      <text x="38" y="74" class="lbl-mono">a1b2c3d4 · dev env</text>
+
+      <rect x="20" y="118" width="200" height="58" rx="10" fill="#1e1b26" stroke="#ffb454"/>
+      <text x="38" y="142" class="lbl">Managed Apps Inventory</text>
+      <text x="38" y="162" class="lbl-mono">b2c3d4e5 · test env</text>
+
+      <rect x="20" y="206" width="200" height="58" rx="10" fill="#1e1b26" stroke="#3ddc97"/>
+      <text x="38" y="230" class="lbl">Managed Apps Inventory</text>
+      <text x="38" y="250" class="lbl-mono">c3d4e5f6 · prod env</text>
+
+      <path d="M224,59 C300,59 300,147 380,147" fill="none" stroke="#6fb4ff" stroke-width="1.6" marker-end="url(#ar2)"/>
+      <path d="M224,147 L380,147" fill="none" stroke="#ffb454" stroke-width="1.6" marker-end="url(#ar2)"/>
+      <path d="M224,235 C300,235 300,147 380,147" fill="none" stroke="#3ddc97" stroke-width="1.6" marker-end="url(#ar2)"/>
+
+      <!-- admin list -->
+      <rect x="388" y="26" width="560" height="248" rx="13" fill="#16141c" stroke="#aa3bff"/>
+      <text x="408" y="52" class="lbl" fill="#aa3bff">Microsoft 365 Admin Center → Apps</text>
+      <line x1="408" y1="64" x2="928" y2="64" stroke="#322d3d"/>
+
+      <text x="408" y="86"  class="lbl-tag" fill="#75707f">NAME</text>
+      <text x="760" y="86"  class="lbl-tag" fill="#75707f">APP ID</text>
+
+      <text x="408" y="116" class="lbl">Managed Apps Inventory</text>
+      <text x="760" y="116" class="lbl-mono">a1b2c3d4…</text>
+      <text x="408" y="146" class="lbl">Managed Apps Inventory</text>
+      <text x="760" y="146" class="lbl-mono">b2c3d4e5…</text>
+      <text x="408" y="176" class="lbl">Managed Apps Inventory</text>
+      <text x="760" y="176" class="lbl-mono">c3d4e5f6…</text>
+      <text x="408" y="206" class="lbl-sm">Contoso Helpdesk</text>
+      <text x="760" y="206" class="lbl-mono">d4e5f6a7…</text>
+      <text x="408" y="230" class="lbl-sm">Contoso Helpdesk</text>
+      <text x="760" y="230" class="lbl-mono">e5f6a7b8…</text>
+
+      <text x="408" y="258" class="lbl-sm" fill="#ff5c7a">↑ identical names — no environment column</text>
+    </svg>
+    <figcaption>
+      What <code>ms app list</code> shows: three identically named apps, indistinguishable at a glance.
+    </figcaption>
+  </figure>
+
+  <div class="callout danger">
+    <h4>Name your apps per environment</h4>
+    <p>
+      Nothing in the admin surface tells you which environment an app belongs to. Use
+      <code>"Expense Tracker [DEV]"</code>, <code>[TEST]</code>, <code>[PROD]</code> — or an
+      admin cannot tell which of three identical rows is production.
+    </p>
+  </div>
+
+  <h3 class="sub">How to tell them apart today</h3>
+  <div class="tw"><table>
+    <tr><th>Field</th><th>Distinguishes?</th><th>Why</th></tr>
+    <tr><td><code>displayName</code></td><td>❌</td><td>Identical unless you make it unique</td></tr>
+    <tr><td><code>appId</code></td><td>✅</td><td>Unique, but opaque</td></tr>
+    <tr><td><code>cloneUrl</code></td><td>✅</td><td>Host embeds the environment ID</td></tr>
+    <tr><td><code>appPlayUri</code></td><td>⚠️</td><td>Same host for all; only the appId differs</td></tr>
+  </table></div>
+  <div class="callout warn">
+    <h4>So there are now two tracks</h4>
+    <p>
+      The app&#39;s <strong>code</strong> moves through git. Its <strong>Dataverse schema</strong>
+      (tables, columns, security roles) still moves as a managed solution, just like before.
+      A Managed App is not a solution component, so the solution can&#39;t carry the app, and git
+      can&#39;t carry the tables. Keeping those two tracks in step across dev, test and prod is the
+      hard part, and it isn&#39;t the only one. <a href="#why">Here&#39;s what goes wrong.</a>
+    </p>
+  </div>
+</section>
+
 <!-- ============ WHY ============ -->
 <section id="why" class="reveal">
   <div class="head">
     <div>
-      <p class="eyebrow">Why this exists</p>
+      <p class="eyebrow"><span class="chapter">3 of 4</span>How it works · what goes wrong</p>
       <h2>Building the app is the easy part now.<br/><span class="grad">Operating it is the hard part.</span></h2>
     </div>
     <p class="lede" style="max-width:46ch">AI agents can scaffold a working app in minutes. Enterprises also need
       that app promoted safely, schema kept aligned, and every environment auditable. We hit each of
-      these pitfalls for real and built the fix into this repo. <b>Tap a card</b> to see the fix.</p>
+      these pitfalls for real and built the fix into this template. <b>Tap a card</b> to see the fix.</p>
   </div>
   <div class="grid g3">
     <div class="card pit" tabindex="0">
@@ -306,48 +705,15 @@
     </div>
   </div>
 </section>
-
-<!-- ============ CONNECT ============ -->
-<section id="connect" class="reveal">
-  <div class="head">
-    <div>
-      <p class="eyebrow">Connect to anything</p>
-      <h2>Your data is probably already here.<br/><span class="grad">So are your guardrails.</span></h2>
-    </div>
-    <p class="lede" style="max-width:46ch">Managed Apps use the Power Platform connector catalog: <b>1,300+ connectors</b>
-      from Microsoft 365 and Dataverse to SAP, Salesforce, ServiceNow, SQL, and Snowflake, plus any custom connector
-      your team publishes. You ask for data in plain language, and the agent wires up typed services.</p>
-  </div>
-  <div class="wall" aria-hidden="true">
-    <div class="row" id="r1"></div>
-    <div class="row r2" id="r2"></div>
-    <div class="row r3" id="r3"></div>
-    <div class="shield">
-      <div class="ico">🛡️</div>
-      <p><b>Governed by the controls you already run.</b> Every app is pinned to a Power Platform environment
-        (your personal developer environment unless you choose one) and follows its DLP policies, connector
-        allow/block lists, and security, with Entra identity on top. Makers move fast inside the lines IT has already drawn.</p>
-    </div>
-  </div>
-  <div class="grid g3" style="margin-top:22px">
-    <div class="card"><div class="ico b">💬</div><h3>Ask in plain language</h3>
-      <p>"Add a SharePoint list of vendors and let me email them from Outlook." The agent's skills pick the connector and generate typed TypeScript services.</p></div>
-    <div class="card"><div class="ico g">🔐</div><h3>Least privilege by default</h3>
-      <p>Each shared connection declares exactly which actions the app may call. Deploy fails closed if a declaration is missing.</p></div>
-    <div class="card"><div class="ico o">🗄️</div><h3>Dataverse when you need it</h3>
-      <p>Need real tables, relationships, and roles? Dataverse skills create the schema, and the solution pipeline carries it to every environment.</p></div>
-  </div>
-</section>
-
 <!-- ============ ALM ============ -->
 <section id="alm" class="reveal">
   <div class="head">
     <div>
-      <p class="eyebrow">Professional ALM, out of the box</p>
+      <p class="eyebrow"><span class="chapter">4 of 4</span>How it works · putting it together</p>
       <h2>One branch per environment.<br/><span class="grad">Everything moves together.</span></h2>
     </div>
-    <p class="lede" style="max-width:46ch">Each branch carries the app code and the managed solution side by side.
-      Promotion is a git merge. Every app is served by the one shared Managed Apps runtime, but each is
+    <p class="lede" style="max-width:46ch">Each stage is its own app, pinned to its own environment. Each branch carries the app code and the
+      managed solution side by side, so promotion is a git merge. Every app is served by the one shared Managed Apps runtime, but each is
       <b>pinned to, and governed by, its own environment</b>: that environment's policies, connections, and Dataverse.</p>
   </div>
   <div class="diagram">
@@ -421,6 +787,84 @@
     <div class="card"><h3>🧷 Guarded deploys</h3><p>Environment binding, solution version, and clean-tree checks run before every <code>alm:deploy</code>.</p></div>
     <div class="card"><h3>🪞 Remotes in sync</h3><p>Hooks mirror each branch to its environment's platform git repo, so the runtime always builds the code you reviewed.</p></div>
   </div>
+  <div class="callout warn">
+    <h4>The one change from the classic flow: nothing moves environment-to-environment</h4>
+    <p>
+      In the <a href="#how">classic flow</a> the zip went straight from dev to test. Here it doesn&#39;t. The managed solution leaves dev as a file,
+      lands in <code>solutions/</code>, and travels as a git artifact. Test and prod are only ever
+      written to by an <em>import from a branch</em>.
+    </p>
+  </div>
+
+  <div class="grid g3">
+    <div class="card">
+      <h4>1 · Export into the repo</h4>
+      <p><code>alm:solution export</code> pulls the managed solution out of dev and commits it to
+      <code>solutions/</code> with a version and checksum.</p>
+    </div>
+    <div class="card">
+      <h4>2 · Promote the branch</h4>
+      <p><code>alm:promote</code> merges dev into test. The same commit now carries the same code
+      <em>and</em> the same solution zip.</p>
+    </div>
+    <div class="card">
+      <h4>3 · Import from the branch</h4>
+      <p><code>alm:solution import test</code> pushes that artifact into the target's Dataverse.
+      Then the app deploys — and only then.</p>
+    </div>
+  </div>
+  <p class="next">Ready to walk through a real change? <a href="#ship">See it step by step ↓</a></p>
+</section>
+
+<!-- ============ CONNECT ============ -->
+<section id="connect" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Connect to anything</p>
+      <h2>Your data is probably already here.<br/><span class="grad">So are your guardrails.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Managed Apps use the Power Platform connector catalog: <b>1,300+ connectors</b>
+      from Microsoft 365 and Dataverse to SAP, Salesforce, ServiceNow, SQL, and Snowflake, plus any custom connector
+      your team publishes. You ask for data in plain language, and the agent wires up typed services.</p>
+  </div>
+  <div class="wall" aria-hidden="true">
+    <div class="row" id="r1"></div>
+    <div class="row r2" id="r2"></div>
+    <div class="row r3" id="r3"></div>
+    <div class="shield">
+      <div class="ico">🛡️</div>
+      <p><b>Governed by the controls you already run.</b> Every app is pinned to a Power Platform environment
+        (your personal developer environment unless you choose one) and follows its DLP policies, connector
+        allow/block lists, and security, with Entra identity on top. Makers move fast inside the lines IT has already drawn.</p>
+    </div>
+  </div>
+  <div class="grid g3" style="margin-top:22px">
+    <div class="card"><div class="ico b">💬</div><h3>Ask in plain language</h3>
+      <p>"Add a SharePoint list of vendors and let me email them from Outlook." The agent's skills pick the connector and generate typed TypeScript services.</p></div>
+    <div class="card"><div class="ico g">🔐</div><h3>Least privilege by default</h3>
+      <p>Each shared connection declares exactly which actions the app may call. Deploy fails closed if a declaration is missing.</p></div>
+    <div class="card"><div class="ico o">🗄️</div><h3>Dataverse when you need it</h3>
+      <p>Need real tables, relationships, and roles? Dataverse skills create the schema, and the solution pipeline carries it to every environment.</p></div>
+  </div>
+  <h3 class="sub">Will this connector work in my environments?</h3>
+  <p>
+    Start with Microsoft's up-to-date catalogs, the
+    <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/" target="_blank" rel="noopener">list of connectors</a>
+    and the
+    <a href="https://learn.microsoft.com/en-us/connectors/connector-reference/connector-reference-mcpserver-connectors" target="_blank" rel="noopener">list of MCP servers</a>.
+    Being listed doesn't mean you can use it. Your organization's data policy decides that for
+    each environment separately.
+  </p>
+  <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>ms connector list -e &lt;env-id&gt; --search outlook                          <span class="cm"># Policy Status: Allowed / Blocked</span>
+ms connector list-actions --connector office365 -e &lt;env-id&gt; --search send  <span class="cm"># which actions are allowed</span></pre></div>
+  <div class="callout warn">
+    <h4>Always name the environment and check each one</h4>
+    <p>
+      Without <code>-e</code> the CLI checks your personal developer environment instead. A
+      connector allowed in dev can still be blocked in prod. Or just ask your agent: <em>"Can I use
+      the Office 365 Outlook connector in test and prod?"</em>
+    </p>
+  </div>
 </section>
 
 <!-- ============ SCALE ============ -->
@@ -454,26 +898,25 @@
     </div>
   </div>
 </section>
-
 <!-- ============ START ============ -->
 <section id="start" class="reveal">
   <p class="eyebrow">Get started</p>
   <h2>From idea to governed app <span class="grad">this afternoon.</span></h2>
   <p class="lede" style="margin-bottom:22px">Create your repo, open it in your coding agent, and paste one prompt.
     The agent installs what's missing, signs you in, registers your dev app and runs it. You only finish the
-    sign-ins and say yes. Prefer to do it by hand? The <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a>
-    and <a href="guide.html#setup">visual guide</a> have every step.</p>
+    sign-ins and say yes. Prefer to do it by hand? <a href="#setup">Every step is below.</a></p>
   <div class="oneprompt">
     <span class="lbl">The one prompt</span>
     <button class="say">Read AGENTS.md, then set up this project for me.</button>
     <span class="hint">Click to copy. Safe to run again: it only fixes what's missing.</span>
   </div>
+  <div class="tabset">
   <div class="tabs" role="tablist">
-    <button class="on" data-t="app">GitHub Copilot App</button>
-    <button data-t="cli">Copilot CLI</button>
-    <button data-t="vscode">VS Code</button>
-    <button data-t="claude">Claude Code</button>
-    <button data-t="cursor">Cursor</button>
+    <button class="on" data-t="p-app">GitHub Copilot App</button>
+    <button data-t="p-cli">Copilot CLI</button>
+    <button data-t="p-vscode">VS Code</button>
+    <button data-t="p-claude">Claude Code</button>
+    <button data-t="p-cursor">Cursor</button>
   </div>
   <div class="pane on" id="p-app"><ol class="steps">
     <li><div><b>Create your repo</b> from this template (<em>Use this template → Create a new repository</em>).</div></li>
@@ -500,6 +943,321 @@
     <li><div><b>Open the Agent</b> panel.</div></li>
     <li><div><b>Paste the prompt.</b> Cursor reads <code>AGENTS.md</code>, which points it to the setup steps and the devkit.</div></li>
   </ol></div>
+  </div>
+
+  <h3 class="sub">What the agent does, and what you do</h3>
+  <div class="tw"><table>
+    <tr><th>The agent does</th><th>You do</th></tr>
+    <tr><td>Checks Node, Git, Git Credential Manager and the Managed Apps CLI, and installs what's missing</td>
+        <td>Type your password if an installer needs admin rights</td></tr>
+    <tr><td>Checks that git knows your name and email</td><td>Tell it them if not. Commits fail without them</td></tr>
+    <tr><td>Starts the Microsoft sign-in</td><td>Finish it in the browser (MFA or passkey)</td></tr>
+    <tr><td>Lists your environments</td><td>Pick one for dev. <strong>It's permanent for this app.</strong></td></tr>
+    <tr><td>Installs the Managed Apps plugin (Copilot) or tells you the two commands to type (Claude Code)</td><td>In Claude Code, type the <code>/plugin</code> commands</td></tr>
+    <tr><td>Runs <code>alm:setup</code>, sets up remotes, registers the dev app, builds, and checks health</td><td>Say yes before the app is registered</td></tr>
+    <tr><td>Opens a visible terminal for the one-time sign-in to the app's platform repo, and joins its history</td>
+        <td>Finish the sign-in in the browser window</td></tr>
+    <tr><td>Starts <code>ms app dev</code> and gives you the App Player link</td><td>Open it in <strong>Chrome or Edge</strong>. It doesn't work in an agent's side-panel browser</td></tr>
+  </table></div>
+  <p class="muted">
+    It's safe to run again: it checks each step and only fixes what's missing. It stops and tells you
+    who can help if something is blocked, such as a locked-down laptop, a missing licence or a
+    blocked connector. The steps it follows are in
+    <code>.github/skills/managed-apps-devkit/playbooks/setup.md</code>.
+  </p>
+
+  <details class="manual" id="setup">
+    <summary>Prefer to do it by hand? Every step, for macOS and Windows</summary>
+    <div class="body" style="color:var(--ink)">
+    <p class="muted">Show commands for <span class="os-toggle"><button data-os="mac" class="on">macOS</button><button data-os="win">Windows</button></span></p>
+  <h4 style="margin:18px 0 6px">Prerequisites</h4>
+  <div class="mac">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre><span class="cm"># macOS</span>
+brew install node git
+brew install --cask git-credential-manager
+git credential-manager configure   <span class="cm"># REQUIRED — do not skip</span>
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+npm install -g @microsoft/managed-apps-cli@latest
+ms auth login</pre></div>
+  </div>
+  <div class="win">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre><span class="cm"># Windows PowerShell — Git for Windows bundles and configures GCM</span>
+winget install OpenJS.NodeJS.LTS
+winget install Git.Git
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+npm install -g '@microsoft/managed-apps-cli@latest'
+ms auth login</pre></div>
+  </div>
+
+  <div class="callout warn mac">
+    <h4>The #1 first-run failure on macOS</h4>
+    <p>
+      Git Credential Manager can be installed but not registered as a credential helper, and
+      <code>ms app create</code> fails preflight. <code>git credential-manager configure</code>
+      fixes it. URL-scoped helpers such as GitHub's are unaffected.
+    </p>
+  </div>
+
+  <h3 class="sub">Install the agent plugin</h3>
+  <div class="tabset">
+  <div class="tabs">
+    <button class="on" data-t="t-cli">Copilot CLI</button>
+    <button data-t="t-claude">Claude Code</button>
+    <button data-t="t-app">Copilot App</button>
+  </div>
+
+  <div id="t-cli" class="pane on">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre><span class="cm"># run `copilot` in any folder, then:</span>
+/plugin marketplace add microsoft/Managed-Apps
+/plugin install microsoft-managed-apps@Managed-Apps</pre></div>
+  </div>
+  <div id="t-claude" class="pane">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre><span class="cm"># run `claude`, then — identical commands:</span>
+/plugin marketplace add microsoft/Managed-Apps
+/plugin install microsoft-managed-apps@Managed-Apps</pre></div>
+  </div>
+  <div id="t-app" class="pane">
+    <p class="muted">
+      The desktop app runs Copilot CLI underneath and shares the same <code>~/.copilot</code>
+      configuration, so anything installed in either is available in both. Use the same slash
+      commands in chat.
+    </p>
+  </div>
+  </div>
+
+  <h3 class="sub">Create the project</h3>
+  <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre><span class="cm"># Use this template → Create a new repository, then:</span>
+git clone https://github.com/&lt;you&gt;/&lt;your-repo&gt;
+cd &lt;your-repo&gt;
+npm install
+npm run alm:setup        <span class="cm"># merge driver + hooks — REQUIRED, once per clone</span>
+
+npm run alm:init -- --name "Expense Tracker" --dev &lt;dev-env-id&gt; --prefix contoso
+
+<span class="cm"># in your own terminal: the first fetch opens a one-time sign-in</span>
+git add -A &amp;&amp; git commit -m "chore: initial setup"
+npm run alm:bootstrap -- dev
+
+<span class="cm"># once, before your first Dataverse table</span>
+npm run alm:solution -- create   <span class="cm"># publisher + solution in dev</span></pre></div>
+  <p class="muted">
+    <code>alm:init</code> also records dev's Dataverse URL, and removes <code>ms.config.json</code>
+    and <code>solutions/</code> from <code>.gitignore</code>: the template ignores them, but
+    your project must commit both. With <code>--fresh</code> it leaves a placeholder page that builds.
+  </p>
+
+  <div class="callout">
+    <h4>Why <code>alm:setup</code> is not optional</h4>
+    <p>
+      It registers the git merge driver that pins <code>ms.config.json</code> to each branch.
+      Without it, promoting dev → prod overwrites production's binding with dev's and repoints
+      your live app at the sandbox Dataverse.
+    </p>
+  </div>
+    </div>
+  </details>
+</section>
+
+<!-- ============ SHIP ============ -->
+<section id="ship" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Ship it</p>
+      <h2>Two things travel together.<br/><span class="grad">The tooling won&#39;t let them split.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">App code moves as a git commit. Schema moves as a managed solution committed
+      <em>into that same commit</em>. Deploying one without the other is the most common way to break an environment,
+      so <code>alm:deploy</code> refuses. Here&#39;s one change, from your laptop to test.</p>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 980 250" role="img" aria-label="App code and solution promoted together">
+      <defs>
+        <marker id="ar3" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#aa3bff"/>
+        </marker>
+      </defs>
+
+      <text x="130" y="26" text-anchor="middle" class="lbl-tag" fill="#6fb4ff">DEV</text>
+      <text x="490" y="26" text-anchor="middle" class="lbl-tag" fill="#ffb454">TEST</text>
+      <text x="850" y="26" text-anchor="middle" class="lbl-tag" fill="#3ddc97">PROD</text>
+
+      <!-- app code lane -->
+      <text x="20" y="76" class="lbl-sm">app code</text>
+      <rect x="40" y="88" width="180" height="46" rx="9" fill="#1e1b26" stroke="#6fb4ff"/>
+      <text x="130" y="116" text-anchor="middle" class="lbl-mono">git commit</text>
+      <line x1="224" y1="111" x2="396" y2="111" stroke="#aa3bff" stroke-width="1.6" marker-end="url(#ar3)" class="flow"/>
+      <text x="310" y="103" text-anchor="middle" class="lbl-sm">alm:promote</text>
+      <rect x="400" y="88" width="180" height="46" rx="9" fill="#1e1b26" stroke="#ffb454"/>
+      <text x="490" y="116" text-anchor="middle" class="lbl-mono">same commit</text>
+      <line x1="584" y1="111" x2="756" y2="111" stroke="#aa3bff" stroke-width="1.6" marker-end="url(#ar3)" class="flow"/>
+      <rect x="760" y="88" width="180" height="46" rx="9" fill="#1e1b26" stroke="#3ddc97"/>
+      <text x="850" y="116" text-anchor="middle" class="lbl-mono">same commit</text>
+
+      <!-- solution lane -->
+      <text x="20" y="176" class="lbl-sm">schema</text>
+      <rect x="40" y="188" width="180" height="46" rx="9" fill="#1e1b26" stroke="#6fb4ff"/>
+      <text x="130" y="209" text-anchor="middle" class="lbl-mono">unmanaged</text>
+      <text x="130" y="225" text-anchor="middle" class="lbl-sm">authored here</text>
+
+      <!-- The schema hops through the REPO, never environment-to-environment. -->
+      <line x1="224" y1="211" x2="268" y2="211" stroke="#aa3bff" stroke-width="1.6"
+            marker-end="url(#ar3)" class="flow"/>
+      <text x="246" y="203" text-anchor="middle" class="lbl-sm">export</text>
+      <rect x="272" y="190" width="108" height="42" rx="8" fill="#262231" stroke="#aa3bff"/>
+      <text x="326" y="207" text-anchor="middle" class="lbl-mono">solutions/</text>
+      <text x="326" y="223" text-anchor="middle" class="lbl-sm">committed to git</text>
+      <line x1="384" y1="211" x2="396" y2="211" stroke="#aa3bff" stroke-width="1.6"
+            marker-end="url(#ar3)" class="flow"/>
+      <text x="390" y="249" text-anchor="middle" class="lbl-sm">import</text>
+      <rect x="400" y="188" width="180" height="46" rx="9" fill="#1e1b26" stroke="#ffb454"/>
+      <text x="490" y="209" text-anchor="middle" class="lbl-mono">managed v1.0.2</text>
+      <text x="490" y="225" text-anchor="middle" class="lbl-sm">locked</text>
+      <line x1="584" y1="211" x2="700" y2="211" stroke="#aa3bff" stroke-width="1.6"
+            marker-end="url(#ar3)" class="flow"/>
+      <text x="642" y="203" text-anchor="middle" class="lbl-sm">promoted in git</text>
+      <line x1="704" y1="211" x2="756" y2="211" stroke="#aa3bff" stroke-width="1.6"
+            marker-end="url(#ar3)" class="flow"/>
+      <text x="730" y="249" text-anchor="middle" class="lbl-sm">import</text>
+      <rect x="760" y="188" width="180" height="46" rx="9" fill="#1e1b26" stroke="#3ddc97"/>
+      <text x="850" y="209" text-anchor="middle" class="lbl-mono">managed v1.0.2</text>
+      <text x="850" y="225" text-anchor="middle" class="lbl-sm">locked</text>
+
+      <rect x="40" y="148" width="900" height="26" rx="6" fill="none" stroke="#322d3d" stroke-dasharray="3 3"/>
+      <text x="490" y="166" text-anchor="middle" class="lbl-sm">versions must match, or the deploy is blocked</text>
+    </svg>
+    <figcaption>
+      The schema hops through <code>solutions/</code> in git — never directly between
+      environments — so one commit carries both.
+    </figcaption>
+  </figure>
+
+  <h3 class="sub">Walk through a change</h3>
+  <div class="stepper">
+    <button class="on" onclick="stp(this,'s1')"><span class="n">STEP 1</span>Build on dev</button>
+    <button onclick="stp(this,'s2')"><span class="n">STEP 2</span>Export schema</button>
+    <button onclick="stp(this,'s3')"><span class="n">STEP 3</span>Promote to test</button>
+    <button onclick="stp(this,'s4')"><span class="n">STEP 4</span>Guard fires</button>
+    <button onclick="stp(this,'s5')"><span class="n">STEP 5</span>Import + deploy</button>
+  </div>
+
+  <div id="s1" class="steppane on">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>git checkout -b feature/thing dev
+ms app dev                       <span class="cm"># local, hot reload</span>
+git commit -am "feat: thing"
+git push -u github feature/thing  <span class="cm"># open a PR into dev, merge after CI</span>
+git checkout dev &amp;&amp; git pull github dev
+npm run alm:deploy -- dev</pre></div>
+    <p class="muted">Dev is the only environment where schema is authored. Everywhere else it arrives as managed.</p>
+  </div>
+
+  <div id="s2" class="steppane">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>npm run alm:solution -- export -- --bump build
+
+<span class="ok">✓</span> version 1.0.1.0 -&gt; 1.0.2.0
+<span class="ok">✓</span> InventoryApp_managed.zip (11662 bytes)
+<span class="ok">✓</span> manifest v1.0.2.0</pre></div>
+    <p class="muted">The zip and a sha256 manifest are committed to <code>solutions/</code>, so the artifact is reviewable and verifiable.</p>
+  </div>
+
+  <div id="s3" class="steppane">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>npm run alm:promote -- test
+
+<span class="ok">✓</span> merge driver registered
+<span class="ok">✓</span> checked out test
+<span class="ok">✓</span> ms.config.json unchanged — environment binding intact</pre></div>
+    <p class="muted">Only code moves. Test keeps its own <code>ms.config.json</code>, so it still points at the test app.</p>
+  </div>
+
+  <div id="s4" class="steppane">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>npm run alm:deploy -- test
+
+<span class="ok">✓</span> connection references match this environment
+<span class="bad">✗</span> Schema drift: test has v1.0.1.0 but the repo ships v1.0.2.0.
+  Run: npm run alm:solution -- import test</pre></div>
+    <p class="muted">Blocked <em>before</em> anything is pushed. The app would have called columns that do not exist yet.</p>
+  </div>
+
+  <div id="s5" class="steppane">
+    <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>npm run alm:solution -- import test
+<span class="ok">✓</span> artifact verified (sha256 76ae0480f3d1…)
+<span class="ok">✓</span> installed v1.0.2.0 (managed: true)
+
+npm run alm:deploy -- test
+<span class="ok">✓</span> solution v1.0.2.0 in lockstep with test
+<span class="ok">✓</span> Deployed test</pre></div>
+    <p class="muted">Repeat for prod. Schema first, always — <code>ms app add data-source</code> reads table metadata from the target org.</p>
+  </div>
+
+  <div class="callout warn">
+    <h4>Dataverse solutions do not branch</h4>
+    <p>
+      Git gives you <code>hotfix/x</code> off prod; your dev <em>environment</em> has no
+      equivalent — it holds whatever schema you have been building. So a hotfix needing a schema
+      change cannot cleanly export from dev. Keep schema additive and decoupled from app
+      releases, and this never bites.
+    </p>
+  </div>
+</section>
+
+
+<!-- ============ ACCESS ============ -->
+<section id="access" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Give people access</p>
+      <h2>Two independent gates.<br/><span class="grad">Open the app, then see the data.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Sharing an app does not grant access to its data. They are separate systems,
+      and as an administrator you won&#39;t notice the gap, because you pass both gates automatically.</p>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 980 190" role="img" aria-label="Two access gates">
+      <defs>
+        <marker id="ar4" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#75707f"/>
+        </marker>
+      </defs>
+      <circle cx="70" cy="95" r="34" fill="#1e1b26" stroke="#322d3d"/>
+      <text x="70" y="100" text-anchor="middle" class="lbl">User</text>
+
+      <line x1="108" y1="95" x2="228" y2="95" stroke="#75707f" stroke-width="1.5" marker-end="url(#ar4)"/>
+      <rect x="232" y="52" width="210" height="86" rx="11" fill="#1e1b26" stroke="#aa3bff"/>
+      <text x="337" y="82" text-anchor="middle" class="lbl-tag" fill="#aa3bff">GATE 1</text>
+      <text x="337" y="104" text-anchor="middle" class="lbl">ms app share</text>
+      <text x="337" y="124" text-anchor="middle" class="lbl-sm">can they open it?</text>
+
+      <line x1="446" y1="95" x2="546" y2="95" stroke="#75707f" stroke-width="1.5" marker-end="url(#ar4)"/>
+      <rect x="550" y="52" width="210" height="86" rx="11" fill="#1e1b26" stroke="#ffb454"/>
+      <text x="655" y="82" text-anchor="middle" class="lbl-tag" fill="#ffb454">GATE 2</text>
+      <text x="655" y="104" text-anchor="middle" class="lbl">Dataverse role</text>
+      <text x="655" y="124" text-anchor="middle" class="lbl-sm">can they see data?</text>
+
+      <line x1="764" y1="95" x2="864" y2="95" stroke="#75707f" stroke-width="1.5" marker-end="url(#ar4)"/>
+      <rect x="868" y="66" width="92" height="58" rx="11" fill="#1e1b26" stroke="#3ddc97"/>
+      <text x="914" y="100" text-anchor="middle" class="lbl" fill="#3ddc97">Works</text>
+
+      <path d="M655,142 L655,168" stroke="#ff5c7a" stroke-width="1.5" marker-end="url(#ar4)"/>
+      <text x="672" y="172" class="lbl-sm" fill="#ff5c7a">missing role → app loads, then errors on first read</text>
+    </svg>
+    <figcaption>Pass gate 1 but not gate 2 and the app opens fine, then fails.</figcaption>
+  </figure>
+
+  <div class="callout danger">
+    <h4>Why you will not catch this yourself</h4>
+    <p>
+      As a System Administrator you implicitly hold every privilege, so both gates pass silently.
+      Test with a real non-admin account before shipping.
+    </p>
+  </div>
+
+  <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>npm run alm:role -- create   <span class="cm"># role travels in the managed solution</span>
+npm run alm:role -- show     <span class="cm"># verify across all environments</span></pre></div>
 </section>
 
 <!-- ============ ASK ============ -->
@@ -581,6 +1339,19 @@
     </div>
   </div>
 
+  
+  <h3 class="sub">Everything on the menu</h3>
+  <div class="tw"><table>
+    <tr><th>Category</th><th>For example</th></tr>
+    <tr><td>Set up this project</td><td>First run: install tools, sign in, register the dev app, run it locally. See <a href="#start">Get started</a></td></tr>
+    <tr><td>See what I have</td><td>Which environments can I use? Which environment is each app in? Is my project healthy?</td></tr>
+    <tr><td>Start something new</td><td>New app from the template, a quick standalone app, import existing code, clone an app</td></tr>
+    <tr><td>Build</td><td>Run locally, add a data source, change a Dataverse table, <strong>check a connector is allowed</strong>, run tests</td></tr>
+    <tr><td>Ship</td><td>Deploy to dev, promote to test or prod, preview without deploying, roll back, hotfix</td></tr>
+    <tr><td>Environments</td><td>Add a QA pathway, set up test or prod, rename the app per environment</td></tr>
+    <tr><td>Access</td><td>Share the app, create a share link, grant data access, see who has access</td></tr>
+    <tr><td>Maintain</td><td>Sync all branches, pull template updates, delete an app, fix an error</td></tr>
+  </table></div>
   <div class="grid g3 agents">
     <div class="card"><h3>🧑‍💻 GitHub Copilot: App, CLI &amp; VS Code</h3>
       <p>Loads the devkit automatically from <code>.github/skills/</code>. Open the project and type any phrase above.</p></div>
@@ -592,6 +1363,144 @@
   </div>
 </section>
 
+<!-- ============ TROUBLESHOOTING ============ -->
+<section id="trouble" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow">When it breaks</p>
+      <h2>Real failures<br/><span class="grad">and what they mean.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Every entry here actually happened. Or skip the reading and tell your agent
+      <em>&ldquo;Help me fix this error&rdquo;</em>: the devkit knows all of these.
+      Commands for <span class="os-toggle"><button data-os="mac" class="on">macOS</button><button data-os="win">Windows</button></span></p>
+  </div>
+
+  <details>
+    <summary>Git Credential Manager is installed but not configured</summary>
+    <div class="body">
+      <p>GCM exists but is not registered as a credential helper, so <code>ms app create</code>
+      fails preflight. Run <code>git credential-manager configure</code>. Common on macOS;
+      Git for Windows does this for you.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The first deploy or bootstrap hangs with no output</summary>
+    <div class="body">
+      <p>The first fetch from the app's platform repo opens a Git Credential Manager sign-in. In an
+      agent's shell that prompt is hidden, so the command waits forever. Stop it and run
+      <code>npm run alm:bootstrap -- dev</code> in a terminal you can see, finish the sign-in, then
+      carry on. It only happens once per machine.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The App Player is blank or won't sign in</summary>
+    <div class="body">
+      <p>Agent side-panel browsers can't run the App Player. Open the link from <code>ms app dev</code>
+      in Chrome or Edge instead.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>CI: "ms.config.json keeps the target branch's binding" fails</summary>
+    <div class="body">
+      <p>Pull requests into <code>dev</code> may change <code>ms.config.json</code> (adding a data
+      source writes to it), but it must still point at dev's app and environment. Pull requests into
+      <code>test</code> or <code>prod</code> must not change it at all. If it failed, the branch
+      carries another environment's binding: restore the file from the target branch.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>alm:solution or alm:role: "no dataverseUrl"</summary>
+    <div class="body">
+      <p>The scripts reach Dataverse by URL. Run <code>alm:init</code> again while signed in to the
+      Dataverse CLI or <code>pac</code>, or copy the URL from
+      <code>dataverse org list --json --filter &lt;env-id&gt;</code> into
+      <code>alm.config.json → environments.dev.dataverseUrl</code>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>'.' is not empty. Specify an empty directory</summary>
+    <div class="body">
+      <p><code>ms app create</code> counts <code>.git</code> as content, so it refuses an
+      existing repo. Use <code>ms app init</code> instead — which is what
+      <code>alm:init</code> does.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The Microsoft GitHub App can't access the bound repository</summary>
+    <div class="body">
+      <p>The Microsoft GitHub App is not installed on the owning account, and
+      enterprise-managed (EMU) accounts usually cannot install third-party GitHub Apps. Use
+      <code>--repo native</code> — a platform-managed repo — which this template does by
+      default.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>External artifact deployment is not enabled for this environment</summary>
+    <div class="body">
+      <p>The app was registered with <code>repoType: "none"</code>, which uploads a local zip and
+      requires the <code>AllowExternalArtifactDeployment</code> environment setting. That setting
+      is off by default and is <em>not</em> settable from any CLI — it is not a Dataverse
+      organization column, not in <code>settingdefinition</code>, and not in
+      <code>pac admin list-tenant-settings</code>. Re-register with <code>--repo native</code> to
+      use the cloud build path instead.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>! [rejected] … (fetch first) on the first push to a platform repo</summary>
+    <div class="body">
+      <p>A newly provisioned platform repo ships its own unrelated "Initial commit", so the first
+      push is a non-fast-forward. Run <code>npm run alm:bootstrap -- &lt;env&gt;</code>, which
+      joins the histories and resolves the stub README in your favour.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>fatal: Cannot prompt because user interactivity has been disabled</summary>
+    <div class="body">
+      <p>Some agent harnesses set <code>GIT_TERMINAL_PROMPT=0</code> and
+      <code>GCM_INTERACTIVE=Never</code>. The ALM scripts override this automatically. For a
+      manual push:</p>
+      <div class="code mac"><pre>GIT_TERMINAL_PROMPT=1 GCM_INTERACTIVE=1 GCM_GUI_PROMPT=0 git push origin HEAD</pre></div>
+      <div class="code win"><pre>$env:GIT_TERMINAL_PROMPT="1"; $env:GCM_INTERACTIVE="1"; git push origin HEAD</pre></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>Users can open the app but see an error on first load</summary>
+    <div class="body">
+      <p>Gate 2. They have app access but no Dataverse privileges on the table. Run
+      <code>npm run alm:role -- create</code> and assign the role.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Playwright tests cannot sign in</summary>
+    <div class="body">
+      <p>Tenants enforcing passkey/FIDO cannot authenticate inside an automated browser — Chrome
+      disables the platform authenticator under automation, so the Touch ID / Windows Hello
+      prompt never appears. Use an account with password or Authenticator sign-in.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>merge conflict in ms.config.json during promotion</summary>
+    <div class="body">
+      <p>The merge driver is not registered in this clone — <code>.gitattributes</code> is
+      committed, but the driver it references is local config. Run
+      <code>npm run alm:setup</code>. Always keep the <strong>target</strong> branch's copy.</p>
+    </div>
+  </details>
+</section>
+
+
 <div class="toast" id="toast" role="status" aria-live="polite">Copied. Paste it into your agent.</div>
 
 <section class="final reveal">
@@ -601,7 +1510,7 @@
   <div class="cta">
     <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">✨ Use this template</a>
     <a class="btn" href="story.html">The story</a>
-    <a class="btn" href="guide.html">Visual guide</a>
+    <a class="btn" href="#start">Get started</a>
     <a class="btn" href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/ALM.md">ALM reference</a>
     <a class="btn" href="https://github.com/martycarreras-psnl/managed-apps-template">GitHub repo</a>
   </div>
@@ -612,7 +1521,7 @@
 <footer>
   Managed Apps Template · built with <code>@microsoft/managed-apps-cli</code> ·
   <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a> ·
-  <a href="guide.html">Visual guide</a> ·
+  <a href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/ALM.md">ALM model</a> ·
   <a href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/TEMPLATE.md">Template &amp; upgrades</a>
 </footer>
 
@@ -687,10 +1596,45 @@ document.querySelectorAll('.pit').forEach(c=>{
 });
 
 /* ---------- tabs ---------- */
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
-  document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
-  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+b.dataset.t));
+document.querySelectorAll('.tabset').forEach(set=>{
+  const btns=set.querySelectorAll(':scope > .tabs button');
+  btns.forEach(b=>b.onclick=()=>{
+    btns.forEach(x=>x.classList.toggle('on',x===b));
+    set.querySelectorAll(':scope > .pane').forEach(p=>p.classList.toggle('on',p.id===b.dataset.t));
+  });
 });
+
+/* ---------- walk-through stepper ---------- */
+function stp(btn,id){
+  [...btn.parentElement.children].forEach(b=>b.classList.toggle('on',b===btn));
+  document.querySelectorAll('.steppane').forEach(p=>p.classList.toggle('on',p.id===id));
+}
+
+/* ---------- macOS / Windows commands ---------- */
+function setOS(os){
+  document.body.dataset.os=os;
+  document.querySelectorAll('.os-toggle button').forEach(b=>b.classList.toggle('on',b.dataset.os===os));
+  try{localStorage.setItem('ma-os',os)}catch{}
+}
+document.querySelectorAll('.os-toggle button').forEach(b=>b.onclick=()=>setOS(b.dataset.os));
+try{
+  const saved=localStorage.getItem('ma-os');
+  if(saved) setOS(saved); else if(/win/i.test(navigator.userAgentData?.platform||navigator.platform||'')) setOS('win');
+}catch{}
+
+/* ---------- copy a code block ---------- */
+function cp(btn){
+  const text=btn.parentElement.querySelector('pre').innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const old=btn.textContent; btn.textContent='copied'; setTimeout(()=>btn.textContent=old,1200);
+  });
+}
+
+/* ---------- old guide.html links land on the right section ---------- */
+const moved={foundations:'how','big-picture':'alm',promote:'ship',devkit:'ask'};
+if(moved[location.hash.slice(1)]) location.replace('#'+moved[location.hash.slice(1)]);
+const openSetup=()=>{if(location.hash==='#setup') document.getElementById('setup').open=true;};
+openSetup(); addEventListener('hashchange',openSetup);
 
 /* ---------- copy a prompt ---------- */
 const toast=document.getElementById('toast');let toastT;

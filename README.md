@@ -11,8 +11,7 @@ your own use case, rather than starting from an empty folder and a pile of scrip
 Works on **Windows** and **macOS**, with **GitHub Copilot App**, **Copilot CLI**,
 **VS Code**, **Claude Code**, or **Cursor**.
 
-🌐 **Overview site:** <https://martycarreras-psnl.github.io/managed-apps-template/> ·
-📘 **Visual guide:** <https://martycarreras-psnl.github.io/managed-apps-template/guide.html>
+🌐 **Overview and visual guide:** <https://martycarreras-psnl.github.io/managed-apps-template/>
 
 ---
 
@@ -397,10 +396,12 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
 - **[The story](https://martycarreras-psnl.github.io/managed-apps-template/story.html)** (`docs/story.html`):
   a click-through presentation on what Managed Apps are and why they matter. It follows one
   knowledge worker's workaround, with an optional Power Platform track.
-- **[docs/guide.html](https://martycarreras-psnl.github.io/managed-apps-template/guide.html)**(docs/guide.html)** — an interactive visual guide: animated architecture
-  diagrams, OS-aware commands, a click-through promotion walkthrough, and the troubleshooting
-  section as an accordion. Open it in a browser; it is a single self-contained file with no
-  dependencies.
+- **[docs/index.html](https://martycarreras-psnl.github.io/managed-apps-template/)** — the
+  overview and visual guide in one page: how Managed Apps differ from classic Power Platform ALM,
+  animated architecture diagrams, one-prompt and manual setup with OS-aware commands, a
+  click-through promotion walkthrough, copyable phrases for your agent, and troubleshooting.
+  It is a single self-contained file with no dependencies. (`docs/guide.html` only redirects
+  there, so old links keep working.)
 - **[docs/image-prompts.md](docs/image-prompts.md)** — prompts for generating high-fidelity
   diagrams of this model
 - **[docs/ALM.md](docs/ALM.md)** — the promotion model, hotfix flow, access gates, and the one

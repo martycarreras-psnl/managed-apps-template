@@ -85,8 +85,9 @@ Versioning is by git tag (`scaffold-v1.2.0`) with `scaffold.version` recorded lo
 
 **User-facing changes need the guides updated too.** If the change adds something a user can
 do (a devkit menu item, an `alm:*` command or flag, a script, a workflow), update
-`docs/index.html#ask` (a copyable phrase) and the matching section of `docs/guide.html` in the
-same release. Newcomers learn what's possible from those pages, not from the code.
+`docs/index.html`: a copyable phrase in `#ask`, and an explanation in the matching section
+(`#start`, `#ship`, `#access`, `#trouble`…) in the same release. Newcomers learn what's
+possible from that page, not from the code.
 
 ### Releases
 
