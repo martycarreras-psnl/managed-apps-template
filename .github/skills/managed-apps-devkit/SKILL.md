@@ -175,6 +175,7 @@ run it in their own terminal, then continue. Setup does this up front
 | Dataverse solutions, roles, raw Web API | `dataverse` CLI (via `alm:solution`, `alm:role`) |
 | Branching, promotion, guarded deploy | `npm run alm:*` (see `docs/ALM.md`) |
 | Everything at once, read-only | `scripts/doctor.mjs`, `scripts/apps-inventory.mjs` |
+| Is a connector allowed in every stage + which env is this app pinned to | `scripts/connector-check.mjs <search>` (stages from `alm.config.json`) |
 
 `pac code` is for *Power Apps code apps*, a different product — do not use it
 for Managed Apps.

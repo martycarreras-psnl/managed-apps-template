@@ -22,8 +22,9 @@ Ground rules that apply everywhere:
   MCP server the user wants is blocked (`Policy Status: Blocked`,
   "policy-blocked", or denied by DLP/data policy), stop building on it. Your
   reply must lead with it: name the connector and the environment the app is
-  pinned to (`environmentId` in `./ms.config.json`, stage from
-  `alm.config.json`). Explain that the pin can't change, and offer next steps.
+  pinned to. Run `node .github/skills/managed-apps-devkit/scripts/connector-check.mjs <search>`.
+  It covers every stage in `alm.config.json`, including ones added later.
+  Explain that the pin can't change, and offer next steps.
   Never work around it. Full steps: `.github/skills/managed-apps-devkit/playbooks/develop.md` →
   *When a connector is blocked*.
 - Keep environment, tenant and app IDs out of shared files. They belong in

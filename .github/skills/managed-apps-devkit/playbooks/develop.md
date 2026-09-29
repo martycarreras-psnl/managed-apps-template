@@ -40,6 +40,7 @@ decides that for your environment.
 `ms.config.json → environmentId` for a standalone app:
 
 ```bash
+node .github/skills/managed-apps-devkit/scripts/connector-check.mjs <text> [<text>…]   # every stage + pinned env, one table
 ms connector list -e <env-id> --search <text>                      # Policy Status: Allowed / Blocked
 ms connector list -e <env-id> --only-allowed --json                # everything policy allows
 ms connector list-actions --connector <id> -e <env-id> --search <text>   # Behavior + Action ID per action
@@ -48,9 +49,12 @@ ms connector list-actions --connector <id> -e <env-id> --search <text>   # Behav
 - **Always pass `-e`.** Without it the CLI checks your *personal developer
   environment*, which may have different policy. Run it from outside the project,
   or with an explicit `-e`, so you know which environment is being checked.
-- Run the checks for all environments in parallel. Show one table: rows are
-  connector or action, columns are environments. Flag any cell that isn't
-  Allowed.
+- In a template project, use `connector-check.mjs`. It reads the stages from
+  `alm.config.json` (`promotionOrder` first, then any other stage), so a stage
+  added later, like `qa` or `uat`, shows up without changes. It checks them in
+  parallel and prints one table: rows are connectors, columns are stages. Flag
+  any cell that isn't Allowed. Use raw `ms connector list -e` for one
+  environment or for `list-actions`.
 - Use the **Connector** column as the ID, for example `office365`. Put the
   **Action ID**s from `list-actions` into `allowedActions` in `ms.config.json`
   (shared connections). Request only the actions `src/` actually calls.
@@ -81,16 +85,23 @@ data source, and don't substitute a different connector, raw `fetch`, or a
 workaround without the user agreeing. Then give the user direct feedback
 **before anything else in your reply**.
 
-1. **Find the pinned environment.** Read `environmentId` and `appId` from
-   `./ms.config.json` on the current branch. Match it to a stage in
-   `alm.config.json → environments` (dev, test, prod…). Look up its display
-   name and type with `pac admin list --json`. If `pac` isn't available, use the
-   ID. For a standalone app, `ms.config.json` is the only source. If the
-   environment is a **Developer**-type environment named after a person, it's
-   the user's personal developer environment (PDE).
-2. **Check the other stages**, in parallel, with the same
-   `ms connector list -e <env-id> --search <text>` for each provisioned
-   environment in `alm.config.json`. Skip this for standalone apps.
+1. **Run the check** with a search term for the connector (several are fine):
+   ```bash
+   node .github/skills/managed-apps-devkit/scripts/connector-check.mjs "work iq"
+   ```
+   It prints the environment the current branch's app is **pinned** to (from
+   `./ms.config.json`, with the name and type from `pac admin list`). It then
+   prints a table with one column for **every stage in `alm.config.json`**. That
+   means `promotionOrder` first, then any stage that isn't in it, so a project
+   that added `qa` or `uat` gets those columns too. Stages that aren't provisioned
+   show as `not provisioned`. For a standalone app (no `alm.config.json`), only the
+   pinned environment is checked. Add `--json` if you need to parse the output.
+   Never hard-code dev/test/prod.
+2. **Spot a personal developer environment.** If the pinned environment is
+   **Developer**-type and named after a person, it's the user's PDE. If the
+   script can't run, do the same by hand: `environmentId` from
+   `./ms.config.json`, then `ms connector list -e <env-id> --search <text>` for
+   every provisioned environment in `alm.config.json`.
 3. **Tell the user, in this shape.** Keep it short and plain. Fill in every
    `<…>`, and never leave the environment unnamed:
 
@@ -100,9 +111,9 @@ workaround without the user agreeing. Then give the user direct feedback
    > blocks **<connector name>** (`<connector-id>`), so the app can't use it.
    > An app's environment is fixed when it's created and can't be changed.
    >
-   > | Connector | dev | test | prod |
+   > | Connector | <stage 1> | <stage 2> | … |
    > | --- | --- | --- | --- |
-   > | <connector name> | ⛔ Blocked | ✅ Allowed | ⛔ Blocked |
+   > | <connector name> | ⛔ Blocked | ✅ Allowed | … |
    >
    > **What you can do:**
    > - Ask your Power Platform admin to allow `<connector-id>` in the data policy for
@@ -110,7 +121,8 @@ workaround without the user agreeing. Then give the user direct feedback
    >   will ship to.
    > - Or use a connector that's already allowed. I can list them.
 
-   Leave out the table for a standalone app. If a whole family is blocked (for example
+   Use the script's table as is, with one column per stage, in the project's
+   order. Leave out the table for a standalone app. If a whole family is blocked (for example
    every Work IQ connector), list each one in the table.
 4. **Add the context that applies:**
    - **Pinned to a PDE:** say so. The app was probably created without an

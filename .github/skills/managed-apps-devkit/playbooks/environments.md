@@ -31,7 +31,10 @@ environment already exists.
      include `qa` (every stage except the first).
    - `.github/workflows/ci.yml`: add `qa` to both `branches: [...]` lists.
    - Usage strings in `scripts/alm/{bootstrap,deploy,promote,solution}.mjs` are
-     cosmetic; the logic already reads `alm.config.json`.
+     cosmetic; the logic already reads `alm.config.json`. So does
+     `scripts/connector-check.mjs`, which gets a new column automatically.
+     Run it once for the connectors the app uses, and fix anything that shows
+     ⛔ in the new stage before you promote into it.
    - `docs/ALM.md`, README diagrams, `memory-bank.md`: add the stage.
    These are scaffold files: port the edits to the ALM source repo and publish
    from there ([maintain.md → Publish](maintain.md#publish)), or this project's

@@ -871,7 +871,7 @@ ms connector list-actions --connector office365 -e &lt;env-id&gt; --search send 
       An app is pinned to the environment it was registered in, and that pin can't change. When
       a connector or MCP server is blocked there, the devkit stops before adding it or writing
       code for it. It tells you which connector is blocked, which environment your app is pinned
-      to, and whether it's allowed in your other stages. Your choices are to ask your Power Platform
+      to, and whether it's allowed in each of your other stages. That includes any stage you add later, like QA or UAT, because it reads them from <code>alm.config.json</code>. Your choices are to ask your Power Platform
       admin to allow it in the data policy, or to pick an allowed alternative. The agent never
       works around it.
     </p>
@@ -1491,8 +1491,8 @@ npm run alm:role -- show     <span class="cm"># verify across all environments</
       <p>The data (DLP) policy of the environment your app is <strong>pinned</strong> to blocks
       that connector. You'll see this for Work IQ, for example, when every Work IQ connector is blocked. Apps
       can't move environments, so there's no setting on your side that fixes it. Run
-      <code>ms connector list -e &lt;env-id&gt; --search &lt;name&gt;</code> for each environment to see where
-      it's allowed. Then ask your Power Platform admin to allow it in the data policy, or use a
+      <code>node .github/skills/managed-apps-devkit/scripts/connector-check.mjs &lt;name&gt;</code>
+      to see where it's allowed. It shows one column for every stage in <code>alm.config.json</code>. Then ask your Power Platform admin to allow it in the data policy, or use a
       connector that's already allowed. If the app is pinned to your personal developer
       environment, it was registered without <code>--environment-id</code>. Register the project
       against a governed environment instead. Or ask your agent: <em>&ldquo;Why is this
