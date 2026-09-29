@@ -150,10 +150,12 @@ action from the menu — not the whole menu again.
 - Commit, push, or switch branches unless the playbook step requires it and the
   user has agreed.
 
-**Credentials.** Pushes to platform-managed repos can need an interactive Git
-Credential Manager prompt. Agent shells often disable prompts; the ALM scripts
-re-enable them. If a push still fails with "cannot prompt" or hangs, ask the
-user to run that exact command in their own terminal, then continue.
+**Credentials.** The first fetch or push to each platform-managed repo needs a
+one-time Git Credential Manager sign-in. Agent shells can't answer it: the
+command hangs on *"Select an authentication method"* or fails with "cannot
+prompt". Stop it, run the same command in a terminal canvas or ask the user to
+run it in their own terminal, then continue. Setup does this up front
+(setup.md → 7b); a new environment does it at its first `alm:bootstrap`.
 
 **Windows.** Give PowerShell commands on one line (no `\` continuations).
 

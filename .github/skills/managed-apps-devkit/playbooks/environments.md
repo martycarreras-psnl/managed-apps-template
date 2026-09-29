@@ -71,8 +71,14 @@ ms app add data-source --connector shared_commondataserviceforapps --as table --
 4. Set `appId` and `provisioned: true` for the stage in `alm.config.json`.
    Make the **identical** edit on `dev` and on the env branch (commit both), so
    later promotions merge it cleanly.
-5. Commit `ms.config.json` and generated files on the env branch.
+5. Commit `ms.config.json` and generated files on the env branch. First check
+   that `git check-ignore ms.config.json` prints nothing: projects initialized
+   before scaffold 1.4.1 still list `ms.config.json` and `solutions/` in that
+   branch's `.gitignore`. Remove both lines and commit that too.
 6. `npm run alm:bootstrap -- <env>` (joins the new platform repo's history) → `npm run alm:deploy -- <env>`.
+   The first fetch from each new platform repo opens a one-time Git Credential
+   Manager sign-in, so run bootstrap in a terminal the user can see
+   (setup.md → 7b).
 7. Grant access: [access.md](access.md#role), then [access.md](access.md#share).
 
 Verify: `node .github/skills/managed-apps-devkit/scripts/doctor.mjs` on that branch.

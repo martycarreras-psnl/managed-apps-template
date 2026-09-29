@@ -148,15 +148,15 @@ writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n')
 ok(`solution ${solutionName}, prefix ${prefix}`)
 
 // The template repo ignores these so it never publishes a binding or schema.
-// A project must commit both.
-const ignorePath = resolve(ROOT, '.gitignore')
-if (existsSync(ignorePath)) {
+// A project must commit both, on EVERY environment branch: test and prod are
+// provisioned from their own branch, where an ignored ms.config.json would
+// silently never be committed. Applied per branch below.
+function trackProjectFiles() {
+  const ignorePath = resolve(ROOT, '.gitignore')
+  if (!existsSync(ignorePath)) return
   const lines = readFileSync(ignorePath, 'utf8').split('\n')
   const kept = lines.filter((l) => !['ms.config.json', '/ms.config.json', 'solutions/', '/solutions/'].includes(l.trim()))
-  if (kept.length !== lines.length) {
-    writeFileSync(ignorePath, kept.join('\n'))
-    ok('.gitignore: ms.config.json and solutions/ are now tracked')
-  }
+  if (kept.length !== lines.length) writeFileSync(ignorePath, kept.join('\n'))
 }
 
 // ------------------------------------------------------------ optional reset --
@@ -207,6 +207,41 @@ export default function App() {
 `
   )
   ok('wrote a placeholder src/App.tsx')
+
+  const indexPath = resolve(ROOT, 'index.html')
+  if (existsSync(indexPath)) {
+    const title = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    writeFileSync(
+      indexPath,
+      readFileSync(indexPath, 'utf8').replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
+    )
+    ok('index.html title')
+  }
+
+  // One test so `npm run test:e2e` has something to run against the placeholder.
+  if (existsSync(resolve(ROOT, 'tests/support/env.ts'))) writeFileSync(
+    resolve(ROOT, 'tests/smoke.spec.ts'),
+    `import { chromium, expect, test } from '@playwright/test'
+import { PROFILE_DIR, playerUrl } from './support/env'
+
+test('app loads inside the App Player', async () => {
+  const context = await chromium.launchPersistentContext(PROFILE_DIR, {
+    headless: !process.env.E2E_HEADED,
+    args: ['--disable-features=WebAuthenticationPlatformAuthenticator'],
+  })
+  try {
+    const page = context.pages()[0] ?? (await context.newPage())
+    await page.goto(playerUrl(), { waitUntil: 'domcontentloaded' })
+    await expect(
+      page.frameLocator('iframe').first().getByRole('heading', { level: 1 })
+    ).toBeVisible({ timeout: 120_000 })
+  } finally {
+    await context.close()
+  }
+})
+`
+  )
+  if (existsSync(resolve(ROOT, 'tests/smoke.spec.ts'))) ok('tests/smoke.spec.ts')
 }
 
 // -------------------------------------------------------------- local setup --
@@ -234,19 +269,30 @@ for (const branch of cfg.promotionOrder) {
 // wrong environment.
 for (const branch of cfg.promotionOrder.slice(1)) {
   git(['checkout', '--quiet', branch])
+  const done = []
   if (existsSync(resolve(ROOT, 'ms.config.json'))) {
     git(['rm', '--quiet', '--cached', 'ms.config.json'], { allowFail: true })
     rmSync(resolve(ROOT, 'ms.config.json'), { force: true })
+    done.push('binding removed until provisioned')
+  }
+  trackProjectFiles()
+  if (git(['status', '--porcelain', '--', '.gitignore'])) {
+    git(['add', '.gitignore'])
+    done.push('.gitignore tracks ms.config.json and solutions/')
+  }
+  if (done.length) {
     git(['commit', '--quiet', '-m', `chore(${branch}): no binding until provisioned`], {
       allowFail: true,
     })
-    ok(`${branch}: binding removed until provisioned`)
+    ok(`${branch}: ${done.join('; ')}`)
   } else {
     ok(`${branch}: no binding (correct)`)
   }
 }
 
 git(['checkout', '--quiet', cfg.promotionOrder[0]])
+trackProjectFiles()
+ok(`${cfg.promotionOrder[0]}: .gitignore tracks ms.config.json and solutions/ (commit with setup)`)
 
 // --------------------------------------------------------------- dev app ----
 
