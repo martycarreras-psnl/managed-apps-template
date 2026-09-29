@@ -42,55 +42,46 @@ ms.config.json  solutions/  memory-bank.md  app_generated_plan.md  .env
 because the template is **public** while the projects using it are typically private —
 `ms.config.json` alone would expose environment and app IDs.
 
-## Keeping projects and template in step
+## Where the template comes from
+
+Every file in this template is authored in one private **ALM source repo**, the repo whose
+`alm.config.json` has `scaffold.source: true`, and published from there with
+`npm run alm:template -- push`. **Don't edit the template directly:** the next publish overwrites it,
+and a publish stops if the template holds a file the source repo doesn't manage.
 
 ```
-   project repo  ──  alm:template push ──▶  template (tagged)
-                 ◀──  alm:upgrade      ──
+   ALM source repo  ── alm:template push ──▶  template (tagged)  ── alm:upgrade ──▶  projects
 ```
 
-Both directions operate only on the allowlist:
+The source repo's `alm.config.json → scaffold` says what travels:
 
-- **`alm:upgrade`** — `git checkout <ref> -- <scaffold paths>`. Cannot touch your `src/`,
-  `ms.config.json`, or `solutions/`.
-- **`alm:template push`** — copies the same paths into a template checkout, asserts sterility,
-  then commits and optionally tags.
+| List | Published to the template | Pulled into projects by `alm:upgrade` |
+| --- | --- | --- |
+| `paths` — shared scaffolding | Yes | Yes |
+| `publishOnly` — docs site, reference app, README, build config | Yes (a path, or `{ "from", "to" }`) | No |
+| `alm.config.json` itself | Yes, minus `source` and `publishOnly` | No |
+
+- **Projects can't publish.** `alm:template push` refuses unless `scaffold.source` is `true`.
+- **The source repo never deploys an app.** Its `alm.config.json` becomes the template's, so every
+  environment stays unprovisioned; a publish refuses if one carries an ID or org URL.
+- **The source repo doesn't run `alm:upgrade`** (it refuses): it is where the template comes from.
 
 Versioning is by git tag (`scaffold-v1.2.0`) with `scaffold.version` recorded locally, so
 `alm:upgrade` can report *"you are on 1.0.0, template is at 1.3.0."*
 
-The project where scaffolding is developed should also run `alm:upgrade` periodically, so it
-never drifts from what everyone else receives.
+## Changing the template
 
-## Changing the scaffolding
-
-> ### Order matters
->
-> ```
-> 1. fix in the project repo      ← author and verify here
-> 2. npm run alm:template -- push ← publish upward
-> 3. npm run alm:upgrade          ← pull back down
-> ```
->
-> **Never fix then upgrade.** `alm:upgrade` is authoritative for everything in
-> `scaffold.paths` — it replaces those files wholesale from the template. Running it before
-> you have pushed will silently revert your work. This is easy to do and the symptom is
-> confusing: your change simply disappears.
->
-> If it happens, recover the file from its commit rather than redoing the work:
->
-> ```bash
-> git checkout <your-fix-commit> -- scripts/alm/<file>.mjs
-> ```
-
-1. Make the change in a project repo, where it can be exercised against real environments.
-2. Verify it — against live environments where possible, not just a syntax check.
-3. Publish it:
+1. Make the change in the ALM source repo. If you found the problem in a project, port the fix
+   there. A fix left only in a project is reverted by that project's next `alm:upgrade`.
+2. Verify it: build and lint in the source repo, and exercise anything that needs live
+   environments in a project.
+3. Review what will change: `npm run alm:template -- status`.
+4. Publish it:
    ```bash
    npm run alm:template -- push --bump patch --message "fix(alm): ..."
    ```
-4. Commit the local `alm.config.json` version bump that `push` writes back.
-5. Downstream projects pick it up with `npm run alm:upgrade`.
+5. Commit the `alm.config.json` version bump that `push` writes back, and push the source repo.
+6. Projects pick it up with `npm run alm:upgrade`.
 
 **User-facing changes need the guides updated too.** If the change adds something a user can
 do (a devkit menu item, an `alm:*` command or flag, a script, a workflow), update
@@ -118,11 +109,12 @@ as new.
 Semver guidance: patch for fixes, minor for new commands, **major when a project must act** —
 for example a new required field in `alm.config.json`.
 
-## Adding a new scaffold file
+## Adding a new file
 
-Add the path to `scaffold.paths`. `alm:template` and `alm:upgrade` validate that no scaffold path
-overlaps `neverShare` and that every path exists, so a typo fails immediately rather than
-silently shipping nothing.
+Shared with every project: add it to `scaffold.paths`. Template-only: add it to
+`scaffold.publishOnly`. `alm:template` checks that every listed path exists and that none overlaps
+`neverShare`. A publish also stops if the template contains a file neither list covers; pass
+`--prune` to delete such files from the template instead.
 
 ## Why not an npm package?
 

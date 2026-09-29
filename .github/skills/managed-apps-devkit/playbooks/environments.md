@@ -33,8 +33,9 @@ environment already exists.
    - Usage strings in `scripts/alm/{bootstrap,deploy,promote,solution}.mjs` are
      cosmetic; the logic already reads `alm.config.json`.
    - `docs/ALM.md`, README diagrams, `memory-bank.md`: add the stage.
-   Scaffold edits should be published to the template afterwards
-   ([maintain.md → Publish](maintain.md#publish)).
+   These are scaffold files: port the edits to the ALM source repo and publish
+   from there ([maintain.md → Publish](maintain.md#publish)), or this project's
+   next `alm:upgrade` reverts them.
 4. **Commit on dev:** `git commit -am "chore(alm): add qa stage"`.
 5. **Branch.** Create `qa` from the stage *before* it, with **no binding**:
    ```bash

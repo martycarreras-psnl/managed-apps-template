@@ -28,21 +28,25 @@ replaces those paths wholesale and silently reverts them. Publish first.
 
 ## Publish
 
-Push scaffold changes made in this project **up** to the template. Order:
-fix here → verify → publish → upgrade.
+Publishing happens **only in the ALM source repo** (its `alm.config.json` has
+`scaffold.source: true`). In any other project `alm:template push` refuses:
+port the fix to the source repo, publish there, then `alm:upgrade` here.
 
-**Confirm first** — the template is public.
+In the source repo: fix → verify → publish. **Confirm first**, because the template is public.
 
 ```bash
-npm run alm:template -- status
+npm run alm:template -- status                                         # what will change
 npm run alm:template -- push --bump patch --message "fix(alm): ..."   # patch|minor|major
-git commit -am "chore: scaffold vX.Y.Z"                               # the version bump written back
+git commit -am "chore: scaffold vX.Y.Z" && git push                   # the version bump written back
 ```
 
-`push` copies only `scaffold.paths`, refuses if anything in
-`scaffold.neverShare` would travel, and never re-cuts an existing tag. Before
-publishing, make sure no environment ID, app ID, org URL or UPN appears in the
-scaffold paths (`git grep` for them).
+`push` copies `scaffold.paths` (shared with projects), `scaffold.publishOnly`
+(template-only: docs site, reference app, README) and a generic
+`alm.config.json`. It refuses if anything in `scaffold.neverShare` would travel,
+if an environment in `alm.config.json` carries IDs, or if the template holds a
+file neither list covers (`--prune` deletes those instead). It never re-cuts an
+existing tag. Before publishing, `git grep` the published paths for environment
+IDs, app IDs, org URLs and UPNs.
 
 Semver: patch = fix, minor = new command/playbook, major = projects must act
 (e.g. a new required `alm.config.json` field).

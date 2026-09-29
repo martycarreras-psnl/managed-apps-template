@@ -97,7 +97,7 @@ Put the most likely option first given Step 0 (e.g. after a merge to `dev`,
 | 6.4 | See who has access ◇ | [access.md](playbooks/access.md#who) |
 | 7.1 | Sync all branches with GitHub and platform repos | [maintain.md](playbooks/maintain.md#sync) |
 | 7.2 | Pull scaffolding updates from the template | [maintain.md](playbooks/maintain.md#upgrade) |
-| 7.3 | Publish scaffolding changes up to the template | [maintain.md](playbooks/maintain.md#publish) |
+| 7.3 | Publish template changes (ALM source repo only) | [maintain.md](playbooks/maintain.md#publish) |
 | 7.4 | Delete an app ◇ | [maintain.md](playbooks/maintain.md#delete) |
 | 7.5 | Fix an error I'm seeing ◇ | [troubleshooting.md](playbooks/troubleshooting.md) |
 

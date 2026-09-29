@@ -30,7 +30,9 @@ failures are a missing prerequisite or a wrong binding. Then match the error.
 | Token / 401 errors from `ms` | Expired sign-in | `ms auth login` (check `ms auth status` shows the expected account) |
 | 403 on deploy / app missing from `ms app list` | No maker rights in that environment, or not shared | Ask the environment admin; confirm with `ms app list --json` |
 | Playwright e2e can't sign in | Passkey/FIDO-only account under automation | Use a password or Authenticator account |
-| A scaffold fix "disappeared" | Ran `alm:upgrade` before `alm:template push` | `git checkout <fix-commit> -- <path>`; publish, then upgrade |
+| A scaffold fix "disappeared" | Fixed it in a project, then ran `alm:upgrade` | `git checkout <fix-commit> -- <path>`; port it to the ALM source repo, publish, then upgrade |
+| `Only the ALM source repo publishes to the template` | Ran `alm:template push` in a project | Make the change in the ALM source repo (`scaffold.source: true`) and publish there; then `alm:upgrade` here |
+| `The template has files this repo doesn't manage` | Someone edited the template directly | Copy the file into the ALM source repo and add it to `scaffold.publishOnly`, or publish with `--prune` to delete it |
 
 Still stuck: gather `ms --version`, the exact command, full error text and
 `doctor.mjs` output, and check `ms <command> --help` — the CLI is in preview and

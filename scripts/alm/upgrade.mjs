@@ -5,8 +5,8 @@
  *
  * Only the paths listed in alm.config.json -> scaffold.paths are touched, so
  * your src/, ms.config.json, solutions/ and memory bank are never at risk.
- * This repo is a consumer too, which is what keeps it from drifting away from
- * what everyone else is running.
+ * The ALM source repo (scaffold.source: true) refuses to run this: it is where
+ * the template comes from.
  */
 import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
@@ -33,6 +33,13 @@ const wantedTag = tagIndex !== -1 ? args[tagIndex + 1] : null
 
 const scaffold = scaffoldSpec()
 assertPathsSafe(scaffold)
+
+if (scaffold.source) {
+  fail(
+    'This is the ALM source repo: it publishes the template, so there is nothing to pull.',
+    'Compare it with the template instead: npm run alm:template -- status'
+  )
+}
 
 if (!scaffold.templateRepo) {
   fail('alm.config.json has no scaffold.templateRepo.')
