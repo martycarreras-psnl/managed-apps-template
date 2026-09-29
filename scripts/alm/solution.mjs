@@ -1,4 +1,5 @@
 /**
+ * npm run alm:solution -- create
  * npm run alm:solution -- export [--bump build|patch|minor|major]
  * npm run alm:solution -- import <test|prod>
  * npm run alm:solution -- status
@@ -98,6 +99,76 @@ function bumpVersion(version, part) {
 
 function readManifest() {
   return existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : null
+}
+
+// ---------------------------------------------------------------- create ----
+
+// Creates the publisher and unmanaged solution in dev so new tables have a
+// home. Safe to re-run: anything that already exists is reused.
+function doCreate() {
+  const cfg = almConfig()
+  const devName = cfg.promotionOrder[0]
+  const dev = cfg.environments[devName]
+  const { uniqueName, friendlyName, publisherPrefix: prefix } = cfg.solution
+  if (!dev.dataverseUrl) {
+    fail(`${devName} has no dataverseUrl in alm.config.json.`, 'Run npm run alm:init again, or set it by hand.')
+  }
+  if (!/^[a-z][a-z0-9]{1,7}$/.test(prefix ?? '')) {
+    fail(`solution.publisherPrefix "${prefix}" is not valid.`, 'Use 2-8 lowercase letters or digits, starting with a letter.')
+  }
+  const url = dev.dataverseUrl
+
+  step(`Publisher "${prefix}" in ${devName}`)
+  const found = getJson(
+    `api/data/v9.2/publishers?$select=publisherid,uniquename&$filter=customizationprefix eq '${prefix}'`,
+    url
+  ).value?.[0]
+  let publisherId = found?.publisherid
+  if (publisherId) {
+    ok(`exists: ${found.uniquename}`)
+  } else {
+    // Option values must be 10000-99999; derive one from the prefix so it's stable.
+    const optionPrefix = 10000 + (parseInt(createHash('sha1').update(prefix).digest('hex').slice(0, 8), 16) % 90000)
+    postJson(
+      'api/data/v9.2/publishers',
+      {
+        uniquename: prefix,
+        friendlyname: `${friendlyName} publisher`,
+        customizationprefix: prefix,
+        customizationoptionvalueprefix: optionPrefix,
+      },
+      url
+    )
+    publisherId = getJson(
+      `api/data/v9.2/publishers?$select=publisherid&$filter=customizationprefix eq '${prefix}'`,
+      url
+    ).value?.[0]?.publisherid
+    if (!publisherId) fail('Publisher was not created.')
+    ok(`created ${prefix} (option prefix ${optionPrefix})`)
+  }
+
+  step(`Solution "${uniqueName}" in ${devName}`)
+  const existing = solutionRecord(uniqueName, url)
+  if (existing) {
+    if (existing.ismanaged) {
+      fail(`${uniqueName} is installed as MANAGED in ${devName}.`, 'Dev must hold the unmanaged solution. Remove the managed one first.')
+    }
+    ok(`exists: v${existing.version}`)
+  } else {
+    postJson(
+      'api/data/v9.2/solutions',
+      {
+        uniquename: uniqueName,
+        friendlyname: friendlyName,
+        version: '1.0.0.0',
+        'publisherid@odata.bind': `/publishers(${publisherId})`,
+      },
+      url
+    )
+    if (!solutionRecord(uniqueName, url)) fail('Solution was not created.')
+    ok('created v1.0.0.0')
+  }
+  console.log(`\nCreate tables with the ${BOLD}${prefix}_${OFF} prefix, inside ${BOLD}${uniqueName}${OFF}.\n`)
 }
 
 // ---------------------------------------------------------------- export ----
@@ -280,7 +351,8 @@ function doStatus() {
 // ------------------------------------------------------------------ main ----
 
 const [action, ...rest] = process.argv.slice(2)
-if (action === 'export') doExport(rest)
+if (action === 'create') doCreate()
+else if (action === 'export') doExport(rest)
 else if (action === 'import') doImport(rest[0])
 else if (action === 'status') doStatus()
-else fail('Usage: npm run alm:solution -- <export|import|status> [args]')
+else fail('Usage: npm run alm:solution -- <create|export|import|status> [args]')

@@ -243,13 +243,20 @@ Ask your agent, in plain language:
 > "Add a Dataverse table called Expenses with columns for amount, category, date, and notes,
 > then build a UI to manage them."
 
+Before that first table, create its publisher and solution in dev so the table gets the right
+prefix and lands in the solution:
+
+```bash
+npm run alm:solution -- create                  # safe to re-run
+```
+
 The plugin's skills handle the connector wiring and code generation. Then:
 
 ```bash
 npm run alm:role -- create                      # security role from alm.config.json
 npm run alm:solution -- export -- --bump build  # managed solution into solutions/
 git add -A && git commit -m "feat: initial app"
-npm run alm:bootstrap -- dev                    # join the platform repo's history
+npm run alm:bootstrap -- dev                    # join the platform repo's history (visible terminal: may open a sign-in)
 npm run alm:deploy -- dev
 ```
 
@@ -289,7 +296,7 @@ npm run alm:deploy -- prod
 | `npm run alm:init` | Stand up a new project |
 | `npm run alm:deploy -- <env>` | Guarded deploy |
 | `npm run alm:promote -- <env>` | Merge the previous stage in |
-| `npm run alm:solution -- export\|import\|status` | Managed solution pipeline |
+| `npm run alm:solution -- create\|export\|import\|status` | Managed solution pipeline |
 | `npm run alm:role -- create\|show` | Security role from config |
 | `npm run alm:hotfix -- start\|land <name>` | Hotfix from prod + back-merge |
 | `npm run alm:sync [-- --check]` | Keep git remotes aligned |

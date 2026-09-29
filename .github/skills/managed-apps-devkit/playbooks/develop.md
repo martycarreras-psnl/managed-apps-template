@@ -15,7 +15,8 @@ ms app dev          # hot reload; prints a local URL and an App Player URL
 ```
 
 - Run it async / in a terminal canvas and hand the user the **App Player URL**
-  (that is the one with real connector auth).
+  (that is the one with real connector auth). Tell them to open it in **Chrome
+  or Edge**; it doesn't work in an agent's side-panel browser.
 - `ms app dev` uses the connections of the environment in `./ms.config.json` —
   on `dev` that is the dev Dataverse.
 
@@ -87,6 +88,13 @@ themselves (so they also need a Dataverse role — [access.md](access.md#role)).
 Tables and columns are Dataverse solution components, promoted separately from
 code (see `docs/ALM.md → The two tracks`).
 
+0. **First table only:** create the publisher and solution before the table,
+   so the table gets the right prefix and lands in the solution:
+   ```bash
+   npm run alm:solution -- create     # safe to re-run; reuses what exists
+   ```
+   It uses `alm.config.json → solution.publisherPrefix` and `uniqueName`, and
+   needs `environments.dev.dataverseUrl` (set by `alm:init`).
 1. Make the change in the **dev** environment — `dv-metadata` skill, or the
    maker portal. Keep changes **additive** (new nullable columns); they are
    the only kind that roll back safely.

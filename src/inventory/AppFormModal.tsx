@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { InventoryDraft, InventoryRecord } from './api'
 import {
   DATA_SOURCE_OPTIONS,
@@ -45,11 +45,6 @@ function toFormState(record: InventoryRecord | null): FormState {
 export function AppFormModal({ record, saving, onCancel, onSave }: Props) {
   const [form, setForm] = useState<FormState>(() => toFormState(record))
   const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    setForm(toFormState(record))
-    setError(null)
-  }, [record])
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }))

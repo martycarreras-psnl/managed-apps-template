@@ -46,8 +46,15 @@ function App() {
   }, [])
 
   useEffect(() => {
-    void refresh()
-  }, [refresh])
+    let active = true
+    listApps()
+      .then((rows) => active && setRecords(rows))
+      .catch((err) => active && setError(err instanceof Error ? err.message : String(err)))
+      .finally(() => active && setLoading(false))
+    return () => {
+      active = false
+    }
+  }, [])
 
   const visible = useMemo(() => {
     const needle = search.trim().toLowerCase()
@@ -249,6 +256,7 @@ function App() {
 
       {formOpen && (
         <AppFormModal
+          key={editing?.cr922_managedappinventoryid ?? 'new'}
           record={editing}
           saving={saving}
           onCancel={() => {

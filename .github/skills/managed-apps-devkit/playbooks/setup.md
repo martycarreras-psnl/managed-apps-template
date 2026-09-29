@@ -48,7 +48,12 @@ Then, always, and it's safe to repeat:
 
 ```bash
 git credential-manager configure     # registers GCM as git's credential helper; ms app init fails preflight without it
+git config --get user.name; git config --get user.email
 ```
+
+If either identity value is empty, ask the user for their name and email and
+set them with `git config --global user.name "…"` and `git config --global user.email "…"`.
+Without them, every commit fails, including the ones `alm:init` makes.
 
 - No Homebrew on macOS? Point the user to <https://brew.sh> rather than
   installing it silently. It needs their password.
@@ -138,25 +143,30 @@ npm run alm:init -- --name "<App Name>" --dev <env-id> [--fresh] [--test <id>] [
 
 - It creates the `dev`/`test`/`prod` branches, registers the app in dev, and
   renames the platform remote to `env-dev`.
-- The first push to the platform repo may open a Git Credential Manager
-  sign-in 🙋. If it fails with "cannot prompt", ask the user to run that command
-  in their own terminal (see SKILL.md → Credentials).
+- It records dev's Dataverse URL in `alm.config.json` (needed by `alm:solution`
+  and `alm:role`). If it warns that it couldn't, sign in to the Dataverse CLI
+  or `pac` and run init again.
+- It removes the `ms.config.json` and `solutions/` lines from `.gitignore`.
+  The template ignores them; a project must commit both.
+- With `--fresh`, it replaces the example with a placeholder `src/App.tsx` and
+  keeps `tests/support/env.ts`, which the Playwright config needs.
 
-**If `--fresh`:** `src/App.tsx` still imports the removed example. Replace it
-with a minimal placeholder so the build passes, for example:
+## 7b. Join the platform repo's history 🙋 (visible terminal)
 
-```tsx
-import './App.css'
+The app's platform repo starts with its own commit, and the first fetch from it
+opens a one-time Git Credential Manager sign-in. In an agent shell that prompt
+is hidden and the command just hangs, often at the first deploy. Do it now,
+where the user can see it: open a **terminal canvas** (or ask the user to use
+their own terminal) and run:
 
-export default function App() {
-  return (
-    <main style={{ padding: 32, fontFamily: 'system-ui' }}>
-      <h1>&lt;App Name&gt;</h1>
-      <p>Your app is set up. Ask your agent to add data and screens.</p>
-    </main>
-  )
-}
+```bash
+git checkout dev
+git add -A && git commit -m "chore: initial setup"      # bootstrap needs a clean tree
+npm run alm:bootstrap -- dev
 ```
+
+The user completes the sign-in in the browser window that opens. Bootstrap is
+safe to re-run; it does nothing once the histories are joined.
 
 ## 8. Verify
 
@@ -170,7 +180,7 @@ node .github/skills/managed-apps-devkit/scripts/doctor.mjs
 Doctor should show dev provisioned, hooks and merge driver in place, and the
 branch bound to the chosen environment. Fix any ✗ before continuing.
 
-Commit the result on `dev` once the user agrees ("chore: initial setup"). If a
+If step 8 changed anything, commit it on `dev` once the user agrees. If a
 `github` remote exists, offer to push `dev` there too.
 
 ## 9. Run it
@@ -179,6 +189,9 @@ Start `ms app dev` in the background (async or a terminal canvas) and give the
 user the **App Player URL**, the one with real sign-in. The first load may ask
 them to sign in 🙋.
 
+Tell them to open it in **Chrome or Edge**. The App Player doesn't work in an
+agent's side-panel browser.
+
 Create or update `memory-bank.md`: app name, app ID, dev environment name and
 ID, Play URL, date.
 
@@ -186,6 +199,7 @@ ID, Play URL, date.
 
 Offer next, choosing the most likely one:
 
-- Add a table and screens → [develop.md → Schema](develop.md#schema)
+- Add a table and screens → [develop.md → Schema](develop.md#schema) (creates
+  the publisher and solution first)
 - Connect SharePoint, Outlook and others → [develop.md → Connectors](develop.md#connectors), then [Data source](develop.md#data-source)
 - First deploy to the cloud → [ship.md → Deploy to dev](ship.md#dev)

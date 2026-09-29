@@ -165,3 +165,32 @@ export function assertProvisioned(env) {
     )
   }
 }
+
+/**
+ * Finds an environment's Dataverse URL from its ID. Tries the Dataverse CLI,
+ * then pac. Returns null when neither is installed or signed in.
+ */
+export function lookupDataverseUrl(environmentId) {
+  const id = environmentId.toLowerCase()
+  const attempts = [
+    ['dataverse', ['org', 'list', '--json', '--filter', environmentId],
+      (rows) => rows.find((r) => r.EnvironmentIdentifier?.Id?.toLowerCase() === id)?.EnvironmentUrl],
+    ['pac', ['admin', 'list', '--json'],
+      (rows) => rows.find((r) => r.EnvironmentId?.toLowerCase() === id)?.EnvironmentUrl],
+  ]
+  for (const [cmd, args, pick] of attempts) {
+    try {
+      const out = execFileSync(cmd, args, {
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+        shell: process.platform === 'win32',
+      })
+      const rows = JSON.parse(out.slice(out.indexOf('[')))
+      const url = Array.isArray(rows) ? pick(rows) : null
+      if (url) return url.replace(/\/+$/, '')
+    } catch {
+      // not installed, not signed in, or no access: try the next tool
+    }
+  }
+  return null
+}

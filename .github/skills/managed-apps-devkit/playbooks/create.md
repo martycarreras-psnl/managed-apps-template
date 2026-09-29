@@ -24,11 +24,12 @@ user pick — don't ask them to paste GUIDs.
    ```bash
    npm run alm:init -- --name "Expense Tracker" --dev <dev-env-id> [--test <id>] [--prod <id>] --prefix contoso [--fresh]
    ```
-   `--fresh` removes the reference app; `src/App.tsx` must then be replaced before building.
+   `--fresh` replaces the reference app with a placeholder `src/App.tsx`.
    `alm:init` renames the new platform remote `origin` → `env-dev`.
 3. Add GitHub as the source-of-truth remote: `git remote add github https://github.com/<owner>/<name>.git`
    (skip if `origin` already is GitHub — then `git remote rename origin github` **before** step 2).
-4. Build the data model and UI → [develop.md](develop.md#schema) and [develop.md](develop.md#data-source).
+4. `npm run alm:solution -- create` (publisher + solution, before the first table).
+   Then build the data model and UI → [develop.md](develop.md#schema) and [develop.md](develop.md#data-source).
    Update `alm.config.json → app.table`, `app.tableLogicalName`, `solution.tables`.
 5. `npm run alm:role -- create` → `npm run alm:solution -- export --bump build`.
 6. First deploy: commit, `npm run alm:bootstrap -- dev`, `npm run alm:deploy -- dev`.

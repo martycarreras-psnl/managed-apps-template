@@ -62,6 +62,12 @@ for (const [label, cmd, probe, required, hint] of [
   else warn(`${label} not found`, hint)
 }
 
+const gitName = git('config', '--get', 'user.name')
+const gitEmail = git('config', '--get', 'user.email')
+gitName && gitEmail
+  ? pass(`git identity ${gitName} <${gitEmail}>`)
+  : bad('git user.name / user.email not set — commits will fail', 'Run: git config --global user.name "<name>" and git config --global user.email "<email>"')
+
 section('Sign-in')
 const auth = sh('ms', ['auth', 'status'])
 auth && !/not (signed|logged) in/i.test(auth)
@@ -90,6 +96,18 @@ git('config', '--get', 'merge.ours.driver')
 git('config', '--get', 'core.hooksPath') === '.githooks'
   ? pass('git hooks installed')
   : bad('git hooks not installed', 'Run: npm run alm:setup')
+
+if (ms) {
+  const ignored = ['ms.config.json', 'solutions/manifest.json'].filter((p) =>
+    git('check-ignore', '-q', '--no-index', p) !== null
+  )
+  ignored.length
+    ? bad(`.gitignore excludes ${ignored.join(' and ')} — the app binding and schema must be committed`, 'Delete the ms.config.json and solutions/ lines from .gitignore.')
+    : pass('ms.config.json and solutions/ are tracked')
+}
+if (!alm.environments?.[alm.promotionOrder?.[0]]?.dataverseUrl) {
+  warn('dev has no dataverseUrl — alm:solution and alm:role will fail', 'Set environments.dev.dataverseUrl in alm.config.json (dataverse org list --json --filter <envId>).')
+}
 
 const dirty = git('status', '--porcelain')
 dirty

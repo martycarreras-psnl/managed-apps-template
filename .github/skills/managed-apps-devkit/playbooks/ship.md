@@ -14,10 +14,21 @@ as `qa`.
 
 **Confirm:** not needed for dev (still state what will happen).
 
+Merge feature work into `dev` through a **pull request** on GitHub, so CI runs
+first:
+
 ```bash
-git checkout dev && git merge --no-ff feature/<name>
+git push -u github feature/<name>
+gh pr create --base dev --fill          # or open it on github.com
+# after CI passes and the PR is merged:
+git checkout dev && git pull github dev
 npm run alm:deploy -- dev
 ```
+
+CI allows `ms.config.json` to change in a PR into `dev` (adding a data source
+writes to it), but fails it if the file would point at another app or
+environment. No `github` remote? Merge locally instead:
+`git checkout dev && git merge --no-ff feature/<name>`.
 
 First deploy to a new platform repo fails with *rejected (fetch first)* →
 `npm run alm:bootstrap -- dev`, then retry.

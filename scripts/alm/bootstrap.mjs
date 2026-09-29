@@ -1,5 +1,5 @@
 /**
- * npm run alm:bootstrap -- <test|prod>
+ * npm run alm:bootstrap -- <dev|test|prod>
  *
  * A freshly provisioned platform-managed repo is created with its own
  * "Initial commit" (a stub README) and therefore shares no history with this
@@ -23,7 +23,7 @@ import {
 } from './lib.mjs'
 
 const target = process.argv[2]
-if (!target) fail('Usage: npm run alm:bootstrap -- <test|prod>')
+if (!target) fail('Usage: npm run alm:bootstrap -- <dev|test|prod>')
 
 const env = resolveEnv(target)
 assertRemoteExists(env.remote)

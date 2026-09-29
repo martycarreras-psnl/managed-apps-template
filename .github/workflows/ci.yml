@@ -42,20 +42,57 @@ jobs:
         with:
           node-version: '22'
 
-      # An env branch must keep its own binding. If a PR changes
-      # ms.config.json, the merge driver was bypassed and merging would
-      # repoint the app at another environment.
-      - name: ms.config.json must not change in a promotion PR
+      # Every environment branch owns its ms.config.json.
+      # - PRs into later stages (promotions, hotfixes): the file must not change.
+      #   If it does, the merge driver was bypassed and merging would repoint
+      #   the app at another environment.
+      # - PRs into the first stage (dev): the file may change, because adding a
+      #   data source writes to it. It must still point at dev's own app and
+      #   environment, as recorded in alm.config.json on the base branch.
+      - name: ms.config.json keeps the target branch's binding
         if: github.event_name == 'pull_request'
         run: |
-          base="origin/${{ github.base_ref }}"
-          if git diff --name-only "$base"...HEAD | grep -qx 'ms.config.json'; then
-            echo "::error file=ms.config.json::ms.config.json changed in a PR targeting ${{ github.base_ref }}."
-            echo "Each environment branch owns its ms.config.json."
-            echo "If this is intentional (re-registering the app), merge it directly on the branch."
-            exit 1
-          fi
-          echo "ms.config.json untouched."
+          node - <<'NODE'
+          const { execFileSync } = require('child_process')
+          const fs = require('fs')
+          const baseRef = process.env.BASE_REF
+          const base = `origin/${baseRef}`
+          const git = (...a) => execFileSync('git', a, { encoding: 'utf8' })
+          const changed = git('diff', '--name-only', `${base}...HEAD`).split('\n').includes('ms.config.json')
+          if (!changed) { console.log('ms.config.json untouched.'); process.exit(0) }
+
+          const cfg = JSON.parse(git('show', `${base}:alm.config.json`))
+          const order = cfg.promotionOrder ?? []
+          if (baseRef !== order[0]) {
+            console.log(`::error file=ms.config.json::ms.config.json changed in a PR targeting ${baseRef}.`)
+            console.log('Promotion and hotfix PRs must leave the target branch\'s binding alone.')
+            console.log('Run `npm run alm:setup` so the merge driver keeps it, then redo the merge.')
+            console.log('If this is intentional (re-registering the app), commit it directly on the branch.')
+            process.exit(1)
+          }
+
+          const env = Object.values(cfg.environments ?? {}).find((e) => e.branch === baseRef) ?? {}
+          if (!fs.existsSync('ms.config.json')) {
+            console.log(`::error file=ms.config.json::This PR deletes ms.config.json from ${baseRef}.`)
+            process.exit(1)
+          }
+          const ms = JSON.parse(fs.readFileSync('ms.config.json', 'utf8'))
+          const problems = []
+          if (env.environmentId && ms.environmentId !== env.environmentId)
+            problems.push(`environmentId is ${ms.environmentId}, ${baseRef} expects ${env.environmentId}`)
+          if (env.appId && ms.appId !== env.appId)
+            problems.push(`appId is ${ms.appId}, ${baseRef} expects ${env.appId}`)
+          if (problems.length) {
+            for (const p of problems) console.log(`::error file=ms.config.json::${p}`)
+            console.log(`This PR would repoint ${baseRef} at another app or environment.`)
+            process.exit(1)
+          }
+          if (!env.environmentId || !env.appId)
+            console.log(`::warning::${baseRef} is not fully recorded in alm.config.json; binding not checked.`)
+          console.log(`ms.config.json changed, and still points at ${baseRef}'s app and environment.`)
+          NODE
+        env:
+          BASE_REF: ${{ github.base_ref }}
 
       # Enforce dev -> test -> prod. Guards against a feature branch going
       # straight to prod.

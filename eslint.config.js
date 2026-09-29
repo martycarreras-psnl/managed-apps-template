@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'generated']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -18,5 +18,10 @@ export default defineConfig([
     languageOptions: {
       globals: globals.browser,
     },
+  },
+  {
+    // Playwright fixtures call a parameter named `use`, which isn't a React hook.
+    files: ['tests/**', '*.config.ts', 'capture-auth.ts'],
+    rules: { 'react-hooks/rules-of-hooks': 'off' },
   },
 ])

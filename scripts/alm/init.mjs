@@ -11,11 +11,12 @@
  * platform repo triggers a credential prompt on first push.
  */
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import {
   fail,
   git,
+  lookupDataverseUrl,
   ok,
   run,
   step,
@@ -46,7 +47,7 @@ ${BOLD}alm:init${OFF} — stand up a new Managed Apps project
   --prod      Prod environment ID (optional, can be added later)
   --solution  Dataverse solution unique name (default: derived from --name)
   --prefix    Publisher prefix (default: derived from --name)
-  --fresh     Remove the reference app, leaving an empty src/
+  --fresh     Replace the reference app with a placeholder page
 `)
   process.exit(0)
 }
@@ -82,6 +83,17 @@ for (const [cmd, probe] of [
   }
 }
 
+// Init commits on the new branches, which fails silently without an identity.
+for (const key of ['user.name', 'user.email']) {
+  if (!git(['config', '--get', key], { allowFail: true })) {
+    fail(
+      `git ${key} is not set.`,
+      `Run: git config --global ${key} "<your ${key === 'user.name' ? 'name' : 'email'}>"`
+    )
+  }
+}
+ok('git identity set')
+
 try {
   const status = execFileSync('ms', ['auth', 'status'], { encoding: 'utf8' })
   ok(status.trim().split('\n')[0])
@@ -116,20 +128,85 @@ for (const [key, value] of [
     cfg.environments[key].displayName = `${name} (${key})`
   }
 }
+
+// alm:solution and alm:role talk to Dataverse by URL, so record it now.
+for (const key of ['dev', 'test', 'prod']) {
+  const env = cfg.environments[key]
+  if (!env?.environmentId) continue
+  const url = lookupDataverseUrl(env.environmentId)
+  if (url) {
+    env.dataverseUrl = url
+    ok(`${key} Dataverse ${url}`)
+  } else if (!env.dataverseUrl) {
+    console.log(
+      `${YELLOW}!${OFF} Couldn't look up ${key}'s Dataverse URL. Sign in to the Dataverse CLI or pac, ` +
+        `or set environments.${key}.dataverseUrl in alm.config.json by hand.`
+    )
+  }
+}
 writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n')
 ok(`solution ${solutionName}, prefix ${prefix}`)
+
+// The template repo ignores these so it never publishes a binding or schema.
+// A project must commit both.
+const ignorePath = resolve(ROOT, '.gitignore')
+if (existsSync(ignorePath)) {
+  const lines = readFileSync(ignorePath, 'utf8').split('\n')
+  const kept = lines.filter((l) => !['ms.config.json', '/ms.config.json', 'solutions/', '/solutions/'].includes(l.trim()))
+  if (kept.length !== lines.length) {
+    writeFileSync(ignorePath, kept.join('\n'))
+    ok('.gitignore: ms.config.json and solutions/ are now tracked')
+  }
+}
 
 // ------------------------------------------------------------ optional reset --
 
 if (fresh) {
-  step('Removing the reference app')
-  for (const path of ['src/inventory', 'generated', 'tests', 'solutions']) {
+  step('Replacing the reference app with a placeholder')
+  for (const path of ['src/inventory', 'generated', 'solutions']) {
     rmSync(resolve(ROOT, path), { recursive: true, force: true })
     ok(`removed ${path}`)
   }
-  console.log(
-    `${YELLOW}!${OFF} src/App.tsx still imports the reference app — replace it before building.`
+  // playwright.config.ts and capture-auth.ts import tests/support/env.ts.
+  const keep = new Set(['support/env.ts'])
+  const testsDir = resolve(ROOT, 'tests')
+  if (existsSync(testsDir)) {
+    for (const entry of readdirSync(testsDir, { recursive: true, withFileTypes: true })) {
+      if (!entry.isFile()) continue
+      const rel = resolve(entry.parentPath ?? entry.path, entry.name).slice(testsDir.length + 1).replaceAll('\\', '/')
+      if (!keep.has(rel)) rmSync(resolve(testsDir, rel), { force: true })
+    }
+    for (const entry of readdirSync(testsDir)) {
+      const dir = resolve(testsDir, entry)
+      if (existsSync(dir) && readdirSync(dir).length === 0) rmSync(dir, { recursive: true })
+    }
+    ok('removed the example tests (kept tests/support/env.ts)')
+  }
+  writeFileSync(
+    resolve(ROOT, 'src/App.tsx'),
+    `import './App.css'
+
+export default function App() {
+  return (
+    <main className="placeholder">
+      <h1>{${JSON.stringify(name)}}</h1>
+      <p>Your app is set up. Ask your agent to add data and screens.</p>
+    </main>
   )
+}
+`
+  )
+  writeFileSync(
+    resolve(ROOT, 'src/App.css'),
+    `.placeholder {
+  max-width: 640px;
+  margin: 64px auto;
+  padding: 0 24px;
+  font-family: system-ui, sans-serif;
+}
+`
+  )
+  ok('wrote a placeholder src/App.tsx')
 }
 
 // -------------------------------------------------------------- local setup --
@@ -200,12 +277,14 @@ if (remotes.includes('origin') && !remotes.includes('env-dev')) {
 console.log(`
 ${BOLD}Dev is registered.${OFF} Remaining steps, in order:
 
-  ${DIM}# 1. Create your Dataverse table, then bind it${OFF}
+  ${DIM}# 1. Create the publisher and solution in dev (before any table)${OFF}
+  npm run alm:solution -- create
+
+  ${DIM}# 2. Create your Dataverse table inside that solution, then bind it${OFF}
   ms app add data-source --connector shared_commondataserviceforapps \\
     --as table --table ${prefix}_yourtable --use-sso
 
-  ${DIM}# 2. Create the solution in Dataverse and add your table to it,
-  #    then update alm.config.json -> app.table / tableLogicalName${OFF}
+  ${DIM}#    then update alm.config.json -> app.table / tableLogicalName${OFF}
 
   ${DIM}# 3. Security role (optional but recommended)${OFF}
   npm run alm:role -- create
@@ -213,7 +292,8 @@ ${BOLD}Dev is registered.${OFF} Remaining steps, in order:
   ${DIM}# 4. Export the managed solution into the repo${OFF}
   npm run alm:solution -- export -- --bump build
 
-  ${DIM}# 5. First deploy${OFF}
+  ${DIM}# 5. First deploy. Run the bootstrap in a visible terminal: the first
+  #    fetch from the platform repo opens a one-time sign-in.${OFF}
   git add -A && git commit -m "feat: initial app"
   npm run alm:bootstrap -- dev
   npm run alm:deploy -- dev

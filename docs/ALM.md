@@ -108,6 +108,7 @@ verifies the file was untouched after every merge.
 dev, committed under `solutions/`, and promoted with the code.
 
 ```bash
+npm run alm:solution -- create                # once, before the first table: publisher + solution in dev
 npm run alm:solution -- export --bump build   # from dev; writes solutions/ + manifest.json
 npm run alm:solution -- import test           # verifies sha256, then imports
 npm run alm:solution -- status                # version in repo vs every environment
@@ -144,8 +145,8 @@ git checkout -b feature/thing dev
 ms app dev                                   # local, hot reload
 git commit -am "feat: thing"
 
-# integrate
-git checkout dev && git merge feature/thing
+# integrate: open a PR from feature/thing into dev on GitHub, merge it, then
+git checkout dev && git pull github dev
 npm run alm:deploy -- dev
 
 # promote
@@ -155,6 +156,10 @@ npm run alm:deploy  -- test
 npm run alm:promote -- prod
 npm run alm:deploy  -- prod
 ```
+
+Feature PRs into `dev` may change `ms.config.json` (adding a data source writes to it). CI
+only checks that it still points at dev's own app and environment, as recorded in
+`alm.config.json` on `dev`. PRs into `test` and `prod` must not change it at all.
 
 `alm:deploy` refuses to run unless: you are on the right branch, the tree is clean,
 `ms.config.json` matches the expected app + environment, connection references point at that
@@ -302,7 +307,8 @@ today.
 | | Where |
 | --- | --- |
 | Build, typecheck, lint | GitHub Actions, on every PR |
-| `ms.config.json` untouched in promotion PRs | GitHub Actions |
+| `ms.config.json` untouched in promotion and hotfix PRs (into test/prod) | GitHub Actions |
+| `ms.config.json` in PRs into dev may change, but must keep dev's app and environment | GitHub Actions |
 | `dev → test → prod` order enforcement | GitHub Actions |
 | Deploy | Local, `npm run alm:deploy` |
 | Solution export/import | Local, `npm run alm:solution` |

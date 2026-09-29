@@ -696,11 +696,14 @@
     <tr><th>The agent does</th><th>You do</th></tr>
     <tr><td>Checks Node, Git, Git Credential Manager and the Managed Apps CLI, and installs what's missing</td>
         <td>Type your password if an installer needs admin rights</td></tr>
+    <tr><td>Checks that git knows your name and email</td><td>Tell it them if not. Commits fail without them</td></tr>
     <tr><td>Starts the Microsoft sign-in</td><td>Finish it in the browser (MFA or passkey)</td></tr>
     <tr><td>Lists your environments</td><td>Pick one for dev. <strong>It's permanent for this app.</strong></td></tr>
     <tr><td>Installs the Managed Apps plugin (Copilot) or tells you the two commands to type (Claude Code)</td><td>In Claude Code, type the <code>/plugin</code> commands</td></tr>
     <tr><td>Runs <code>alm:setup</code>, sets up remotes, registers the dev app, builds, and checks health</td><td>Say yes before the app is registered</td></tr>
-    <tr><td>Starts <code>ms app dev</code> and gives you the App Player link</td><td>Open it</td></tr>
+    <tr><td>Opens a visible terminal for the one-time sign-in to the app's platform repo, and joins its history</td>
+        <td>Finish the sign-in in the browser window</td></tr>
+    <tr><td>Starts <code>ms app dev</code> and gives you the App Player link</td><td>Open it in <strong>Chrome or Edge</strong>. It doesn't work in an agent's side-panel browser</td></tr>
   </table>
   <p class="muted">
     It's safe to run again: it checks each step and only fixes what's missing. It stops and tells you
@@ -717,6 +720,8 @@
 brew install node git
 brew install --cask git-credential-manager
 git credential-manager configure   <span class="cm"># REQUIRED — do not skip</span>
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
 
 npm install -g @microsoft/managed-apps-cli@latest
 ms auth login</pre></div>
@@ -725,6 +730,8 @@ ms auth login</pre></div>
     <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre><span class="cm"># Windows PowerShell — Git for Windows bundles and configures GCM</span>
 winget install OpenJS.NodeJS.LTS
 winget install Git.Git
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
 
 npm install -g '@microsoft/managed-apps-cli@latest'
 ms auth login</pre></div>
@@ -771,7 +778,19 @@ cd &lt;your-repo&gt;
 npm install
 npm run alm:setup        <span class="cm"># merge driver + hooks — REQUIRED, once per clone</span>
 
-npm run alm:init -- --name "Expense Tracker" --dev &lt;dev-env-id&gt; --prefix contoso</pre></div>
+npm run alm:init -- --name "Expense Tracker" --dev &lt;dev-env-id&gt; --prefix contoso
+
+<span class="cm"># in your own terminal: the first fetch opens a one-time sign-in</span>
+git add -A &amp;&amp; git commit -m "chore: initial setup"
+npm run alm:bootstrap -- dev
+
+<span class="cm"># once, before your first Dataverse table</span>
+npm run alm:solution -- create   <span class="cm"># publisher + solution in dev</span></pre></div>
+  <p class="muted">
+    <code>alm:init</code> also records dev's Dataverse URL, and removes <code>ms.config.json</code>
+    and <code>solutions/</code> from <code>.gitignore</code>: the template ignores them, but
+    your project must commit both. With <code>--fresh</code> it leaves a placeholder page that builds.
+  </p>
 
   <div class="callout">
     <h4>Why <code>alm:setup</code> is not optional</h4>
@@ -868,7 +887,8 @@ npm run alm:init -- --name "Expense Tracker" --dev &lt;dev-env-id&gt; --prefix c
     <div class="code"><button class="copy" onclick="cp(this)">copy</button><pre>git checkout -b feature/thing dev
 ms app dev                       <span class="cm"># local, hot reload</span>
 git commit -am "feat: thing"
-git checkout dev &amp;&amp; git merge feature/thing
+git push -u github feature/thing  <span class="cm"># open a PR into dev, merge after CI</span>
+git checkout dev &amp;&amp; git pull github dev
 npm run alm:deploy -- dev</pre></div>
     <p class="muted">Dev is the only environment where schema is authored. Everywhere else it arrives as managed.</p>
   </div>
@@ -987,6 +1007,44 @@ npm run alm:role -- show     <span class="cm"># verify across all environments</
       <p>GCM exists but is not registered as a credential helper, so <code>ms app create</code>
       fails preflight. Run <code>git credential-manager configure</code>. Common on macOS;
       Git for Windows does this for you.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The first deploy or bootstrap hangs with no output</summary>
+    <div class="body">
+      <p>The first fetch from the app's platform repo opens a Git Credential Manager sign-in. In an
+      agent's shell that prompt is hidden, so the command waits forever. Stop it and run
+      <code>npm run alm:bootstrap -- dev</code> in a terminal you can see, finish the sign-in, then
+      carry on. It only happens once per machine.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>The App Player is blank or won't sign in</summary>
+    <div class="body">
+      <p>Agent side-panel browsers can't run the App Player. Open the link from <code>ms app dev</code>
+      in Chrome or Edge instead.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>CI: "ms.config.json keeps the target branch's binding" fails</summary>
+    <div class="body">
+      <p>Pull requests into <code>dev</code> may change <code>ms.config.json</code> (adding a data
+      source writes to it), but it must still point at dev's app and environment. Pull requests into
+      <code>test</code> or <code>prod</code> must not change it at all. If it failed, the branch
+      carries another environment's binding: restore the file from the target branch.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>alm:solution or alm:role: "no dataverseUrl"</summary>
+    <div class="body">
+      <p>The scripts reach Dataverse by URL. Run <code>alm:init</code> again while signed in to the
+      Dataverse CLI or <code>pac</code>, or copy the URL from
+      <code>dataverse org list --json --filter &lt;env-id&gt;</code> into
+      <code>alm.config.json → environments.dev.dataverseUrl</code>.</p>
     </div>
   </details>
 
