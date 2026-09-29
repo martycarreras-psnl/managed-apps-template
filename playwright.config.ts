@@ -1,10 +1,11 @@
 import { defineConfig, devices } from '@playwright/test'
 import { existsSync } from 'node:fs'
-import { AUTH_STATE_PATH, playerUrl } from './tests/support/env'
+import { PROFILE_DIR, playerUrl } from './tests/support/env'
 
-if (!existsSync(AUTH_STATE_PATH)) {
+// Tests reuse the persistent browser profile that `npm run test:e2e:login` signs in.
+if (!existsSync(PROFILE_DIR)) {
   console.warn(
-    '\n  No saved session found at playwright/.auth/user.json.' +
+    '\n  No signed-in browser profile found at playwright/.profile.' +
       '\n  Run `npm run test:e2e:login` once to sign in.\n'
   )
 }
@@ -21,7 +22,6 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: playerUrl(),
-    storageState: existsSync(AUTH_STATE_PATH) ? AUTH_STATE_PATH : undefined,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
