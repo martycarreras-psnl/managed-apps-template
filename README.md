@@ -403,10 +403,10 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
   click-through promotion walkthrough, copyable phrases for your agent, and troubleshooting.
   It is a single self-contained file with no dependencies. (`docs/guide.html` only redirects
   there, so old links keep working.)
-- **[Five whiteboard sketches](https://martycarreras-psnl.github.io/managed-apps-template/#sketches)**
-  (`docs/sketches/`): about five minutes of narrated, captioned video on why most apps can stay
+- **[Six whiteboard sketches](https://martycarreras-psnl.github.io/managed-apps-template/#sketches)**
+  (`docs/sketches/`): about six minutes of narrated, captioned video on why most apps can stay
   simple and when one needs dev, test and prod, from classic ALM to Managed Apps to keeping
-  solutions in sync. Each sketch also appears beside the section it explains.
+  solutions in sync, ending with how to get started. Each sketch also appears beside the section it explains.
 - **[docs/image-prompts.md](docs/image-prompts.md)** — prompts for generating high-fidelity
   diagrams of this model
 - **[docs/ALM.md](docs/ALM.md)** — the promotion model, hotfix flow, access gates, and the one

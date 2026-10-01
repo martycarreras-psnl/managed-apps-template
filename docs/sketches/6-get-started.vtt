@@ -1,0 +1,70 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:02.170
+So how do you actually get there?
+
+00:00:02.800 --> 00:00:04.690
+Create a repository from this template.
+
+00:00:05.280 --> 00:00:11.870
+In one click you get the app, the dev, test and prod branches, the guardrails, and a guide your coding agent follows.
+
+00:00:12.856 --> 00:00:17.866
+Open it in GitHub Copilot, VS Code, Claude Code or Cursor, and paste one prompt:
+
+00:00:17.876 --> 00:00:22.106
+read AGENTS.md, then set up this project for me.
+
+00:00:22.116 --> 00:00:27.986
+The agent installs what's missing, signs you in, registers your dev app, and runs it.
+
+00:00:28.781 --> 00:00:30.091
+From there, you just ask.
+
+00:00:30.621 --> 00:00:31.651
+Show me the devkit menu.
+
+00:00:32.081 --> 00:00:33.351
+Is my project healthy?
+
+00:00:33.661 --> 00:00:35.211
+Which environments can I use?
+
+00:00:36.109 --> 00:00:37.099
+Create a new app.
+
+00:00:37.429 --> 00:00:38.519
+Add a Dataverse table.
+
+00:00:38.889 --> 00:00:40.779
+Connect my app to a SharePoint list.
+
+00:00:41.089 --> 00:00:43.519
+Can I use this connector in test and prod?
+
+00:00:44.440 --> 00:00:45.390
+Deploy to test.
+
+00:00:45.700 --> 00:00:46.850
+Share it with my testers.
+
+00:00:47.400 --> 00:00:48.170
+Roll back production.
+
+00:00:48.540 --> 00:00:48.930
+I need a hotfix.
+
+00:00:48.940 --> 00:00:50.470
+Add a QA environment.
+
+00:00:50.480 --> 00:00:52.850
+Help me fix this error.
+
+00:00:53.688 --> 00:00:57.058
+Every one of those runs a playbook with the safety checks built in.
+
+00:00:57.488 --> 00:01:00.918
+The complexity is still there, but you don't have to worry about it.
+
+00:01:01.635 --> 00:01:09.685
+And soon, Copilot Code will bring this same ALM maturity to people who don't have GitHub Copilot or another coding agent.

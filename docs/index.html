@@ -245,7 +245,7 @@
   .next a{font-weight:600}
 
   /* ---------- whiteboard sketches ---------- */
-  .sk-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:30px 0 0}
+  .sk-strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin:30px 0 0}
   .sk-card{display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--line);
            border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);
            transition:border-color .2s,transform .2s}
@@ -255,11 +255,11 @@
   .sk-card .n{display:block;font:700 10.5px var(--sans);letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
   .sk-card b{display:block;font-size:14.5px;line-height:1.3;margin:4px 0 3px}
   .sk-card .d{display:block;font-size:13px;color:var(--dim);line-height:1.45}
-  .sk-scale{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px;margin:10px 0 0;
+  .sk-scale{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;margin:10px 0 0;
             font:600 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
   .sk-scale span{border-top:3px solid var(--line);padding-top:7px}
   .sk-scale .s1{border-color:#5d5869} .sk-scale .s2{border-color:var(--accent2)}
-  .sk-scale .s3{border-color:var(--accent)} .sk-scale .s4{border-color:var(--ok)}
+  .sk-scale .s3{border-color:var(--accent)} .sk-scale .s4{border-color:var(--ok)} .sk-scale .s5{border-color:var(--warn)}
   .path .go{display:inline-block;margin-top:12px;font:600 14px var(--sans);text-decoration:none}
   .vignette{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:14px;margin:24px 0}
   .vignette video{display:block;width:100%;aspect-ratio:16/9;border-radius:10px;background:#fbf8f1}
@@ -270,6 +270,7 @@
   .vignette.solo{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:22px;align-items:center;padding:16px}
   .vignette.solo figcaption{padding:4px 8px 4px 0;font-size:15.5px}
   @media (max-width:900px){.vignette.solo{display:block;padding:14px}.vignette.solo figcaption{padding:12px 6px 4px;font-size:14.5px}}
+  .vignette .soon{display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--warn);font-size:13.5px}
   .vpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:16px;margin:20px 0}
   .vpair .vignette{margin:0}
   @media (max-width:900px){
@@ -349,10 +350,10 @@
 <section id="sketches" class="reveal" style="padding:64px 0">
   <div class="head" style="margin-bottom:0">
     <div>
-      <p class="eyebrow">The short version · five whiteboard sketches</p>
+      <p class="eyebrow">The short version · six whiteboard sketches</p>
       <h2>Simple for most apps.<br/><span class="grad">Rigor for the ones that need it.</span></h2>
     </div>
-    <p class="lede" style="max-width:46ch">About five minutes of video. Most Managed Apps stay simple: one app, pinned to one
+    <p class="lede" style="max-width:46ch">About six minutes of video. Most Managed Apps stay simple: one app, pinned to one
       environment, shared with a small team. The rest of this page is for apps that outgrow that, and it&#39;s the
       same discipline enterprise Power Platform teams already run today. Each sketch also appears next to the
       section it explains.</p>
@@ -384,12 +385,18 @@
       <span class="t"><span class="n">Sketch 5 · 1:06</span><b>Keeping solutions in sync</b>
       <span class="d">Dataverse, agents and workflows ride the same merge.</span></span>
     </a>
+    <a class="sk-card" href="#sketch-6">
+      <img src="sketches/6-get-started.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 6 · 1:12</span><b>Get started</b>
+      <span class="d">One template, one prompt, then just ask.</span></span>
+    </a>
   </div>
   <div class="sk-scale" aria-hidden="true">
     <span class="s1">Classic Power Platform, for context</span>
     <span class="s2">Every Managed App</span>
     <span class="s3">Apps that grow</span>
     <span class="s4">When the architecture grows</span>
+    <span class="s5">Your first step</span>
   </div>
 
   <h3 class="sub">Which ones do you need?</h3>
@@ -558,7 +565,7 @@
         <source src="sketches/1-alm-without-git.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/1-alm-without-git.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 1 of 5 · 0:52</span><b>Classic ALM without source control.</b> Imported by hand, by a script or by Pipelines, it&#39;s the same zip. It&#39;s a snapshot, not a history.</figcaption>
+      <figcaption><span class="n">Sketch 1 of 6 · 0:52</span><b>Classic ALM without source control.</b> Imported by hand, by a script or by Pipelines, it&#39;s the same zip. It&#39;s a snapshot, not a history.</figcaption>
     </figure>
     <figure class="vignette" id="sketch-2">
       <video controls preload="none" playsinline poster="sketches/2-alm-with-git.jpg"
@@ -566,7 +573,7 @@
         <source src="sketches/2-alm-with-git.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/2-alm-with-git.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 2 of 5 · 0:56</span><b>Classic ALM, matured.</b> Every change gets history and review, and a pipeline builds the managed solution for test and prod.</figcaption>
+      <figcaption><span class="n">Sketch 2 of 6 · 0:56</span><b>Classic ALM, matured.</b> Every change gets history and review, and a pipeline builds the managed solution for test and prod.</figcaption>
     </figure>
   </div>
 
@@ -691,7 +698,7 @@
         <source src="sketches/3-managed-apps.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/3-managed-apps.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 3 of 5 · 1:01</span><b>How Managed Apps work.</b> Built in Cowork, Copilot Studio or the CLI, the source lands in a Git repo Microsoft manages and runs on one shared runtime. The environment it&#39;s pinned to sets the rules. For a personal or small-team app, this is all you need.</figcaption>
+      <figcaption><span class="n">Sketch 3 of 6 · 1:01</span><b>How Managed Apps work.</b> Built in Cowork, Copilot Studio or the CLI, the source lands in a Git repo Microsoft manages and runs on one shared runtime. The environment it&#39;s pinned to sets the rules. For a personal or small-team app, this is all you need.</figcaption>
     </figure>
 
   <h3 class="sub">What the pinned environment decides</h3>
@@ -727,7 +734,7 @@
         <source src="sketches/4-dev-test-prod.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/4-dev-test-prod.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 4 of 5 · 1:04</span><b>When an app needs dev, test and prod.</b> Three apps from the same code, a branch per stage, promotion by merge, and roll back by redeploying a good commit. Small apps stay simple; critical apps get the rigor.</figcaption>
+      <figcaption><span class="n">Sketch 4 of 6 · 1:04</span><b>When an app needs dev, test and prod.</b> Three apps from the same code, a branch per stage, promotion by merge, and roll back by redeploying a good commit. Small apps stay simple; critical apps get the rigor.</figcaption>
     </figure>
 
   <h3 class="sub">All three apps land in the same Apps list</h3>
@@ -954,7 +961,7 @@
         <source src="sketches/5-solutions-in-sync.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/5-solutions-in-sync.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 5 of 5 · 1:06</span><b>Keeping solutions in sync.</b> Dataverse tables, Copilot Studio agents and workflows live in a solution, so it rides with the code: exported as managed, committed to the same branch, promoted by the same merge, and version-checked before every deploy. A classic app with Azure behind it already works this way.</figcaption>
+      <figcaption><span class="n">Sketch 5 of 6 · 1:06</span><b>Keeping solutions in sync.</b> Dataverse tables, Copilot Studio agents and workflows live in a solution, so it rides with the code: exported as managed, committed to the same branch, promoted by the same merge, and version-checked before every deploy. A classic app with Azure behind it already works this way.</figcaption>
     </figure>
   <div class="callout warn">
     <h4>The one change from the classic flow: nothing moves environment-to-environment</h4>
@@ -1085,6 +1092,17 @@ ms connector list-actions --connector office365 -e &lt;env-id&gt; --search send 
   <p class="lede" style="margin-bottom:22px">Create your repo, open it in your coding agent, and paste one prompt.
     The agent installs what's missing, signs you in, registers your dev app and runs it. You only finish the
     sign-ins and say yes. Prefer to do it by hand? <a href="#setup">Every step is below.</a></p>
+  <figure class="vignette solo" id="sketch-6">
+    <video controls preload="none" playsinline poster="sketches/6-get-started.jpg"
+           aria-label="Whiteboard sketch: what creating a repo from this template gives you, the one setup prompt, and the phrases you can ask your agent">
+      <source src="sketches/6-get-started.mp4" type="video/mp4" />
+      <track kind="captions" src="sketches/6-get-started.vtt" srclang="en" label="English" default />
+    </video>
+    <figcaption><span class="n">Sketch 6 of 6 · 1:12</span><b>Get started.</b> What the template gives you, the one
+      prompt that sets it up, and the phrases that run everything after it: each one a playbook with the safety
+      checks built in. The complexity is still there, but you don&#39;t have to worry about it.
+      <span class="soon">Coming soon: Copilot Code brings this same ALM maturity to makers without GitHub Copilot or another coding agent.</span></figcaption>
+  </figure>
   <div class="oneprompt">
     <span class="lbl">The one prompt</span>
     <button class="say">Read AGENTS.md, then set up this project for me.</button>
