@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Managed Apps Template: imagine it, ship it, govern it</title>
-<meta name="description" content="A GitHub template for building Microsoft Managed Apps with AI: vibe-code real apps on 1,300+ governed connectors, with dev/test/prod ALM that keeps code, schema, and environments in sync." />
+<meta name="description" content="A GitHub template for building Microsoft Managed Apps with AI: vibe-code real apps on 1,500+ governed connectors, with dev/test/prod ALM that keeps code, schema, and environments in sync." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E✨%3C/text%3E%3C/svg%3E" />
 <meta property="og:title" content="Managed Apps Template" />
 <meta property="og:description" content="Imagination in. Governed, enterprise-grade apps out." />
@@ -271,6 +271,9 @@
   .vignette.solo figcaption{padding:4px 8px 4px 0;font-size:15.5px}
   @media (max-width:900px){.vignette.solo{display:block;padding:14px}.vignette.solo figcaption{padding:12px 6px 4px;font-size:14.5px}}
   .vignette .soon{display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--warn);font-size:13.5px}
+  .vignette .back{display:inline-flex;gap:14px;flex-wrap:wrap;margin-top:10px;font:600 13.5px var(--sans)}
+  .vignette .back a{text-decoration:none}
+  .vignette .back a:hover{text-decoration:underline}
   .vpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:16px;margin:20px 0}
   .vpair .vignette{margin:0}
   @media (max-width:900px){
@@ -313,7 +316,7 @@
         <a class="btn" href="#start">Get started</a>
       </div>
       <div class="stats">
-        <div class="stat"><b class="grad" data-count="1300">0</b><span>connectors, plus your own custom ones</span></div>
+        <div class="stat"><b class="grad" data-count="1500">0</b><span>connectors, plus your own custom ones</span></div>
         <div class="stat"><b data-count="3">0</b><span>environments, one pipeline</span></div>
         <div class="stat"><b>0</b><span>lines of ALM plumbing to write</span></div>
       </div>
@@ -565,7 +568,9 @@
         <source src="sketches/1-alm-without-git.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/1-alm-without-git.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 1 of 6 · 0:52</span><b>Classic ALM without source control.</b> Imported by hand, by a script or by Pipelines, it&#39;s the same zip. It&#39;s a snapshot, not a history.</figcaption>
+      <figcaption><span class="n">Sketch 1 of 6 · 0:52</span><b>Classic ALM without source control.</b> Imported by hand, by a script or by Pipelines, it&#39;s the same zip. It&#39;s a snapshot, not a history.
+      <span class="back"><a href="#sketches">↑ Return to video list</a><a href="#sketch-2">Next: sketch 2 →</a></span>
+    </figcaption>
     </figure>
     <figure class="vignette" id="sketch-2">
       <video controls preload="none" playsinline poster="sketches/2-alm-with-git.jpg"
@@ -573,7 +578,9 @@
         <source src="sketches/2-alm-with-git.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/2-alm-with-git.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 2 of 6 · 0:56</span><b>Classic ALM, matured.</b> Every change gets history and review, and a pipeline builds the managed solution for test and prod.</figcaption>
+      <figcaption><span class="n">Sketch 2 of 6 · 0:56</span><b>Classic ALM, matured.</b> Every change gets history and review, and a pipeline builds the managed solution for test and prod.
+      <span class="back"><a href="#sketches">↑ Return to video list</a><a href="#sketch-3">Next: sketch 3 →</a></span>
+    </figcaption>
     </figure>
   </div>
 
@@ -698,7 +705,9 @@
         <source src="sketches/3-managed-apps.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/3-managed-apps.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 3 of 6 · 1:01</span><b>How Managed Apps work.</b> Built in Cowork, Copilot Studio or the CLI, the source lands in a Git repo Microsoft manages and runs on one shared runtime. The environment it&#39;s pinned to sets the rules. For a personal or small-team app, this is all you need.</figcaption>
+      <figcaption><span class="n">Sketch 3 of 6 · 1:01</span><b>How Managed Apps work.</b> Built in Cowork, Copilot Studio or the CLI, the source lands in a Git repo Microsoft manages and runs on one shared runtime. The environment it&#39;s pinned to sets the rules. For a personal or small-team app, this is all you need.
+      <span class="back"><a href="#sketches">↑ Return to video list</a><a href="#sketch-4">Next: sketch 4 →</a></span>
+    </figcaption>
     </figure>
 
   <h3 class="sub">What the pinned environment decides</h3>
@@ -734,7 +743,9 @@
         <source src="sketches/4-dev-test-prod.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/4-dev-test-prod.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 4 of 6 · 1:04</span><b>When an app needs dev, test and prod.</b> Three apps from the same code, a branch per stage, promotion by merge, and roll back by redeploying a good commit. Small apps stay simple; critical apps get the rigor.</figcaption>
+      <figcaption><span class="n">Sketch 4 of 6 · 1:04</span><b>When an app needs dev, test and prod.</b> Three apps from the same code, a branch per stage, promotion by merge, and roll back by redeploying a good commit. Small apps stay simple; critical apps get the rigor.
+      <span class="back"><a href="#sketches">↑ Return to video list</a><a href="#sketch-5">Next: sketch 5 →</a></span>
+    </figcaption>
     </figure>
 
   <h3 class="sub">All three apps land in the same Apps list</h3>
@@ -961,7 +972,9 @@
         <source src="sketches/5-solutions-in-sync.mp4" type="video/mp4" />
         <track kind="captions" src="sketches/5-solutions-in-sync.vtt" srclang="en" label="English" default />
       </video>
-      <figcaption><span class="n">Sketch 5 of 6 · 1:06</span><b>Keeping solutions in sync.</b> Dataverse tables, Copilot Studio agents and workflows live in a solution, so it rides with the code: exported as managed, committed to the same branch, promoted by the same merge, and version-checked before every deploy. A classic app with Azure behind it already works this way.</figcaption>
+      <figcaption><span class="n">Sketch 5 of 6 · 1:06</span><b>Keeping solutions in sync.</b> Dataverse tables, Copilot Studio agents and workflows live in a solution, so it rides with the code: exported as managed, committed to the same branch, promoted by the same merge, and version-checked before every deploy. A classic app with Azure behind it already works this way.
+      <span class="back"><a href="#sketches">↑ Return to video list</a><a href="#sketch-6">Next: sketch 6 →</a></span>
+    </figcaption>
     </figure>
   <div class="callout warn">
     <h4>The one change from the classic flow: nothing moves environment-to-environment</h4>
@@ -999,7 +1012,7 @@
       <p class="eyebrow">Connect to anything</p>
       <h2>Your data is probably already here.<br/><span class="grad">So are your guardrails.</span></h2>
     </div>
-    <p class="lede" style="max-width:46ch">Managed Apps use the Power Platform connector catalog: <b>1,300+ connectors</b>
+    <p class="lede" style="max-width:46ch">Managed Apps use the Power Platform connector catalog: <b>1,500+ connectors</b>
       from Microsoft 365 and Dataverse to SAP, Salesforce, ServiceNow, SQL, and Snowflake, plus any custom connector
       your team publishes. You ask for data in plain language, and the agent wires up typed services.</p>
   </div>
@@ -1101,7 +1114,9 @@ ms connector list-actions --connector office365 -e &lt;env-id&gt; --search send 
     <figcaption><span class="n">Sketch 6 of 6 · 1:12</span><b>Get started.</b> What the template gives you, the one
       prompt that sets it up, and the phrases that run everything after it: each one a playbook with the safety
       checks built in. The complexity is still there, but you don&#39;t have to worry about it.
-      <span class="soon">Coming soon: Copilot Code brings this same ALM maturity to makers without GitHub Copilot or another coding agent.</span></figcaption>
+      <span class="soon">Coming soon: Copilot Code brings this same ALM maturity to makers without GitHub Copilot or another coding agent.</span>
+      <span class="back"><a href="#sketches">↑ Return to video list</a></span>
+    </figcaption>
   </figure>
   <div class="oneprompt">
     <span class="lbl">The one prompt</span>
