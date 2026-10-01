@@ -1,0 +1,49 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:03.010
+Managed Apps change the picture.
+
+00:00:03.020 --> 00:00:08.850
+A maker can build one in Copilot Cowork, in Copilot Studio, or with the Managed Apps CLI.
+
+00:00:10.019 --> 00:00:11.228
+Wherever it's built,
+
+00:00:11.238 --> 00:00:15.749
+the source code lands in a Git repository that Microsoft manages for you.
+
+00:00:16.339 --> 00:00:18.789
+Each deploy is a commit, built in the cloud.
+
+00:00:19.800 --> 00:00:22.170
+The finished app runs on the Copilot Managed Runtime:
+
+00:00:22.180 --> 00:00:24.630
+one shared host for every app.
+
+00:00:24.640 --> 00:00:27.170
+It doesn't live inside an environment.
+
+00:00:28.173 --> 00:00:29.823
+But it is still governed by one.
+
+00:00:30.373 --> 00:00:34.523
+Every app is pinned to a Power Platform environment, once, when it's created.
+
+00:00:35.458 --> 00:00:39.477
+If no environment is given, as when the app skill in Cowork builds it,
+
+00:00:39.487 --> 00:00:43.228
+the app is pinned to the maker's personal developer environment.
+
+00:00:43.858 --> 00:00:46.668
+Name an environment, and it's pinned there instead.
+
+00:00:47.693 --> 00:00:49.443
+That environment sets the rules:
+
+00:00:49.933 --> 00:00:53.025
+which connectors are allowed, the connections it uses,
+
+00:00:53.035 --> 00:00:58.263
+its Dataverse data and security roles, who it can be shared with, and what admins can see.

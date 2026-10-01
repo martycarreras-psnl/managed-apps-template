@@ -1,0 +1,52 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:03.330
+For many Managed Apps, one app is all you need.
+
+00:00:03.820 --> 00:00:07.830
+A maker builds it, shares it with a small team, and keeps improving it.
+
+00:00:08.380 --> 00:00:10.830
+No extra source control, no extra environments.
+
+00:00:12.109 --> 00:00:13.359
+But some apps take off.
+
+00:00:14.049 --> 00:00:19.059
+Hundreds, then thousands of people rely on them, and every change now carries real risk.
+
+00:00:19.970 --> 00:00:21.220
+That's when the app graduates.
+
+00:00:21.850 --> 00:00:24.420
+The team registers three apps from the same code:
+
+00:00:24.990 --> 00:00:28.880
+dev, test and prod, each pinned to its own governed environment.
+
+00:00:29.837 --> 00:00:35.087
+The code moves into the team's own GitHub repository, with a branch for each stage.
+
+00:00:35.657 --> 00:00:39.687
+Every change starts on a feature branch, and gets reviewed in a pull request.
+
+00:00:40.706 --> 00:00:42.156
+Promoting is just a merge:
+
+00:00:42.706 --> 00:00:44.876
+dev into test, then test into prod.
+
+00:00:45.486 --> 00:00:50.136
+Each deploy builds from its branch, so every stage stays bound to its own environment.
+
+00:00:51.170 --> 00:00:54.180
+Testers try changes before users ever see them.
+
+00:00:54.490 --> 00:00:58.220
+And if a release goes wrong, prod rolls back to the last good commit.
+
+00:00:58.910 --> 00:01:00.160
+Small apps stay simple.
+
+00:01:00.650 --> 00:01:01.920
+Critical apps get the rigor.

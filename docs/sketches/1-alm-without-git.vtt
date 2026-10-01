@@ -1,0 +1,46 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:05.630
+Without source control, a Power Platform app lives inside its development environment.
+
+00:00:06.260 --> 00:00:09.250
+The environment itself is the only source of truth.
+
+00:00:10.125 --> 00:00:12.447
+To move it, the maker gathers the app,
+
+00:00:12.457 --> 00:00:16.875
+tables and flows into a solution, and exports it as a managed zip file.
+
+00:00:17.709 --> 00:00:20.179
+That zip file is the only thing that travels.
+
+00:00:20.669 --> 00:00:23.259
+It's imported into test, and then into production.
+
+00:00:24.248 --> 00:00:29.118
+The import might be done by hand, by a custom script, or by Power Platform Pipelines.
+
+00:00:29.968 --> 00:00:32.478
+Either way, they all carry the same zip forward.
+
+00:00:33.368 --> 00:00:34.678
+Managed means locked.
+
+00:00:35.268 --> 00:00:38.866
+Test and prod can't be edited, so every fix goes back to dev,
+
+00:00:38.876 --> 00:00:41.478
+gets exported again, and moves up the line.
+
+00:00:42.339 --> 00:00:43.509
+But notice what's missing.
+
+00:00:44.039 --> 00:00:45.909
+The zip is a snapshot, not a history.
+
+00:00:46.399 --> 00:00:48.629
+If dev breaks, there's nothing to go back to.
+
+00:00:48.699 --> 00:00:50.089
+That's the gap Git fills.

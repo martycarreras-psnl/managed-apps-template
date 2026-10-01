@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:02.730
+Sometimes the app is the whole story.
+
+00:00:03.200 --> 00:00:06.150
+But as a solution grows, it picks up more moving parts:
+
+00:00:06.520 --> 00:00:10.070
+Dataverse tables, Copilot Studio agents, and workflows.
+
+00:00:10.979 --> 00:00:12.609
+Those don't live in the app's code.
+
+00:00:13.099 --> 00:00:16.012
+They live in the environment, packaged in a solution,
+
+00:00:16.022 --> 00:00:18.889
+and they need to move from dev to test to prod too.
+
+00:00:19.736 --> 00:00:21.986
+So the solution rides along with the code.
+
+00:00:22.576 --> 00:00:24.468
+It's exported as managed from dev,
+
+00:00:24.478 --> 00:00:27.946
+committed to the same branch, and promoted by the same merge.
+
+00:00:28.877 --> 00:00:31.187
+Before each deploy, the target is checked:
+
+00:00:31.737 --> 00:00:34.927
+the solution installed there must match the version in the branch.
+
+00:00:35.477 --> 00:00:39.867
+If it doesn't, the deploy stops, so code and schema never drift apart.
+
+00:00:40.770 --> 00:00:42.660
+If that sounds familiar, it should.
+
+00:00:43.310 --> 00:00:46.825
+A classic Power App with Azure functions and APIs behin
+
+00:00:46.835 --> 00:00:50.360
+d it already moves several pieces through ALM, in step.
+
+00:00:51.213 --> 00:00:56.523
+So start simple, and add solutions when Dataverse, agents or workflows join in.
+
+00:00:57.053 --> 00:01:00.223
+The complexity follows your architecture, not the platform.
+
+00:01:00.773 --> 00:01:03.683
+It's the same discipline enterprise teams use today.

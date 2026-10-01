@@ -244,6 +244,39 @@
   .next{margin-top:30px;color:var(--dim);font-size:15px}
   .next a{font-weight:600}
 
+  /* ---------- whiteboard sketches ---------- */
+  .sk-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:30px 0 0}
+  .sk-card{display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--line);
+           border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);
+           transition:border-color .2s,transform .2s}
+  .sk-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .sk-card img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#fbf8f1}
+  .sk-card .t{display:block;padding:11px 13px 14px}
+  .sk-card .n{display:block;font:700 10.5px var(--sans);letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+  .sk-card b{display:block;font-size:14.5px;line-height:1.3;margin:4px 0 3px}
+  .sk-card .d{display:block;font-size:13px;color:var(--dim);line-height:1.45}
+  .sk-scale{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px;margin:10px 0 0;
+            font:600 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .sk-scale span{border-top:3px solid var(--line);padding-top:7px}
+  .sk-scale .s1{border-color:#5d5869} .sk-scale .s2{border-color:var(--accent2)}
+  .sk-scale .s3{border-color:var(--accent)} .sk-scale .s4{border-color:var(--ok)}
+  .path .go{display:inline-block;margin-top:12px;font:600 14px var(--sans);text-decoration:none}
+  .vignette{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:14px;margin:24px 0}
+  .vignette video{display:block;width:100%;aspect-ratio:16/9;border-radius:10px;background:#fbf8f1}
+  .vignette figcaption{color:var(--dim);font-size:14.5px;line-height:1.55;padding:12px 6px 4px;max-width:none}
+  .vignette figcaption .n{display:block;font:700 11px var(--sans);letter-spacing:.1em;color:var(--accent);
+                          text-transform:uppercase;margin-bottom:3px}
+  .vignette figcaption b{color:var(--ink)}
+  .vignette.solo{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:22px;align-items:center;padding:16px}
+  .vignette.solo figcaption{padding:4px 8px 4px 0;font-size:15.5px}
+  @media (max-width:900px){.vignette.solo{display:block;padding:14px}.vignette.solo figcaption{padding:12px 6px 4px;font-size:14.5px}}
+  .vpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:16px;margin:20px 0}
+  .vpair .vignette{margin:0}
+  @media (max-width:900px){
+    .sk-strip{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+    .sk-scale{display:none}
+  }
+
 </style>
 </head>
 <body data-os="mac">
@@ -251,6 +284,7 @@
 <nav><div class="nav-in">
   <div class="brand">Managed Apps <span>Template</span></div>
   <a href="story.html">The story</a>
+  <a href="#sketches">Sketches</a>
   <a href="#how">How it works</a>
   <a href="#connect">Connect</a>
   <a href="#start">Get started</a>
@@ -309,6 +343,84 @@
     </div>
     <span class="btn primary" style="white-space:nowrap">Play the story ▸</span>
   </a>
+</section>
+
+<!-- ============ SKETCHES ============ -->
+<section id="sketches" class="reveal" style="padding:64px 0">
+  <div class="head" style="margin-bottom:0">
+    <div>
+      <p class="eyebrow">The short version · five whiteboard sketches</p>
+      <h2>Simple for most apps.<br/><span class="grad">Rigor for the ones that need it.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">About five minutes of video. Most Managed Apps stay simple: one app, pinned to one
+      environment, shared with a small team. The rest of this page is for apps that outgrow that, and it&#39;s the
+      same discipline enterprise Power Platform teams already run today. Each sketch also appears next to the
+      section it explains.</p>
+  </div>
+
+  <div class="sk-strip">
+    <a class="sk-card" href="#sketch-1">
+      <img src="sketches/1-alm-without-git.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 1 · 0:52</span><b>Classic ALM, no source control</b>
+      <span class="d">The environment is the truth; a zip is all that travels.</span></span>
+    </a>
+    <a class="sk-card" href="#sketch-2">
+      <img src="sketches/2-alm-with-git.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 2 · 0:56</span><b>Classic ALM, matured</b>
+      <span class="d">Git, the PAC CLI and a pipeline, as CoE teams run it.</span></span>
+    </a>
+    <a class="sk-card" href="#sketch-3">
+      <img src="sketches/3-managed-apps.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 3 · 1:01</span><b>How Managed Apps work</b>
+      <span class="d">Microsoft-managed Git, one runtime, pinned to an environment.</span></span>
+    </a>
+    <a class="sk-card" href="#sketch-4">
+      <img src="sketches/4-dev-test-prod.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 4 · 1:04</span><b>When an app needs dev, test, prod</b>
+      <span class="d">Small apps stay simple. Critical apps graduate.</span></span>
+    </a>
+    <a class="sk-card" href="#sketch-5">
+      <img src="sketches/5-solutions-in-sync.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 5 · 1:06</span><b>Keeping solutions in sync</b>
+      <span class="d">Dataverse, agents and workflows ride the same merge.</span></span>
+    </a>
+  </div>
+  <div class="sk-scale" aria-hidden="true">
+    <span class="s1">Classic Power Platform, for context</span>
+    <span class="s2">Every Managed App</span>
+    <span class="s3">Apps that grow</span>
+    <span class="s4">When the architecture grows</span>
+  </div>
+
+  <h3 class="sub">Which ones do you need?</h3>
+  <div class="grid g3">
+    <div class="card path">
+      <h4>Just you, or a small team</h4>
+      <p>One app, pinned to your environment, shared with the people who use it. No branches and no extra
+      environments. For most apps, that&#39;s the whole story.</p>
+      <a class="go" href="#sketch-3">Watch sketch 3 →</a>
+    </div>
+    <div class="card path">
+      <h4>Many users, careful change</h4>
+      <p>Register dev, test and prod, move the code to your team&#39;s GitHub repo, and promote by merge.
+      This template sets that up for you.</p>
+      <a class="go" href="#sketch-4">Watch sketch 4 →</a>
+    </div>
+    <div class="card path">
+      <h4>Dataverse, agents or workflows</h4>
+      <p>Add the solution track. It rides on the same branch and the same merge, with a version check
+      before every deploy.</p>
+      <a class="go" href="#sketch-5">Watch sketch 5 →</a>
+    </div>
+  </div>
+  <div class="callout ok">
+    <h4>Complexity follows your architecture, not the platform</h4>
+    <p>
+      Sketches 1 and 2 are a refresher on classic Power Platform ALM. A canvas app with Azure functions behind
+      it already moves several pieces in step. Managed Apps ask for nothing more than that, and for a simple
+      app, far less.
+    </p>
+  </div>
 </section>
 
 <!-- ============ ROADMAP ============ -->
@@ -433,6 +545,31 @@
     </div>
   </div>
 
+  <h3 class="sub">See it in motion</h3>
+  <p>
+    Sketch 1 is where most teams start: the environment is the source of truth, and a managed zip is the only
+    thing that travels. Sketch 2 is where mature teams, usually backed by a Center of Excellence, end up: the
+    solution unpacked into Git, then built and deployed by a pipeline.
+  </p>
+  <div class="vpair">
+    <figure class="vignette" id="sketch-1">
+      <video controls preload="none" playsinline poster="sketches/1-alm-without-git.jpg"
+             aria-label="Whiteboard sketch: classic Power Platform ALM without source control">
+        <source src="sketches/1-alm-without-git.mp4" type="video/mp4" />
+        <track kind="captions" src="sketches/1-alm-without-git.vtt" srclang="en" label="English" default />
+      </video>
+      <figcaption><span class="n">Sketch 1 of 5 · 0:52</span><b>Classic ALM without source control.</b> Imported by hand, by a script or by Pipelines, it&#39;s the same zip. It&#39;s a snapshot, not a history.</figcaption>
+    </figure>
+    <figure class="vignette" id="sketch-2">
+      <video controls preload="none" playsinline poster="sketches/2-alm-with-git.jpg"
+             aria-label="Whiteboard sketch: classic ALM matured with Git, the PAC CLI and an automated pipeline">
+        <source src="sketches/2-alm-with-git.mp4" type="video/mp4" />
+        <track kind="captions" src="sketches/2-alm-with-git.vtt" srclang="en" label="English" default />
+      </video>
+      <figcaption><span class="n">Sketch 2 of 5 · 0:56</span><b>Classic ALM, matured.</b> Every change gets history and review, and a pipeline builds the managed solution for test and prod.</figcaption>
+    </figure>
+  </div>
+
   <div class="callout">
     <h4>Hold onto this picture</h4>
     <p>
@@ -548,6 +685,15 @@
     </figcaption>
   </figure>
 
+  <figure class="vignette solo" id="sketch-3">
+      <video controls preload="none" playsinline poster="sketches/3-managed-apps.jpg"
+             aria-label="Whiteboard sketch: how Managed Apps work, from build surface to Microsoft-managed Git, the shared runtime, and the pinned environment">
+        <source src="sketches/3-managed-apps.mp4" type="video/mp4" />
+        <track kind="captions" src="sketches/3-managed-apps.vtt" srclang="en" label="English" default />
+      </video>
+      <figcaption><span class="n">Sketch 3 of 5 · 1:01</span><b>How Managed Apps work.</b> Built in Cowork, Copilot Studio or the CLI, the source lands in a Git repo Microsoft manages and runs on one shared runtime. The environment it&#39;s pinned to sets the rules. For a personal or small-team app, this is all you need.</figcaption>
+    </figure>
+
   <h3 class="sub">What the pinned environment decides</h3>
   <div class="tw"><table>
     <tr><th>What</th><th>Comes from</th><th>How to check</th></tr>
@@ -568,6 +714,21 @@
       apply. This template&#39;s <code>alm:init</code> always passes the environment ID.
     </p>
   </div>
+
+  <h3 class="sub">Most apps need one. Some need three.</h3>
+  <p>
+    An app built for yourself or a small team doesn&#39;t need source control of its own or extra environments.
+    When it grows into something many people rely on, changes need more care. That&#39;s when it graduates to a
+    dev, a test and a prod app, each pinned to its own environment.
+  </p>
+  <figure class="vignette solo" id="sketch-4">
+      <video controls preload="none" playsinline poster="sketches/4-dev-test-prod.jpg"
+             aria-label="Whiteboard sketch: when a Managed App needs dev, test and prod, with a team GitHub repo, a branch per stage and promotion by merge">
+        <source src="sketches/4-dev-test-prod.mp4" type="video/mp4" />
+        <track kind="captions" src="sketches/4-dev-test-prod.vtt" srclang="en" label="English" default />
+      </video>
+      <figcaption><span class="n">Sketch 4 of 5 · 1:04</span><b>When an app needs dev, test and prod.</b> Three apps from the same code, a branch per stage, promotion by merge, and roll back by redeploying a good commit. Small apps stay simple; critical apps get the rigor.</figcaption>
+    </figure>
 
   <h3 class="sub">All three apps land in the same Apps list</h3>
   <p>
@@ -787,6 +948,14 @@
     <div class="card"><h3>🧷 Guarded deploys</h3><p>Environment binding, solution version, and clean-tree checks run before every <code>alm:deploy</code>.</p></div>
     <div class="card"><h3>🪞 Remotes in sync</h3><p>Hooks mirror each branch to its environment's platform git repo, so the runtime always builds the code you reviewed.</p></div>
   </div>
+  <figure class="vignette solo" id="sketch-5">
+      <video controls preload="none" playsinline poster="sketches/5-solutions-in-sync.jpg"
+             aria-label="Whiteboard sketch: keeping solutions in sync, with Dataverse, agents and workflows riding the same branch and merge as the app code">
+        <source src="sketches/5-solutions-in-sync.mp4" type="video/mp4" />
+        <track kind="captions" src="sketches/5-solutions-in-sync.vtt" srclang="en" label="English" default />
+      </video>
+      <figcaption><span class="n">Sketch 5 of 5 · 1:06</span><b>Keeping solutions in sync.</b> Dataverse tables, Copilot Studio agents and workflows live in a solution, so it rides with the code: exported as managed, committed to the same branch, promoted by the same merge, and version-checked before every deploy. A classic app with Azure behind it already works this way.</figcaption>
+    </figure>
   <div class="callout warn">
     <h4>The one change from the classic flow: nothing moves environment-to-environment</h4>
     <p>
@@ -1082,7 +1251,7 @@ npm run alm:solution -- create   <span class="cm"># publisher + solution in dev<
     </div>
     <p class="lede" style="max-width:46ch">App code moves as a git commit. Schema moves as a managed solution committed
       <em>into that same commit</em>. Deploying one without the other is the most common way to break an environment,
-      so <code>alm:deploy</code> refuses. Here&#39;s one change, from your laptop to test.</p>
+      so <code>alm:deploy</code> refuses. Here&#39;s one change, from your laptop to test. <a href="#sketch-5">Sketch 5</a> shows it in motion.</p>
   </div>
 
   <figure class="fig">
