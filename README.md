@@ -397,20 +397,21 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
 - **[The story](https://martycarreras-psnl.github.io/managed-apps-template/story.html)** (`docs/story.html`):
   a click-through presentation on what Managed Apps are and why they matter. It follows one
   knowledge worker's workaround, with an optional Power Platform track.
-- **[docs/index.html](https://martycarreras-psnl.github.io/managed-apps-template/)** — the
-  overview and visual guide in one page: how Managed Apps differ from classic Power Platform ALM,
+- **[docs/index.html](https://martycarreras-psnl.github.io/managed-apps-template/)**: the front
+  door. It asks which path fits the app and links to the two guides below.
+- **[docs/grow.html](https://martycarreras-psnl.github.io/managed-apps-template/grow.html)**: the
+  simpler path, for most apps. It covers the app-only setup (`alm:init --app-only`): no Dataverse
+  solution, and only app code moves between stages.
+- **[docs/advanced.html](https://martycarreras-psnl.github.io/managed-apps-template/advanced.html)** — the
+  advanced guide, for apps with Dataverse, agents or workflows: how Managed Apps differ from classic Power Platform ALM,
   animated architecture diagrams, one-prompt and manual setup with OS-aware commands, a
   click-through promotion walkthrough, copyable phrases for your agent, and troubleshooting.
   It is a single self-contained file with no dependencies. (`docs/guide.html` only redirects
-  there, so old links keep working.)
-- **[Six whiteboard sketches](https://martycarreras-psnl.github.io/managed-apps-template/#sketches)**
+  there, and old `index.html#section` links forward to it, so existing links keep working.)
+- **[Six whiteboard sketches](https://martycarreras-psnl.github.io/managed-apps-template/advanced.html#sketches)**
   (`docs/sketches/`): about six minutes of narrated, captioned video on why most apps can stay
   simple and when one needs dev, test and prod, from classic ALM to Managed Apps to keeping
   solutions in sync, ending with how to get started. Each sketch also appears beside the section it explains.
-- **[docs/grow.html](https://martycarreras-psnl.github.io/managed-apps-template/grow.html)**: a
-  shorter guide for makers taking a Managed App from their personal developer environment to dev,
-  test and prod. It covers the app-only path (`alm:init --app-only`): no Dataverse solution, only
-  app code moves between stages.
 - **[docs/image-prompts.md](docs/image-prompts.md)** — prompts for generating high-fidelity
   diagrams of this model
 - **[docs/ALM.md](docs/ALM.md)** — the promotion model, hotfix flow, access gates, and the one
