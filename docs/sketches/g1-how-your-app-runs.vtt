@@ -21,35 +21,32 @@ Your app was also pinned to an environment.
 00:00:30.386 --> 00:00:33.576
 Built in Cowork, that's your personal developer environment.
 
-00:00:34.530 --> 00:00:36.940
+00:00:34.530 --> 00:00:36.960
 And that environment does a lot of work for you:
 
-00:00:37.370 --> 00:00:41.154
-security controls, governance policies, monitoring, inventory,
+00:00:37.350 --> 00:00:41.100
+security controls, governance policies, monitoring and inventory.
 
-00:00:41.164 --> 00:00:44.040
-deployment pipelines and lifecycle management.
-
-00:00:44.650 --> 00:00:47.420
+00:00:41.890 --> 00:00:44.560
 Every app gets all of it, from the very first one.
 
-00:00:48.173 --> 00:00:50.203
+00:00:45.314 --> 00:00:47.344
 Each environment belongs to a group.
 
-00:00:50.853 --> 00:00:55.179
+00:00:47.994 --> 00:00:52.320
 Admins define the rules once, for the whole group, and every environment in it,
 
-00:00:55.189 --> 00:00:58.263
+00:00:52.330 --> 00:00:55.404
 and every app pinned there, follows them automatically.
 
-00:00:59.320 --> 00:01:02.399
+00:00:56.461 --> 00:00:59.540
 That's a big difference from other vibe-coding and low-code tools,
 
-00:01:02.409 --> 00:01:05.050
+00:00:59.550 --> 00:01:02.191
 where governance is scattered across separate admin consoles.
 
-00:01:05.060 --> 00:01:10.229
+00:01:02.201 --> 00:01:07.370
 Here, it's managed centrally in the Microsoft 365 admin center,
 
-00:01:10.239 --> 00:01:15.090
+00:01:07.380 --> 00:01:12.231
 with advanced controls in the Power Platform admin center.
