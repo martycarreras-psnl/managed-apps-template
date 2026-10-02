@@ -417,3 +417,9 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
 - **[docs/ALM.md](docs/ALM.md)** — the promotion model, hotfix flow, access gates, and the one
   thing this design cannot fix (Dataverse solutions do not branch)
 - **[docs/TEMPLATE.md](docs/TEMPLATE.md)** — how the template is structured and maintained
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md). This project follows the
+[Microsoft Open Source Code of Conduct](CODE_OF_CONDUCT.md). To report a security issue, see
+[SECURITY.md](SECURITY.md). Licensed under the [MIT License](LICENSE).
