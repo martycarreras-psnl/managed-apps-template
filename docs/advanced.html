@@ -281,6 +281,11 @@
     .sk-scale{display:none}
   }
 
+  .learn{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--bg2);border:1px solid #2b4a6b;
+         border-radius:14px;padding:16px 20px;margin:22px 0 0}
+  .learn .ico{margin:0;flex:none;background:rgba(111,180,255,.14);color:var(--accent2)}
+  .learn p{margin:0;color:var(--dim);font-size:15px;flex:1;min-width:240px}
+  .learn b{color:var(--ink)}
 </style>
 </head>
 <body data-os="mac">
@@ -320,6 +325,12 @@
         <div class="stat"><b data-count="3">0</b><span>environments, one pipeline</span></div>
         <div class="stat"><b>0</b><span>lines of ALM plumbing to write</span></div>
       </div>
+      <div class="learn">
+    <div class="ico">📘</div>
+    <p><b>Official Microsoft documentation.</b> What Copilot Managed Runtime is, the ways to create an app, and where
+      to find and run your apps.</p>
+    <a class="btn" href="https://learn.microsoft.com/microsoft-365/managed-apps/" target="_blank" rel="noopener">Read it on Microsoft Learn ↗</a>
+  </div>
     </div>
 
     <div class="term" aria-label="Example: prompt to app">
@@ -1749,6 +1760,7 @@ npm run alm:role -- show     <span class="cm"># verify across all environments</
 
 <footer>
   Managed Apps Template · built with <code>@microsoft/managed-apps-cli</code> ·
+  <a href="https://learn.microsoft.com/microsoft-365/managed-apps/" target="_blank" rel="noopener">Official docs on Microsoft Learn</a> ·
   <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a> ·
   <a href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/ALM.md">ALM model</a> ·
   <a href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/TEMPLATE.md">Template &amp; upgrades</a>

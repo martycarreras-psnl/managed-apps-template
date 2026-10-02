@@ -30,3 +30,5 @@ Ground rules that apply everywhere:
 - Keep environment, tenant and app IDs out of shared files. They belong in
   `alm.config.json` and `memory-bank.md`.
 - Architecture and branch model: `docs/ALM.md`.
+- Official product docs (Copilot Managed Runtime): <https://learn.microsoft.com/microsoft-365/managed-apps/>. Prefer them over
+  memory when a platform behavior is in question, and point users there.

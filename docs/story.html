@@ -30,6 +30,9 @@
        padding:0 22px;z-index:20;font-size:13px;color:var(--dim)}
   .top .brand{font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
   .top .brand span{color:var(--accent)}
+  .top .learnlink{margin-left:auto;margin-right:140px;color:var(--dim);font-size:13.5px;text-decoration:none}
+  .top .learnlink:hover{color:var(--ink)}
+  @media (max-width:760px){.top .learnlink{display:none}}
   .bar{position:fixed;left:0;right:0;bottom:0;height:var(--bar);z-index:20;display:flex;align-items:center;gap:12px;
        padding:0 18px;background:rgba(15,13,20,.9);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
   .bar button,.bar select{background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:9px;
@@ -399,6 +402,7 @@
 
 <div class="top">
   <a class="brand" href="index.html">Managed Apps <span>Story</span></a>
+  <a class="learnlink" href="https://learn.microsoft.com/microsoft-365/managed-apps/" target="_blank" rel="noopener">Official docs ↗</a>
 </div>
 
 <div class="deck" id="deck">

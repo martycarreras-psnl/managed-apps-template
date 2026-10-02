@@ -13,6 +13,8 @@ Works on **Windows** and **macOS**, with **GitHub Copilot App**, **Copilot CLI**
 
 🌐 **Overview and visual guide:** <https://martycarreras-psnl.github.io/managed-apps-template/>
 
+📘 **Official Microsoft documentation:** [Microsoft Copilot Managed Runtime on Microsoft Learn](https://learn.microsoft.com/microsoft-365/managed-apps/)
+
 ---
 
 ## What you get
