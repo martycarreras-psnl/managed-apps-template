@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.600 --> 00:00:02.739
+You've built your first Managed App,
+
+00:00:02.749 --> 00:00:06.570
+maybe just by describing it to the App skill in Copilot Cowork.
+
+00:00:07.000 --> 00:00:08.650
+Here's what happened behind the scenes.
+
+00:00:09.613 --> 00:00:18.935
+Wherever you build, whether in Cowork, Copilot Studio, Copilot Code, VS Code, the GitHub Copilot app, or tools like Claude and Lovable,
+
+00:00:18.945 --> 00:00:26.203
+the source lands in a Git repository Microsoft manages, and the app runs on the Copilot Managed Runtime.
+
+00:00:27.266 --> 00:00:29.636
+Your app was also pinned to an environment.
+
+00:00:30.386 --> 00:00:33.576
+Built in Cowork, that's your personal developer environment.
+
+00:00:34.530 --> 00:00:36.940
+And that environment does a lot of work for you:
+
+00:00:37.370 --> 00:00:41.154
+security controls, governance policies, monitoring, inventory,
+
+00:00:41.164 --> 00:00:44.040
+deployment pipelines and lifecycle management.
+
+00:00:44.650 --> 00:00:47.420
+Every app gets all of it, from the very first one.
+
+00:00:48.173 --> 00:00:50.203
+Each environment belongs to a group.
+
+00:00:50.853 --> 00:00:55.179
+Admins define the rules once, for the whole group, and every environment in it,
+
+00:00:55.189 --> 00:00:58.263
+and every app pinned there, follows them automatically.
+
+00:00:59.320 --> 00:01:02.399
+That's a big difference from other vibe-coding and low-code tools,
+
+00:01:02.409 --> 00:01:05.050
+where governance is scattered across separate admin consoles.
+
+00:01:05.060 --> 00:01:10.229
+Here, it's managed centrally in the Microsoft 365 admin center,
+
+00:01:10.239 --> 00:01:15.090
+with advanced controls in the Power Platform admin center.

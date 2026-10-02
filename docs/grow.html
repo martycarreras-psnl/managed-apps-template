@@ -279,6 +279,8 @@
     .sk-scale{display:none}
   }
 
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+  .chips .chip i{font-style:normal;color:var(--warn);font-size:12px;margin-left:4px}
   .ticks{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px;color:var(--dim);font-size:15px}
   .ticks li{padding-left:24px;position:relative}
   .ticks li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
@@ -325,16 +327,16 @@
   <div class="head" style="margin-bottom:0">
     <div>
       <p class="eyebrow">The short version · three whiteboard sketches</p>
-      <h2>About three minutes.<br/><span class="grad">The whole idea.</span></h2>
+      <h2>About three and a half minutes.<br/><span class="grad">The whole idea.</span></h2>
     </div>
     <p class="lede" style="max-width:46ch">How your app runs today, when it&#39;s time for more rigor, and how to get there.
       Each sketch also appears next to the section it explains.</p>
   </div>
   <div class="sk-strip">
     <a class="sk-card" href="#sketch-1">
-      <img src="sketches/3-managed-apps.jpg" alt="" loading="lazy" width="1280" height="720" />
-      <span class="t"><span class="n">Sketch 1 · 1:01</span><b>How your app runs</b>
-      <span class="d">Microsoft-managed Git, one runtime, pinned to an environment.</span></span>
+      <img src="sketches/g1-how-your-app-runs.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 1 · 1:18</span><b>How your app runs</b>
+      <span class="d">Pinned to an environment, governed centrally, from the very first app.</span></span>
     </a>
     <a class="sk-card" href="#sketch-2">
       <img src="sketches/4-dev-test-prod.jpg" alt="" loading="lazy" width="1280" height="720" />
@@ -356,31 +358,57 @@
       <p class="eyebrow"><span class="chapter">1 of 4</span>Where you are today</p>
       <h2>One app, in your own environment.<br/><span class="grad">Already governed.</span></h2>
     </div>
-    <p class="lede" style="max-width:46ch">Your app&#39;s code lives in a Git repo that Microsoft manages for you. It runs on
-      one shared runtime, and it&#39;s <b>pinned to your Personal Developer Environment</b>, so that environment&#39;s
-      rules apply: which connectors are allowed, the connections it uses, and who can see it.</p>
+    <p class="lede" style="max-width:46ch">Maybe you described it to the App skill in Copilot Cowork. Wherever you built it,
+      the code lives in a Git repo Microsoft manages, it runs on the Copilot Managed Runtime, and it&#39;s
+      <b>pinned to an environment</b>: your Personal Developer Environment, unless you chose another.</p>
   </div>
 
   <figure class="vignette solo" id="sketch-1">
-    <video controls preload="none" playsinline poster="sketches/3-managed-apps.jpg"
-           aria-label="Whiteboard sketch: how Managed Apps work, from build surface to Microsoft-managed Git, the shared runtime, and the pinned environment">
-      <source src="sketches/3-managed-apps.mp4" type="video/mp4" />
-      <track kind="captions" src="sketches/3-managed-apps.vtt" srclang="en" label="English" default />
+    <video controls preload="none" playsinline poster="sketches/g1-how-your-app-runs.jpg"
+           aria-label="Whiteboard sketch: how your Managed App runs, from any build surface to Microsoft-managed Git and the Copilot Managed Runtime, pinned to an environment that is governed as part of an environment group from the Microsoft 365 and Power Platform admin centers">
+      <source src="sketches/g1-how-your-app-runs.mp4" type="video/mp4" />
+      <track kind="captions" src="sketches/g1-how-your-app-runs.vtt" srclang="en" label="English" default />
     </video>
-    <figcaption><span class="n">Sketch 1 of 3 · 1:01</span><b>How your app runs.</b> Built in Cowork, Copilot Studio
-      or the CLI, the source lands in a Git repo Microsoft manages and runs on one shared runtime. The environment it&#39;s
-      pinned to sets the rules.
+    <figcaption><span class="n">Sketch 1 of 3 · 1:18</span><b>How your app runs.</b> Built anywhere, from Cowork to
+      Claude or Lovable, it runs on one managed runtime and is pinned to an environment. That environment brings security,
+      governance, monitoring and more to every app, and its group&#39;s rules are set once, centrally.
       <span class="back"><a href="#watch">↑ Return to video list</a><a href="#sketch-2">Next: sketch 2 →</a></span>
     </figcaption>
   </figure>
 
+  <h3 class="sub">Built anywhere. Run the same way.</h3>
+  <div class="chips">
+    <span class="chip hot">Copilot Cowork</span><span class="chip hot">Copilot Studio</span><span class="chip">Copilot Code <i>soon</i></span>
+    <span class="chip">VS Code</span><span class="chip">GitHub Copilot app</span><span class="chip">Claude</span>
+    <span class="chip">Lovable</span><span class="chip">Other platforms</span>
+  </div>
+
+  <h3 class="sub">What your environment gives every app</h3>
+  <p class="muted">These come from the environment, not from how many environments you have. Your first app, in your
+    personal developer environment, gets all of them.</p>
   <div class="grid g3">
-    <div class="card"><div class="ico">⚡</div><h3>Every save is live</h3>
-      <p>There&#39;s one copy of the app. When you deploy a change, everyone using it gets it right away.</p></div>
-    <div class="card"><div class="ico b">📌</div><h3>The pin is permanent</h3>
-      <p>An app can&#39;t move to another environment. To run it somewhere else, you register a new app from the same code.</p></div>
-    <div class="card"><div class="ico g">👤</div><h3>Built for one, or a few</h3>
-      <p>A personal developer environment follows the rules your admins set for makers. Great for trying ideas.</p></div>
+    <div class="card"><div class="ico g">🛡️</div><h3>Security controls</h3><p>Microsoft Entra sign-in, and who the app can be shared with.</p></div>
+    <div class="card"><div class="ico g">⚖️</div><h3>Governance policies</h3><p>Data policies decide which connectors an app may use.</p></div>
+    <div class="card"><div class="ico g">📈</div><h3>Monitoring</h3><p>Usage and health insights for admins.</p></div>
+    <div class="card"><div class="ico g">📦</div><h3>Inventory</h3><p>Every app is listed and visible to admins, wherever it was built.</p></div>
+    <div class="card"><div class="ico g">🔀</div><h3>Deployment pipelines</h3><p>A governed path for changes to move between environments.</p></div>
+    <div class="card"><div class="ico g">♻️</div><h3>Lifecycle management</h3><p>Ownership, updates and retirement, managed in one place.</p></div>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card" style="border-color:#4a3566"><div class="ico">🗂️</div><h3>Every environment belongs to a group</h3>
+      <p>Admins set the rules once, for the whole group. Every environment in it, and every app pinned there, follows them
+        automatically, including your personal developer environment.</p></div>
+    <div class="card" style="border-color:#2c5a45"><div class="ico g">🏛️</div><h3>One place to govern it all</h3>
+      <p>Other vibe-coding and low-code tools scatter governance across their own admin consoles. Here it&#39;s managed centrally in
+        the <b>Microsoft 365 admin center</b>, with advanced controls in the <b>Power Platform admin center</b>.</p></div>
+  </div>
+
+  <div class="callout">
+    <h4>The pin is permanent</h4>
+    <p>An app can&#39;t move to another environment, and there&#39;s one copy of it, so every change you deploy is live for
+      everyone right away. Running it somewhere else means registering a new app from the same code. That&#39;s exactly what
+      the next sections set up.</p>
   </div>
 </section>
 
