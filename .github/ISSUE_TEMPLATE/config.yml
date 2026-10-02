@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://aka.ms/SECURITY.md
+    about: Please don't report security issues in public GitHub issues.
+  - name: Read the guides
+    url: https://martycarreras-psnl.github.io/managed-apps-template/
+    about: Choose your path, setup steps, the phrases your agent understands, and troubleshooting.

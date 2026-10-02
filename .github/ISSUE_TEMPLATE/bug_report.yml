@@ -1,0 +1,71 @@
+name: Bug report
+description: Something in the template, the alm:* scripts, the devkit or the guides doesn't work as described.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please don't paste environment, tenant or app IDs, connection strings or tokens.
+        For security vulnerabilities, don't open an issue: see the security policy in this repo (SECURITY.md).
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - alm:* scripts (init, deploy, promote, solution, hotfix, sync…)
+        - Devkit skill or playbooks
+        - Git hooks or CI
+        - Reference app
+        - Guides (docs site, README, ALM.md)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Include the command you ran and its output, or the phrase you gave your agent.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. npm run alm:init -- --name "My App" --dev <env-id> --app-only
+        2. npm run alm:deploy -- dev
+        3. …
+    validations:
+      required: true
+  - type: input
+    id: scaffold
+    attributes:
+      label: Scaffold version
+      description: '"scaffold.version" in alm.config.json'
+      placeholder: 1.9.1
+  - type: input
+    id: env
+    attributes:
+      label: OS, Node.js and ms CLI versions
+      placeholder: macOS 15, Node 22.12, ms 1.4.0
+    validations:
+      required: true
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Coding agent (if any)
+      options:
+        - None, ran it by hand
+        - GitHub Copilot app
+        - Copilot CLI
+        - VS Code
+        - Claude Code
+        - Cursor
+        - Other

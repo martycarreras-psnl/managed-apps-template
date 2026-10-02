@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a new devkit phrase, alm:* command, guardrail or guide improvement.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the problem or the outcome you want, not only the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: A new command or flag, a devkit menu item, a guide section, or a change in behavior.
+    validations:
+      required: true
+  - type: dropdown
+    id: path
+    attributes:
+      label: Which path does this affect?
+      options:
+        - Grow your app (app-only, no Dataverse)
+        - Advanced (Dataverse, agents, workflows and solutions)
+        - Both
+        - Not sure
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
