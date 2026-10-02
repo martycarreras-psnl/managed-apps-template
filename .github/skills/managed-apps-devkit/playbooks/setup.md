@@ -107,7 +107,11 @@ Optional, for schema and role work: `copilot plugin install dataverse@awesome-co
 3. **Start fresh or keep the example app?** Recommend **start fresh**. The
    example app needs its own Dataverse table, which won't exist in their
    environment, so it shows an error until that's created.
-4. **Test and prod environments now, or later?** Recommend **later**. They're
+4. **Will the app use Dataverse, Copilot Studio agents or workflows?** If **no**
+   (only other connectors, or no data), recommend **app-only**: no solution is
+   created or promoted. Pass `--app-only` to init (it implies `--fresh`). If
+   unsure, choose app-only; a solution can be added later (`docs/ALM.md → App-only projects`).
+5. **Test and prod environments now, or later?** Recommend **later**. They're
    provisioned after the first dev deploy ([environments.md → Provision](environments.md#provision)).
    If they're chosen now, only record the IDs (`--test`/`--prod`).
 
@@ -138,8 +142,11 @@ Show a three-line summary (name, environment name, fresh or example) and get a
 **yes**. Registration can't be undone or moved. Then:
 
 ```bash
-npm run alm:init -- --name "<App Name>" --dev <env-id> [--fresh] [--test <id>] [--prod <id>]
+npm run alm:init -- --name "<App Name>" --dev <env-id> [--fresh | --app-only] [--test <id>] [--prod <id>]
 ```
+
+- With `--app-only`, there's no solution track: skip every `alm:solution` and
+  `alm:role` step in later playbooks.
 
 - It creates the `dev`/`test`/`prod` branches, registers the app in dev, and
   renames the platform remote to `env-dev`.

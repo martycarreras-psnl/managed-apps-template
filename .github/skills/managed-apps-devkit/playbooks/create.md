@@ -25,6 +25,8 @@ user pick — don't ask them to paste GUIDs.
    npm run alm:init -- --name "Expense Tracker" --dev <dev-env-id> [--test <id>] [--prod <id>] --prefix contoso [--fresh]
    ```
    `--fresh` replaces the reference app with a placeholder `src/App.tsx`.
+   No Dataverse, agents or workflows? Add `--app-only` instead and skip steps 4–5
+   ([ALM.md → App-only projects](../../../../docs/ALM.md#app-only-projects)).
    `alm:init` renames the new platform remote `origin` → `env-dev`.
 3. Add GitHub as the source-of-truth remote: `git remote add github https://github.com/<owner>/<name>.git`
    (skip if `origin` already is GitHub — then `git remote rename origin github` **before** step 2).

@@ -87,7 +87,7 @@ if (!alm) {
   process.exit(failures ? 1 : 0)
 }
 pass(
-  `app "${alm.app?.displayName}", solution ${alm.solution?.uniqueName ?? '(none)'}, scaffold v${alm.scaffold?.version ?? '?'}`
+  `app "${alm.app?.displayName}", ${alm.solution ? `solution ${alm.solution.uniqueName}` : 'app-only (no solution)'}, scaffold v${alm.scaffold?.version ?? '?'}`
 )
 
 git('config', '--get', 'merge.ours.driver')
@@ -105,7 +105,7 @@ if (ms) {
     ? bad(`.gitignore excludes ${ignored.join(' and ')} — the app binding and schema must be committed`, 'Delete the ms.config.json and solutions/ lines from .gitignore.')
     : pass('ms.config.json and solutions/ are tracked')
 }
-if (!alm.environments?.[alm.promotionOrder?.[0]]?.dataverseUrl) {
+if (alm.solution && !alm.environments?.[alm.promotionOrder?.[0]]?.dataverseUrl) {
   warn('dev has no dataverseUrl — alm:solution and alm:role will fail', 'Set environments.dev.dataverseUrl in alm.config.json (dataverse org list --json --filter <envId>).')
 }
 

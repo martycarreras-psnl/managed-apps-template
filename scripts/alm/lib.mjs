@@ -75,6 +75,24 @@ export function almConfig() {
   return JSON.parse(readFileSync(path, 'utf8'))
 }
 
+/**
+ * An app-only project has no Dataverse solution track: alm.config.json has
+ * "solution": null (alm:init --app-only). Only app code moves between stages.
+ */
+export function isAppOnly(cfg) {
+  return !cfg.solution
+}
+
+export function assertSolutionTrack(cfg) {
+  if (isAppOnly(cfg)) {
+    fail(
+      'This is an app-only project: alm.config.json has no "solution".',
+      'To start using Dataverse, add a "solution" block (uniqueName, friendlyName, publisherPrefix, tables). ' +
+        'See docs/ALM.md → App-only projects.'
+    )
+  }
+}
+
 export function msConfig() {
   const path = resolve(ROOT, 'ms.config.json')
   if (!existsSync(path)) {

@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Managed Apps: grow your app from personal to team-ready</title>
+<meta name="description" content="Take a Managed App from your personal developer environment to dev, test and prod: your own GitHub repo, one app per stage, promotion by merge, and guarded deploys." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E✨%3C/text%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#0f0d14; --bg2:#16141c; --bg3:#1e1b26; --bg4:#262231;
+    --line:#322d3d; --ink:#e8e6ee; --dim:#a29ead; --faint:#75707f;
+    --accent:#aa3bff; --accent2:#6fb4ff; --ok:#3ddc97; --warn:#ffb454; --danger:#ff5c7a;
+    --dev:#6fb4ff; --test:#ffb454; --prod:#3ddc97;
+    --sans:system-ui,'Segoe UI',Roboto,sans-serif;
+    --mono:ui-monospace,'Cascadia Code',Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:70px;overflow-x:clip}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans);overflow-x:clip}
+  a{color:var(--accent2)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(15,13,20,.85);
+      backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .brand{font-weight:700;letter-spacing:-.02em;margin-right:auto;white-space:nowrap}
+  .brand span{color:var(--accent)}
+  nav a{color:var(--dim);text-decoration:none;font-size:14px;white-space:nowrap}
+  nav a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:12px 20px;
+       font:600 15px var(--sans);text-decoration:none;border:1px solid var(--line);color:var(--ink);
+       background:var(--bg3);transition:transform .15s,border-color .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .btn.primary{background:linear-gradient(135deg,#aa3bff,#6f4bff);border-color:transparent;color:#fff;
+               box-shadow:0 8px 30px -8px rgba(170,59,255,.6)}
+  .btn.primary:hover{box-shadow:0 12px 36px -6px rgba(170,59,255,.8)}
+  nav .btn{padding:7px 14px;font-size:13px;color:#fff}
+  @media (max-width:760px){nav a:not(.btn){display:none}}
+
+  main{max-width:1180px;margin:0 auto;padding:0 24px 80px}
+  section{padding:88px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:0}
+  h1{font-size:clamp(40px,7vw,78px);line-height:1.02;letter-spacing:-.045em;margin:0 0 22px}
+  h2{font-size:clamp(28px,4vw,42px);line-height:1.1;letter-spacing:-.03em;margin:0 0 14px}
+  h3{font-size:18px;margin:0 0 6px}
+  .eyebrow{color:var(--accent);font:600 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;margin:0 0 14px}
+  .lede{color:var(--dim);font-size:clamp(17px,2vw,20px);max-width:62ch;margin:0}
+  p{max-width:72ch}
+  .grad{background:linear-gradient(100deg,#c77dff 0%,#6fb4ff 45%,#3ddc97 90%);
+        -webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* hero */
+  .hero{position:relative;padding:110px 0 90px;border-bottom:0}
+  .hero::before{content:"";position:absolute;inset:-120px -40vw auto;height:720px;z-index:-1;
+    background:radial-gradient(600px 340px at 20% 30%,rgba(170,59,255,.28),transparent 70%),
+               radial-gradient(520px 320px at 80% 20%,rgba(111,180,255,.18),transparent 70%),
+               radial-gradient(500px 300px at 60% 80%,rgba(61,220,151,.12),transparent 70%)}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  @media (max-width:920px){.hero-grid{grid-template-columns:1fr}}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+  .stats{display:flex;gap:26px;flex-wrap:wrap;margin-top:44px}
+  .stat b{display:block;font-size:34px;letter-spacing:-.03em;line-height:1}
+  .stat span{color:var(--dim);font-size:13px;display:block;max-width:18ch;line-height:1.35;margin-top:6px}
+
+  /* prompt-to-app terminal */
+  .term{background:#0b0910;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+        box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(170,59,255,.08)}
+  .term-top{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--bg2)}
+  .term-top i{width:11px;height:11px;border-radius:50%;background:#3a3445}
+  .term-top i:nth-child(1){background:#ff5f57}.term-top i:nth-child(2){background:#febc2e}.term-top i:nth-child(3){background:#28c840}
+  .term-top span{margin-left:10px;font:12px var(--mono);color:var(--faint)}
+  .term-body{padding:18px 18px 22px;font:13.5px/1.75 var(--mono);min-height:330px;color:#d7d2e0}
+  .term-body .you{color:var(--accent)}
+  .term-body .ok{color:var(--ok)}
+  .term-body .dim{color:var(--faint)}
+  .caret{display:inline-block;width:8px;height:16px;background:var(--accent);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .term-line{opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
+  .term-line.on{opacity:1;transform:none}
+  .ideas{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 18px}
+  .ideas button{background:var(--bg3);border:1px solid var(--line);color:var(--dim);border-radius:999px;
+                padding:6px 12px;font:12.5px var(--sans);cursor:pointer}
+  .ideas button:hover,.ideas button.on{border-color:var(--accent);color:var(--ink)}
+
+  /* cards */
+  .grid{display:grid;gap:18px}
+  .g4{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr))}
+  .card{position:relative;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:24px;
+        transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-3px);border-color:#4a4258}
+  .card p{margin:0;color:var(--dim);font-size:15px}
+  .ico{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;margin-bottom:16px;
+       background:rgba(170,59,255,.14);color:var(--accent);font-size:20px}
+  .ico.b{background:rgba(111,180,255,.14);color:var(--accent2)}
+  .ico.g{background:rgba(61,220,151,.14);color:var(--ok)}
+  .ico.o{background:rgba(255,180,84,.14);color:var(--warn)}
+  .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+
+  /* connector wall */
+  .wall{position:relative;border:1px solid var(--line);border-radius:20px;background:var(--bg2);overflow:hidden;padding:34px 0}
+  .row{display:flex;gap:10px;width:max-content;animation:scroll 60s linear infinite;margin:10px 0}
+  .row.r2{animation-direction:reverse;animation-duration:70s}
+  .row.r3{animation-duration:80s}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  .chip{white-space:nowrap;border:1px solid var(--line);background:var(--bg3);border-radius:10px;padding:8px 14px;font-size:14px;color:var(--dim)}
+  .chip.hot{color:var(--ink);border-color:#4a4258}
+  .wall::before,.wall::after{content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+  .wall::before{left:0;background:linear-gradient(90deg,var(--bg2),transparent)}
+  .wall::after{right:0;background:linear-gradient(-90deg,var(--bg2),transparent)}
+  .shield{position:relative;z-index:3;margin:26px auto 0;max-width:760px;display:flex;gap:18px;align-items:center;
+          background:rgba(15,13,20,.85);border:1px solid var(--accent);border-radius:14px;padding:16px 20px}
+  .shield .ico{margin:0;flex:none}
+  .shield p{margin:0;color:var(--dim);font-size:14.5px}
+  .shield b{color:var(--ink)}
+
+  /* pitfalls flip */
+  .pit{cursor:pointer;min-height:210px}
+  .pit .before,.pit .after{transition:opacity .25s}
+  .pit .after{position:absolute;inset:24px;opacity:0}
+  .pit.flip .before{opacity:0}
+  .pit.flip .after{opacity:1}
+  .pit.flip{border-color:var(--ok)}
+  .tag{display:inline-block;font:600 11px var(--sans);letter-spacing:.1em;text-transform:uppercase;
+       border-radius:6px;padding:3px 8px;margin-bottom:10px}
+  .tag.bad{background:rgba(255,92,122,.14);color:var(--danger)}
+  .tag.good{background:rgba(61,220,151,.14);color:var(--ok)}
+  .hint{font-size:12px;color:var(--faint);margin-top:14px}
+
+  /* svg */
+  .diagram{background:var(--bg2);border:1px solid var(--line);border-radius:20px;padding:22px}
+  .diagram svg{width:100%;height:auto;display:block}
+  .flow{stroke-dasharray:6 7;animation:dash 1.4s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-26}}
+
+  /* tabs */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px}
+  .tabs button{background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:10px;
+               padding:10px 18px;font:600 14px var(--sans);cursor:pointer}
+  .tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .pane{display:none}.pane.on{display:block;animation:fade .3s}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;
+            background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .steps li::before{content:counter(s);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+                    background:var(--bg4);color:var(--accent);font-weight:700;font-size:14px}
+  .steps code,p code,.card code{font:13px var(--mono);background:#0b0910;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#d7d2e0}
+
+  /* ask the agent */
+  .menu-demo .term-body{min-height:0}
+  .menu-demo .opt{display:block;padding-left:1.4em;text-indent:-1.4em}
+  .menu-demo .opt.pick{color:var(--ink)}
+  .menu-demo .opt.pick::before{content:"› ";color:var(--accent)}
+  .prompts{display:grid;gap:14px}
+  .oneprompt{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--bg2);border:1px solid var(--accent);
+    border-radius:14px;padding:14px 18px;margin:0 0 22px}
+  .oneprompt .lbl{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .oneprompt .hint{color:var(--dim);font-size:13px}
+  .catalogs{margin:6px 0 0;font-size:.92rem;color:var(--dim);line-height:1.6}
+  .catalogs a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  .pgroup h3{font-size:13px;color:var(--faint);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px}
+  .pgroup .list{display:flex;flex-wrap:wrap;gap:8px}
+  .say{background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 14px;
+       font:14px var(--sans);cursor:pointer;text-align:left;transition:border-color .2s,background .2s}
+  .say::before{content:"“";color:var(--accent)}
+  .say::after{content:"”";color:var(--accent)}
+  .say:hover{border-color:var(--accent)}
+  .say.copied{border-color:var(--ok);background:rgba(61,220,151,.1)}
+  .agents{margin-top:26px}
+  .agents .card h3{font-size:16px}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+         background:var(--bg4);border:1px solid var(--ok);color:var(--ink);border-radius:10px;padding:10px 16px;
+         font-size:14px;transition:opacity .25s,transform .25s;z-index:50}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  .final{text-align:center;padding:110px 0 70px;position:relative}
+  .final::before{content:"";position:absolute;inset:0 -30vw;z-index:-1;
+    background:radial-gradient(500px 260px at 50% 60%,rgba(170,59,255,.22),transparent 70%)}
+  .final h2{font-size:clamp(34px,5vw,58px)}
+  .final .cta{justify-content:center}
+  .final .lede{margin:0 auto}
+  footer{border-top:1px solid var(--line);color:var(--faint);font-size:13px;text-align:center;padding:28px 24px}
+  footer a{color:var(--dim)}
+
+  @media (max-width:760px){.storycard{grid-template-columns:1fr!important}}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- reference content (how it works, setup, ship, help) ---------- */
+  .muted{color:var(--dim)}
+  h3.sub{font-size:20px;margin:40px 0 10px}
+  h4{font-size:16px;margin:0 0 6px}
+  .card h4{margin:0 0 6px}
+  code{font-family:var(--mono)}
+  li code,td code,.callout code,.muted code,summary code,figcaption code,.lede code{font:13px var(--mono);background:#0b0910;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:#d7d2e0;overflow-wrap:anywhere}
+  .code{position:relative;background:#0b0910;border:1px solid var(--line);border-radius:10px;margin:14px 0}
+  .code pre{margin:0;padding:16px 60px 16px 16px;overflow-x:auto;font:13.5px/1.7 var(--mono);color:#d7d2e0}
+  .code .cm{color:var(--faint)} .code .ok{color:var(--ok)} .code .bad{color:var(--danger)} .code .kw{color:var(--accent)}
+  .copy{position:absolute;top:8px;right:8px;background:var(--bg3);border:1px solid var(--line);color:var(--dim);
+        border-radius:6px;padding:4px 9px;font-size:11px;cursor:pointer}
+  .copy:hover{color:var(--ink);border-color:var(--accent)}
+  .callout{border-left:3px solid var(--accent);background:var(--bg2);border-radius:0 11px 11px 0;padding:16px 20px;margin:22px 0}
+  .callout.warn{border-left-color:var(--warn)} .callout.danger{border-left-color:var(--danger)} .callout.ok{border-left-color:var(--ok)}
+  .callout p{margin:0;color:var(--dim);font-size:15px}
+  .tw{overflow-x:auto;margin:18px 0}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--faint);font:600 11px var(--sans);letter-spacing:.09em;text-transform:uppercase}
+  .fig{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:22px;margin:24px 0}
+  .fig svg{width:100%;height:auto;display:block}
+  .fig figcaption{color:var(--faint);font-size:13px;margin-top:14px;text-align:center}
+  svg .lbl{font:600 12px var(--sans);fill:var(--ink)}
+  svg .lbl-sm{font:500 10.5px var(--sans);fill:var(--dim)}
+  svg .lbl-mono{font:11px var(--mono);fill:var(--dim)}
+  svg .lbl-tag{font:700 10px var(--sans);letter-spacing:.08em}
+  .stepper{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 10px}
+  .stepper button{flex:1;min-width:130px;text-align:left;background:var(--bg2);border:1px solid var(--line);
+    border-left:3px solid var(--line);color:var(--dim);border-radius:10px;padding:12px 14px;cursor:pointer;font:inherit}
+  .stepper button.on{background:var(--bg3);color:var(--ink);border-left-color:var(--accent)}
+  .stepper .n{display:block;font:700 11px var(--sans);letter-spacing:.1em;color:var(--accent)}
+  .steppane{display:none}.steppane.on{display:block;animation:fade .25s ease}
+  details{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:0 18px;margin:10px 0}
+  details[open]{background:var(--bg3)}
+  summary{cursor:pointer;padding:15px 0;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:'+';color:var(--accent);font:700 17px var(--mono);width:14px;flex:none}
+  details[open]>summary::before{content:'−'}
+  details .body{padding:0 0 16px;color:var(--dim)}
+  details.manual{padding:0 22px;margin-top:26px;border-color:#4a4258}
+  details.manual>summary{font-size:17px}
+  .os-toggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;vertical-align:middle}
+  .os-toggle button{background:var(--bg2);color:var(--dim);border:0;padding:6px 14px;font:600 13px var(--sans);cursor:pointer}
+  .os-toggle button.on{background:var(--accent);color:#fff}
+  .win,.mac{display:none}
+  body[data-os="win"] .win{display:block}
+  body[data-os="mac"] .mac{display:block}
+  .chapter{display:inline-block;background:var(--bg3);border:1px solid var(--line);border-radius:999px;
+           padding:3px 10px;margin-right:8px;color:var(--dim);letter-spacing:.08em}
+  .next{margin-top:30px;color:var(--dim);font-size:15px}
+  .next a{font-weight:600}
+
+  /* ---------- whiteboard sketches ---------- */
+  .sk-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:30px 0 0}
+  .sk-card{display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--line);
+           border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);
+           transition:border-color .2s,transform .2s}
+  .sk-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .sk-card img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#fbf8f1}
+  .sk-card .t{display:block;padding:11px 13px 14px}
+  .sk-card .n{display:block;font:700 10.5px var(--sans);letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+  .sk-card b{display:block;font-size:14.5px;line-height:1.3;margin:4px 0 3px}
+  .sk-card .d{display:block;font-size:13px;color:var(--dim);line-height:1.45}
+  .sk-scale{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;margin:10px 0 0;
+            font:600 11px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .sk-scale span{border-top:3px solid var(--line);padding-top:7px}
+  .sk-scale .s1{border-color:#5d5869} .sk-scale .s2{border-color:var(--accent2)}
+  .sk-scale .s3{border-color:var(--accent)} .sk-scale .s4{border-color:var(--ok)} .sk-scale .s5{border-color:var(--warn)}
+  .path .go{display:inline-block;margin-top:12px;font:600 14px var(--sans);text-decoration:none}
+  .vignette{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:14px;margin:24px 0}
+  .vignette video{display:block;width:100%;aspect-ratio:16/9;border-radius:10px;background:#fbf8f1}
+  .vignette figcaption{color:var(--dim);font-size:14.5px;line-height:1.55;padding:12px 6px 4px;max-width:none}
+  .vignette figcaption .n{display:block;font:700 11px var(--sans);letter-spacing:.1em;color:var(--accent);
+                          text-transform:uppercase;margin-bottom:3px}
+  .vignette figcaption b{color:var(--ink)}
+  .vignette.solo{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:22px;align-items:center;padding:16px}
+  .vignette.solo figcaption{padding:4px 8px 4px 0;font-size:15.5px}
+  @media (max-width:900px){.vignette.solo{display:block;padding:14px}.vignette.solo figcaption{padding:12px 6px 4px;font-size:14.5px}}
+  .vignette .soon{display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--warn);font-size:13.5px}
+  .vignette .back{display:inline-flex;gap:14px;flex-wrap:wrap;margin-top:10px;font:600 13.5px var(--sans)}
+  .vignette .back a{text-decoration:none}
+  .vignette .back a:hover{text-decoration:underline}
+  .vpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:16px;margin:20px 0}
+  .vpair .vignette{margin:0}
+  @media (max-width:900px){
+    .sk-strip{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+    .sk-scale{display:none}
+  }
+
+  .ticks{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px;color:var(--dim);font-size:15px}
+  .ticks li{padding-left:24px;position:relative}
+  .ticks li::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700}
+  .g4 .card .ico{font-weight:800;font-size:18px}
+  .shipt td code{white-space:nowrap}
+  @media (max-width:700px){.shipt th:nth-child(4),.shipt td:nth-child(4){display:none}}
+</style>
+</head>
+<body data-os="mac">
+<nav><div class="nav-in">
+  <a class="brand" href="#top" style="color:var(--ink);text-decoration:none">Managed Apps <span>Grow your app</span></a>
+  <a href="#watch">Sketches</a>
+  <a href="#where">Today</a>
+  <a href="#when">When</a>
+  <a href="#what">What you set up</a>
+  <a href="#ship">Ship a change</a>
+  <a href="#start">Get started</a>
+  <a href="#help">Help</a>
+  <a class="btn primary" href="https://github.com/martycarreras-psnl/managed-apps-template/generate">Use this template</a>
+</div></nav>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" style="padding-bottom:70px">
+  <p class="eyebrow">Microsoft Managed Apps · from personal to team-ready</p>
+  <h1 style="max-width:16ch">Your app works.<br/><span class="grad">Now people depend on it.</span></h1>
+  <p class="lede">You built it in your personal developer environment, and it&#39;s catching on. This page shows the
+    few things to put in place so every change reaches people safely: a dev, a test and a prod version of your app,
+    a branch for each, and promotion by merge. Your agent does the heavy lifting.</p>
+  <div class="cta">
+    <a class="btn primary" href="#start">✨ Get started</a>
+    <a class="btn" href="#watch">Watch the sketches ↓</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><b class="grad">3</b><span>apps, one codebase: dev, test and prod</span></div>
+    <div class="stat"><b>1</b><span>prompt to set it all up</span></div>
+    <div class="stat"><b>1</b><span>merge to promote a change</span></div>
+  </div>
+</section>
+
+<!-- ============ SKETCHES ============ -->
+<section id="watch" class="reveal" style="padding:64px 0">
+  <div class="head" style="margin-bottom:0">
+    <div>
+      <p class="eyebrow">The short version · three whiteboard sketches</p>
+      <h2>About three minutes.<br/><span class="grad">The whole idea.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">How your app runs today, when it&#39;s time for more rigor, and how to get there.
+      Each sketch also appears next to the section it explains.</p>
+  </div>
+  <div class="sk-strip">
+    <a class="sk-card" href="#sketch-1">
+      <img src="sketches/3-managed-apps.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 1 · 1:01</span><b>How your app runs</b>
+      <span class="d">Microsoft-managed Git, one runtime, pinned to an environment.</span></span>
+    </a>
+    <a class="sk-card" href="#sketch-2">
+      <img src="sketches/4-dev-test-prod.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 2 · 1:04</span><b>When it needs dev, test, prod</b>
+      <span class="d">Small apps stay simple. Critical apps graduate.</span></span>
+    </a>
+    <a class="sk-card" href="#sketch-3">
+      <img src="sketches/6-get-started.jpg" alt="" loading="lazy" width="1280" height="720" />
+      <span class="t"><span class="n">Sketch 3 · 1:12</span><b>Get started</b>
+      <span class="d">One template, one prompt, then just ask.</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ WHERE YOU ARE ============ -->
+<section id="where" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow"><span class="chapter">1 of 4</span>Where you are today</p>
+      <h2>One app, in your own environment.<br/><span class="grad">Already governed.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Your app&#39;s code lives in a Git repo that Microsoft manages for you. It runs on
+      one shared runtime, and it&#39;s <b>pinned to your Personal Developer Environment</b>, so that environment&#39;s
+      rules apply: which connectors are allowed, the connections it uses, and who can see it.</p>
+  </div>
+
+  <figure class="vignette solo" id="sketch-1">
+    <video controls preload="none" playsinline poster="sketches/3-managed-apps.jpg"
+           aria-label="Whiteboard sketch: how Managed Apps work, from build surface to Microsoft-managed Git, the shared runtime, and the pinned environment">
+      <source src="sketches/3-managed-apps.mp4" type="video/mp4" />
+      <track kind="captions" src="sketches/3-managed-apps.vtt" srclang="en" label="English" default />
+    </video>
+    <figcaption><span class="n">Sketch 1 of 3 · 1:01</span><b>How your app runs.</b> Built in Cowork, Copilot Studio
+      or the CLI, the source lands in a Git repo Microsoft manages and runs on one shared runtime. The environment it&#39;s
+      pinned to sets the rules.
+      <span class="back"><a href="#watch">↑ Return to video list</a><a href="#sketch-2">Next: sketch 2 →</a></span>
+    </figcaption>
+  </figure>
+
+  <div class="grid g3">
+    <div class="card"><div class="ico">⚡</div><h3>Every save is live</h3>
+      <p>There&#39;s one copy of the app. When you deploy a change, everyone using it gets it right away.</p></div>
+    <div class="card"><div class="ico b">📌</div><h3>The pin is permanent</h3>
+      <p>An app can&#39;t move to another environment. To run it somewhere else, you register a new app from the same code.</p></div>
+    <div class="card"><div class="ico g">👤</div><h3>Built for one, or a few</h3>
+      <p>A personal developer environment follows the rules your admins set for makers. Great for trying ideas.</p></div>
+  </div>
+</section>
+
+<!-- ============ WHEN ============ -->
+<section id="when" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow"><span class="chapter">2 of 4</span>When to add rigor</p>
+      <h2>Most apps need one.<br/><span class="grad">Some need three.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">If the app is just for you or a small team, keep it as it is. When it grows into
+      something many people rely on, every change carries more risk, and that&#39;s the moment to give it a dev, a test
+      and a prod version.</p>
+  </div>
+
+  <div class="grid g2">
+    <div class="card"><span class="tag good">Keep it simple</span><h3>Stay as you are when</h3>
+      <ul class="ticks">
+        <li>it&#39;s just you, or a handful of people</li>
+        <li>a change going live right away is fine</li>
+        <li>if something breaks, you can fix it on the spot</li>
+      </ul></div>
+    <div class="card" style="border-color:#4a3566"><span class="tag" style="background:rgba(170,59,255,.16);color:#c77dff">Time to grow</span><h3>Add dev, test and prod when</h3>
+      <ul class="ticks">
+        <li>many people, or a whole team, depend on it</li>
+        <li>changes should be tried before users see them</li>
+        <li>you need to roll back a bad release in minutes</li>
+        <li>more than one person works on the code</li>
+      </ul></div>
+  </div>
+
+  <figure class="vignette solo" id="sketch-2">
+    <video controls preload="none" playsinline poster="sketches/4-dev-test-prod.jpg"
+           aria-label="Whiteboard sketch: when a Managed App needs dev, test and prod, with a team GitHub repo, a branch per stage and promotion by merge">
+      <source src="sketches/4-dev-test-prod.mp4" type="video/mp4" />
+      <track kind="captions" src="sketches/4-dev-test-prod.vtt" srclang="en" label="English" default />
+    </video>
+    <figcaption><span class="n">Sketch 2 of 3 · 1:04</span><b>When an app needs dev, test and prod.</b> Three apps
+      from the same code, a branch per stage, promotion by merge, and roll back by redeploying a good commit.
+      <span class="back"><a href="#watch">↑ Return to video list</a><a href="#sketch-3">Next: sketch 3 →</a></span>
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ============ WHAT YOU SET UP ============ -->
+<section id="what" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow"><span class="chapter">3 of 4</span>What you put in place</p>
+      <h2>Four things.<br/><span class="grad">That&#39;s the whole list.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Only your app&#39;s code moves between stages, so there&#39;s nothing else to
+      package or keep in step. The template sets all four up for you.</p>
+  </div>
+
+  <div class="grid g4">
+    <div class="card"><div class="ico">1</div><h3>Your own GitHub repo</h3>
+      <p>Created from this template. It holds the code, every change&#39;s history, and the pull requests your team reviews.</p></div>
+    <div class="card"><div class="ico b">2</div><h3>Three apps, one codebase</h3>
+      <p>A dev, a test and a prod app, each pinned to an environment your admins govern. Each is labeled
+        <code>[DEV]</code>, <code>[TEST]</code> or <code>[PROD]</code>.</p></div>
+    <div class="card"><div class="ico o">3</div><h3>A branch per stage</h3>
+      <p><code>dev</code>, <code>test</code> and <code>prod</code>. Promoting is a merge, and each branch keeps its own
+        app binding automatically.</p></div>
+    <div class="card"><div class="ico g">4</div><h3>Guarded deploys</h3>
+      <p>Every deploy checks the branch, the binding and the build first. Roll back or hotfix production in minutes.</p></div>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 980 360" role="img" aria-label="Your GitHub repo has dev, test and prod branches. Merges promote changes from dev to test to prod. Each branch deploys its own app, pinned to its own environment, and all three run on the shared Managed Apps runtime.">
+      <defs>
+        <marker id="ga" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#a29ead"/></marker>
+        <marker id="gm" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#3ddc97"/></marker>
+      </defs>
+      <text x="20" y="26" class="lbl-tag" fill="#75707f">YOUR GITHUB REPO</text>
+      <text x="345" y="26" class="lbl-tag" fill="#75707f">THREE APPS</text>
+      <text x="545" y="26" class="lbl-tag" fill="#75707f">PINNED TO · GOVERNED BY</text>
+      <text x="820" y="26" class="lbl-tag" fill="#75707f">WHERE IT RUNS</text>
+      <rect x="10" y="40" width="290" height="300" rx="14" fill="#16141c" stroke="#322d3d"/>
+      <g font-family="ui-monospace,Consolas,monospace" font-size="12">
+        <line x1="70" y1="90" x2="280" y2="90" stroke="#6fb4ff" stroke-width="3"/><text x="26" y="94" fill="#6fb4ff">dev</text>
+        <line x1="70" y1="190" x2="280" y2="190" stroke="#ffb454" stroke-width="3"/><text x="26" y="194" fill="#ffb454">test</text>
+        <line x1="70" y1="290" x2="280" y2="290" stroke="#3ddc97" stroke-width="3"/><text x="26" y="294" fill="#3ddc97">prod</text>
+      </g>
+      <g fill="#16141c" stroke-width="2.5">
+        <circle cx="110" cy="90" r="7" stroke="#6fb4ff"/><circle cx="170" cy="90" r="7" stroke="#6fb4ff"/><circle cx="230" cy="90" r="7" stroke="#6fb4ff"/>
+        <circle cx="200" cy="190" r="7" stroke="#ffb454"/><circle cx="250" cy="190" r="7" stroke="#ffb454"/>
+        <circle cx="260" cy="290" r="7" stroke="#3ddc97"/>
+      </g>
+      <path d="M232,98 C232,140 200,150 200,180" fill="none" stroke="#3ddc97" stroke-width="1.8" marker-end="url(#gm)" class="flow"/>
+      <path d="M252,198 C252,240 260,250 260,280" fill="none" stroke="#3ddc97" stroke-width="1.8" marker-end="url(#gm)" class="flow"/>
+      <text x="112" y="145" class="lbl-sm" style="fill:#3ddc97">merge to promote</text>
+      <g class="lbl">
+        <path d="M284,90 L330,90" stroke="#a29ead" stroke-width="1.6" marker-end="url(#ga)"/>
+        <path d="M284,190 L330,190" stroke="#a29ead" stroke-width="1.6" marker-end="url(#ga)"/>
+        <path d="M284,290 L330,290" stroke="#a29ead" stroke-width="1.6" marker-end="url(#ga)"/>
+      </g>
+      <g>
+        <rect x="335" y="66" width="170" height="48" rx="10" fill="#1e1b26" stroke="#6fb4ff"/><text x="420" y="95" text-anchor="middle" class="lbl">My App [DEV]</text>
+        <rect x="335" y="166" width="170" height="48" rx="10" fill="#1e1b26" stroke="#ffb454"/><text x="420" y="195" text-anchor="middle" class="lbl">My App [TEST]</text>
+        <rect x="335" y="266" width="170" height="48" rx="10" fill="#1e1b26" stroke="#3ddc97"/><text x="420" y="295" text-anchor="middle" class="lbl">My App [PROD]</text>
+      </g>
+      <g stroke="#aa3bff" stroke-width="1.6">
+        <line x1="505" y1="90" x2="540" y2="90"/><line x1="505" y1="190" x2="540" y2="190"/><line x1="505" y1="290" x2="540" y2="290"/>
+      </g>
+      <g fill="#aa3bff"><circle cx="522" cy="90" r="5"/><circle cx="522" cy="190" r="5"/><circle cx="522" cy="290" r="5"/></g>
+      <g>
+        <rect x="545" y="60" width="220" height="60" rx="12" fill="#16141c" stroke="#6fb4ff" stroke-opacity=".7"/>
+        <text x="560" y="84" class="lbl">Dev environment</text><text x="560" y="104" class="lbl-sm">connectors · connections · admins</text>
+        <rect x="545" y="160" width="220" height="60" rx="12" fill="#16141c" stroke="#ffb454" stroke-opacity=".7"/>
+        <text x="560" y="184" class="lbl">Test environment</text><text x="560" y="204" class="lbl-sm">connectors · connections · admins</text>
+        <rect x="545" y="260" width="220" height="60" rx="12" fill="#16141c" stroke="#3ddc97" stroke-opacity=".7"/>
+        <text x="560" y="284" class="lbl">Prod environment</text><text x="560" y="304" class="lbl-sm">connectors · connections · admins</text>
+      </g>
+      <g stroke="#a29ead" stroke-width="1.4" fill="none">
+        <path d="M767,90 C790,90 790,170 808,180" marker-end="url(#ga)"/>
+        <path d="M767,190 L808,190" marker-end="url(#ga)"/>
+        <path d="M767,290 C790,290 790,210 808,200" marker-end="url(#ga)"/>
+      </g>
+      <rect x="812" y="110" width="158" height="160" rx="14" fill="#1e1b26" stroke="#aa3bff"/>
+      <text x="891" y="150" text-anchor="middle" class="lbl" style="fill:#c77dff">Managed Apps</text>
+      <text x="891" y="168" text-anchor="middle" class="lbl" style="fill:#c77dff">runtime</text>
+      <text x="891" y="200" text-anchor="middle" class="lbl-sm">one shared host,</text>
+      <text x="891" y="216" text-anchor="middle" class="lbl-sm">each app follows</text>
+      <text x="891" y="232" text-anchor="middle" class="lbl-sm">its environment&#39;s rules</text>
+    </svg>
+    <figcaption>Your GitHub repo is the source of truth. Each branch deploys its own app; a merge moves a change to the next stage.</figcaption>
+  </figure>
+
+  <div class="callout ok">
+    <h4>Check your connectors in every stage</h4>
+    <p>Each environment has its own data policy, so a connector allowed in dev might be blocked in prod. Ask your agent
+      <em>"Can I use the Office 365 Outlook connector in test and prod?"</em> before you promote.</p>
+  </div>
+
+  <h3 class="sub">Bringing your current app over</h3>
+  <ol class="steps">
+    <li><div><b>Create your repo</b> from this template.</div></li>
+    <li><div><b>Bring your code in.</b> Your agent copies it from your current app (<code>ms app clone</code>) into the new project.</div></li>
+    <li><div><b>Register dev, test and prod</b>, each pinned to an environment your admins govern. Ask them which ones to use.</div></li>
+    <li><div><b>Share the prod app</b> with your users. It has its own link. Your original app keeps running, so you can
+      keep it as a personal sandbox or retire it.</div></li>
+  </ol>
+</section>
+
+<!-- ============ SHIP A CHANGE ============ -->
+<section id="ship" class="reveal">
+  <div class="head">
+    <div>
+      <p class="eyebrow"><span class="chapter">4 of 4</span>How a change reaches people</p>
+      <h2>Build it, try it,<br/><span class="grad">then ship it.</span></h2>
+    </div>
+    <p class="lede" style="max-width:46ch">Every change follows the same path. You can say each step to your agent in plain
+      words, or run the commands yourself.</p>
+  </div>
+
+  <div class="tw"><table class="shipt">
+    <tr><th>Step</th><th>What happens</th><th>Say to your agent</th><th>Or run</th></tr>
+    <tr><td>1 · Build</td><td>Change the code on a feature branch and try it locally</td><td><em>Run my app locally</em></td><td><code>ms app dev</code></td></tr>
+    <tr><td>2 · Dev</td><td>Open a pull request into <code>dev</code>. Checks run, someone reviews, it&#39;s merged</td><td><em>Deploy to dev</em></td><td><code>npm run alm:deploy -- dev</code></td></tr>
+    <tr><td>3 · Test</td><td>Merge <code>dev</code> into <code>test</code> and deploy. Testers try it</td><td><em>Deploy to test</em></td><td><code>npm run alm:promote -- test</code><br/><code>npm run alm:deploy -- test</code></td></tr>
+    <tr><td>4 · Prod</td><td>Merge <code>test</code> into <code>prod</code> and deploy. Users get it</td><td><em>Deploy to prod</em></td><td><code>npm run alm:promote -- prod</code><br/><code>npm run alm:deploy -- prod</code></td></tr>
+  </table></div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card"><div class="ico o">↩</div><h3>Roll back</h3>
+      <p>A bad release? Redeploy the last good commit to prod, then fix forward. Say <em>"Roll back production to the last good version."</em></p></div>
+    <div class="card"><div class="ico">🩹</div><h3>Hotfix</h3>
+      <p>Fix prod without shipping unfinished work: branch from <code>prod</code>, fix, land it, and the fix flows back to dev.
+        Say <em>"I need a hotfix in production."</em></p></div>
+  </div>
+  <div class="callout">
+    <h4>The tooling refuses to ship a mistake</h4>
+    <p>Wrong branch, uncommitted changes, an app bound to the wrong environment, or a build that fails: <code>alm:deploy</code>
+      stops and tells you how to fix it. Nothing reaches users until every check passes.</p>
+  </div>
+</section>
+
+<!-- ============ GET STARTED ============ -->
+<section id="start" class="reveal">
+  <p class="eyebrow">Get started</p>
+  <h2>From your app to a team app <span class="grad">this afternoon.</span></h2>
+  <p class="lede" style="margin-bottom:22px">Create your repo, open it in your coding agent, and paste one prompt. The agent
+    installs what&#39;s missing, signs you in, brings your app in and registers dev. You finish the sign-ins and say yes.</p>
+
+  <figure class="vignette solo" id="sketch-3">
+    <video controls preload="none" playsinline poster="sketches/6-get-started.jpg"
+           aria-label="Whiteboard sketch: what creating a repo from this template gives you, the one setup prompt, and the phrases you can ask your agent">
+      <source src="sketches/6-get-started.mp4" type="video/mp4" />
+      <track kind="captions" src="sketches/6-get-started.vtt" srclang="en" label="English" default />
+    </video>
+    <figcaption><span class="n">Sketch 3 of 3 · 1:12</span><b>Get started.</b> What the template gives you, the one
+      prompt that sets it up, and the phrases that run everything after it.
+      <span class="soon">Coming soon: Copilot Code brings this same ALM maturity to makers without GitHub Copilot or another coding agent.</span>
+      <span class="back"><a href="#watch">↑ Return to video list</a></span>
+    </figcaption>
+  </figure>
+
+  <div class="oneprompt">
+    <span class="lbl">Bring your app over</span>
+    <button class="say">Read AGENTS.md, then set up this project for me as an app-only project, and bring in my existing Managed App.</button>
+    <span class="hint">Click to copy. Starting fresh instead? Leave off the last part.</span>
+  </div>
+
+  <div class="tabset">
+  <div class="tabs" role="tablist">
+    <button class="on" data-t="p-app">GitHub Copilot App</button>
+    <button data-t="p-cli">Copilot CLI</button>
+    <button data-t="p-vscode">VS Code</button>
+    <button data-t="p-claude">Claude Code</button>
+    <button data-t="p-cursor">Cursor</button>
+  </div>
+  <div class="pane on" id="p-app"><ol class="steps">
+    <li><div><b>Create your repo</b> from this template (<em>Use this template → Create a new repository</em>).</div></li>
+    <li><div><b>Add it as a project</b> in the Copilot App and start a session.</div></li>
+    <li><div><b>Paste the prompt.</b></div></li>
+  </ol></div>
+  <div class="pane" id="p-cli"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo: <code>gh repo create my-app --template martycarreras-psnl/managed-apps-template --private --clone</code></div></li>
+    <li><div><b>Run <code>copilot</code></b> in the folder.</div></li>
+    <li><div><b>Paste the prompt.</b></div></li>
+  </ol></div>
+  <div class="pane" id="p-vscode"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo from this template, then open the folder in VS Code.</div></li>
+    <li><div><b>Open Copilot Chat</b> and switch to <b>Agent</b> mode.</div></li>
+    <li><div><b>Paste the prompt.</b></div></li>
+  </ol></div>
+  <div class="pane" id="p-claude"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo: <code>gh repo create my-app --template martycarreras-psnl/managed-apps-template --private --clone</code></div></li>
+    <li><div><b>Run <code>claude</code></b> in the folder.</div></li>
+    <li><div><b>Paste the prompt.</b></div></li>
+  </ol></div>
+  <div class="pane" id="p-cursor"><ol class="steps">
+    <li><div><b>Create and clone</b> your repo from this template, then open the folder in Cursor.</div></li>
+    <li><div><b>Open the Agent panel.</b></div></li>
+    <li><div><b>Paste the prompt.</b></div></li>
+  </ol></div>
+  </div>
+
+  <h3 class="sub">Then just ask</h3>
+  <p class="muted">Each phrase runs a playbook with the safety checks built in. Click one to copy it.</p>
+  <div class="prompts">
+    <div class="pgroup"><h3>Get oriented</h3><div class="list">
+      <button class="say">Show me the devkit menu</button>
+      <button class="say">Is my project healthy?</button>
+      <button class="say">Which Power Platform environments can I use?</button>
+      <button class="say">Which environment is each of my apps in?</button>
+    </div></div>
+    <div class="pgroup"><h3>Build</h3><div class="list">
+      <button class="say">Run my app locally</button>
+      <button class="say">Connect my app to a SharePoint list</button>
+      <button class="say">Can I use the Office 365 Outlook connector in test and prod?</button>
+    </div></div>
+    <div class="pgroup"><h3>Ship and fix</h3><div class="list">
+      <button class="say">Deploy to test</button>
+      <button class="say">Share the test app with my testers</button>
+      <button class="say">Roll back production to the last good version</button>
+      <button class="say">I need a hotfix in production</button>
+      <button class="say">Add a QA environment</button>
+      <button class="say">Help me fix this error</button>
+      <button class="say">Are all my branches in sync?</button>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ HELP ============ -->
+<section id="help" class="reveal">
+  <p class="eyebrow">When it breaks</p>
+  <h2>Common snags <span class="grad">and what they mean.</span></h2>
+  <p class="lede" style="margin-bottom:18px">Or skip the reading and tell your agent <em>"Help me fix this error."</em></p>
+  <details><summary>A connector works in dev but is blocked in test or prod</summary><div class="body">
+    Each environment has its own data policy. Ask <em>"Why is this connector blocked, and which environment is my app pinned to?"</em>
+    An app can&#39;t change environments, so the fix is a policy change by your admins, or a different connector.</div></details>
+  <details><summary>The first deploy fails with <code>rejected (fetch first)</code></summary><div class="body">
+    The app&#39;s platform repo starts with its own commit. Run <code>npm run alm:bootstrap -- dev</code> in a terminal you can see
+    (it opens a one-time sign-in), then deploy again.</div></details>
+  <details><summary>A promotion reports a conflict in <code>ms.config.json</code></summary><div class="body">
+    That file binds each branch to its own app. Keep the target branch&#39;s copy (<code>git checkout --ours ms.config.json</code>)
+    and make sure <code>npm run alm:setup</code> has been run in this clone.</div></details>
+  <details><summary><code>alm:deploy</code> says I&#39;m on the wrong branch</summary><div class="body">
+    Each stage deploys only from its own branch. Run <code>git checkout test</code> (or <code>prod</code>) first, or just ask your agent to deploy.</div></details>
+</section>
+
+</main>
+
+<footer>
+  Managed Apps Template · built with <code>@microsoft/managed-apps-cli</code> ·
+  <a href="https://github.com/martycarreras-psnl/managed-apps-template#readme">README</a> ·
+  <a href="https://github.com/martycarreras-psnl/managed-apps-template/blob/main/docs/ALM.md#app-only-projects">ALM model</a> ·
+  <a href="index.html">Using Dataverse, agents or workflows? See the full guide</a>
+</footer>
+<div class="toast" id="toast">Copied. Paste it into your agent.</div>
+
+<script>
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tabset').forEach(set=>{
+  const btns=set.querySelectorAll(':scope > .tabs button');
+  btns.forEach(b=>b.onclick=()=>{
+    btns.forEach(x=>x.classList.toggle('on',x===b));
+    set.querySelectorAll(':scope > .pane').forEach(p=>p.classList.toggle('on',p.id===b.dataset.t));
+  });
+});
+
+/* ---------- copy a prompt ---------- */
+const toast=document.getElementById('toast');let toastT;
+document.querySelectorAll('.say').forEach(b=>b.onclick=async()=>{
+  const text=b.textContent.trim();
+  try{await navigator.clipboard.writeText(text)}catch{
+    const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();
+    document.execCommand('copy');t.remove();
+  }
+  document.querySelectorAll('.say.copied').forEach(x=>x.classList.remove('copied'));
+  b.classList.add('copied');toast.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(()=>{toast.classList.remove('on');b.classList.remove('copied')},1800);
+});
+
+/* ---------- reveal ---------- */
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 /**
  * npm run alm:init -- --name "Expense Tracker" --dev <env-id> [--test <env-id>] [--prod <env-id>]
- *                     [--solution ExpenseTracker] [--prefix contoso] [--fresh]
+ *                     [--solution ExpenseTracker] [--prefix contoso] [--fresh] [--app-only]
  *
  * Stands up a new project on this template: writes alm.config.json, creates the
  * dev/test/prod branches with the right binding rules, installs hooks and the
@@ -9,6 +9,10 @@
  * Deliberately staged rather than one silent command. Test and prod cannot be
  * bound until the solution exists and has been imported there, and each new
  * platform repo triggers a credential prompt on first push.
+ *
+ * --app-only sets up a project with no Dataverse solution track: only app code
+ * moves between stages, and alm:deploy skips the solution check. It implies
+ * --fresh, because the reference app depends on a Dataverse table.
  */
 import { execFileSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -39,7 +43,7 @@ ${BOLD}alm:init${OFF} — stand up a new Managed Apps project
 
   npm run alm:init -- --name "Expense Tracker" --dev <env-id> \\
                       [--test <env-id>] [--prod <env-id>] \\
-                      [--solution ExpenseTracker] [--prefix contoso] [--fresh]
+                      [--solution ExpenseTracker] [--prefix contoso] [--fresh] [--app-only]
 
   --name      App display name (required)
   --dev       Dev environment ID (required)
@@ -48,6 +52,7 @@ ${BOLD}alm:init${OFF} — stand up a new Managed Apps project
   --solution  Dataverse solution unique name (default: derived from --name)
   --prefix    Publisher prefix (default: derived from --name)
   --fresh     Replace the reference app with a placeholder page
+  --app-only  No Dataverse solution: only app code is promoted (implies --fresh)
 `)
   process.exit(0)
 }
@@ -60,7 +65,8 @@ if (!devEnv) fail('--dev <environment-id> is required.')
 const slug = name.replace(/[^A-Za-z0-9]/g, '')
 const solutionName = flag('solution') ?? slug
 const prefix = (flag('prefix') ?? slug.slice(0, 8)).toLowerCase()
-const fresh = args.includes('--fresh')
+const appOnly = args.includes('--app-only')
+const fresh = appOnly || args.includes('--fresh')
 
 // ------------------------------------------------------------ prerequisites --
 
@@ -107,15 +113,20 @@ step('Writing alm.config.json')
 const cfgPath = resolve(ROOT, 'alm.config.json')
 const cfg = JSON.parse(readFileSync(cfgPath, 'utf8'))
 
-cfg.solution = {
-  ...cfg.solution,
-  uniqueName: solutionName,
-  friendlyName: name,
-  publisherPrefix: prefix,
-}
-cfg.app = {
-  ...cfg.app,
-  displayName: name,
+if (appOnly) {
+  cfg.solution = null
+  cfg.app = { displayName: name }
+} else {
+  cfg.solution = {
+    ...cfg.solution,
+    uniqueName: solutionName,
+    friendlyName: name,
+    publisherPrefix: prefix,
+  }
+  cfg.app = {
+    ...cfg.app,
+    displayName: name,
+  }
 }
 cfg.environments.dev.environmentId = devEnv
 cfg.environments.dev.displayName = `${name} (dev)`
@@ -130,7 +141,7 @@ for (const [key, value] of [
 }
 
 // alm:solution and alm:role talk to Dataverse by URL, so record it now.
-for (const key of ['dev', 'test', 'prod']) {
+for (const key of appOnly ? [] : ['dev', 'test', 'prod']) {
   const env = cfg.environments[key]
   if (!env?.environmentId) continue
   const url = lookupDataverseUrl(env.environmentId)
@@ -145,7 +156,7 @@ for (const key of ['dev', 'test', 'prod']) {
   }
 }
 writeFileSync(cfgPath, JSON.stringify(cfg, null, 2) + '\n')
-ok(`solution ${solutionName}, prefix ${prefix}`)
+ok(appOnly ? 'app-only: no Dataverse solution' : `solution ${solutionName}, prefix ${prefix}`)
 
 // The template repo ignores these so it never publishes a binding or schema.
 // A project must commit both, on EVERY environment branch: test and prod are
@@ -319,6 +330,29 @@ if (remotes.includes('origin') && !remotes.includes('env-dev')) {
 }
 
 // ------------------------------------------------------------------- next ----
+
+if (appOnly) {
+  console.log(`
+${BOLD}Dev is registered.${OFF} This is an app-only project: only app code moves between stages.
+
+  ${DIM}# 1. Build the app (or copy in your existing src/), then check it locally${OFF}
+  ms app dev
+
+  ${DIM}# 2. First deploy. Run the bootstrap in a visible terminal: the first
+  #    fetch from the platform repo opens a one-time sign-in.${OFF}
+  git add -A && git commit -m "feat: initial app"
+  npm run alm:bootstrap -- dev
+  npm run alm:deploy -- dev
+
+  ${DIM}# 3. For test and prod, once their environments exist: register the app
+  #    from its branch, then promote and deploy${OFF}
+  git checkout test
+  ms app init --display-name "${name} [TEST]" --environment-id <id> --repo native --non-interactive
+
+See docs/ALM.md → App-only projects.
+`)
+  process.exit(0)
+}
 
 console.log(`
 ${BOLD}Dev is registered.${OFF} Remaining steps, in order:

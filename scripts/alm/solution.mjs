@@ -25,6 +25,7 @@ import { resolve } from 'node:path'
 import { tmpdir } from 'node:os'
 import {
   almConfig,
+  assertSolutionTrack,
   fail,
   ok,
   step,
@@ -351,6 +352,7 @@ function doStatus() {
 // ------------------------------------------------------------------ main ----
 
 const [action, ...rest] = process.argv.slice(2)
+assertSolutionTrack(almConfig())
 if (action === 'create') doCreate()
 else if (action === 'export') doExport(rest)
 else if (action === 'import') doImport(rest[0])

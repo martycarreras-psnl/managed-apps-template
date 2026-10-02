@@ -16,6 +16,7 @@ import {
   assertRemoteExists,
   currentBranch,
   fail,
+  isAppOnly,
   git,
   ok,
   run,
@@ -95,7 +96,9 @@ ok('connection references match this environment')
 // 5. Schema/app lockstep. Every deploy above dev must ship with the managed
 //    solution that is committed in the repo, already imported into the target.
 const isDev = env.name === env.cfg.promotionOrder[0]
-if (!isDev) {
+if (!isDev && isAppOnly(env.cfg)) {
+  ok('app-only project: no solution to check')
+} else if (!isDev) {
   const manifestPath = resolve(ROOT, 'solutions', 'manifest.json')
   if (!existsSync(manifestPath)) {
     fail(

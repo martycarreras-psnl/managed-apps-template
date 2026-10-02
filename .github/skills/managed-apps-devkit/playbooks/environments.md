@@ -56,6 +56,7 @@ environment already exists.
 
 Bind a placeholder stage (`provisioned: false`, no `ms.config.json` on its
 branch) to a real app. Order matters: **schema first, then the app.**
+App-only project (`"solution": null` in `alm.config.json`)? Skip steps 1 and 3.
 
 **Confirm first:** registering creates a permanent app in that environment.
 

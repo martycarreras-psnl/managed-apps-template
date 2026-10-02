@@ -407,6 +407,10 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
   (`docs/sketches/`): about six minutes of narrated, captioned video on why most apps can stay
   simple and when one needs dev, test and prod, from classic ALM to Managed Apps to keeping
   solutions in sync, ending with how to get started. Each sketch also appears beside the section it explains.
+- **[docs/grow.html](https://martycarreras-psnl.github.io/managed-apps-template/grow.html)**: a
+  shorter guide for makers taking a Managed App from their personal developer environment to dev,
+  test and prod. It covers the app-only path (`alm:init --app-only`): no Dataverse solution, only
+  app code moves between stages.
 - **[docs/image-prompts.md](docs/image-prompts.md)** — prompts for generating high-fidelity
   diagrams of this model
 - **[docs/ALM.md](docs/ALM.md)** — the promotion model, hotfix flow, access gates, and the one

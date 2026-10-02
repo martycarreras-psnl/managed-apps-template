@@ -60,6 +60,31 @@ app at its pinned environment's Dataverse, under that environment's policies and
 If you only change app code, the solution track is not involved at all. That covers most
 changes, including most hotfixes.
 
+## App-only projects
+
+Many apps never touch Dataverse: they use SharePoint, Outlook, Teams, SQL or other connectors, or no
+data source at all. For those, the solution track is pure overhead. Set the project up with
+
+```bash
+npm run alm:init -- --name "My App" --dev <env-id> --app-only
+```
+
+and `alm.config.json` records `"solution": null`. Everything else stays: one app per stage, a branch
+per environment, promotion by merge, guarded deploys, rollback and hotfixes. The differences:
+
+- `alm:deploy` skips the solution check (`✓ app-only project: no solution to check`).
+- `alm:solution` and `alm:role` refuse with a pointer here.
+- Provisioning test or prod is only: register the app from its branch, then deploy.
+- `--app-only` implies `--fresh`, because the reference app needs a Dataverse table.
+
+Connectors still matter. Each stage's environment applies its own data policy, so check the
+connectors your app uses in every stage before promoting
+(`node .github/skills/managed-apps-devkit/scripts/connector-check.mjs <search>`).
+
+**Adding Dataverse later.** Add a `solution` block (`uniqueName`, `friendlyName`, `publisherPrefix`,
+`tables`) to `alm.config.json` on `dev`, run `npm run alm:solution -- create`, and from then on the
+schema rule below applies to every stage.
+
 ## Repo layout
 
 **Three long-lived branches, one per environment.** Feature branches cut from `dev`.

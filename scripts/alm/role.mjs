@@ -18,6 +18,7 @@ import { resolve } from 'node:path'
 import { tmpdir } from 'node:os'
 import {
   almConfig,
+  assertSolutionTrack,
   fail,
   ok,
   step,
@@ -39,6 +40,7 @@ import {
  */
 function roleSpec() {
   const cfg = almConfig()
+  assertSolutionTrack(cfg)
   const app = cfg.app
   if (!app?.table || !app?.securityRole?.name) {
     fail(

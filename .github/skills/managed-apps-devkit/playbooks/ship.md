@@ -49,6 +49,7 @@ npm run alm:solution -- import <next>     # only if its version differs — BEFO
 npm run alm:deploy   -- <next>
 ```
 
+- App-only project (`"solution": null`)? Skip the two `alm:solution` lines.
 - `--from <env>` on `alm:promote` overrides the source stage (rarely needed).
 - If promote reports a conflict in `ms.config.json`: keep the **target's** copy
   (`git checkout --ours ms.config.json`). Check `npm run alm:setup` has been run.
