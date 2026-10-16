@@ -60,7 +60,7 @@
     }
   },
   "scaffold": {
-    "version": "1.9.4",
+    "version": "1.9.5",
     "templateRepo": "https://github.com/martycarreras-psnl/managed-apps-template",
     "paths": [
       "scripts/alm/",
