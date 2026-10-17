@@ -62,118 +62,154 @@
       line-height: 1.55;
     }
 
-    /* Top Sticky Navigation */
-    .top-nav {
-      position: sticky;
-      top: 16px;
-      z-index: 100;
-      max-width: 1320px;
-      margin: 16px auto 0;
-      padding: 0 24px;
+    /* Left Sidebar Navigation */
+    .page-shell {
+      display: grid;
+      grid-template-columns: 272px minmax(0, 1fr);
+      max-width: 1640px;
+      margin: 0 auto;
+      align-items: start;
     }
 
-    .top-nav-inner {
+    .side-nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 22px 16px 22px 20px;
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px 8px;
-      padding: 9px 14px;
-      background: rgba(248, 248, 243, 0.90);
+      flex-direction: column;
+      gap: 18px;
+      background: rgba(248, 248, 243, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.95);
-      border-radius: 24px;
-      box-shadow: 0 12px 34px -10px rgba(15, 23, 42, 0.08);
-      max-width: 100%;
+      border-right: 1px solid rgba(24, 24, 22, 0.09);
+      z-index: 100;
     }
 
     .brand-lockup {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px 8px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
       text-decoration: none;
       color: var(--ink-primary);
-      min-width: 0;
-      flex: 0 1 auto;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(24, 24, 22, 0.1);
     }
 
     .brand-logo-img {
-      height: 24px;
+      height: 28px;
       width: auto;
-      max-width: 124px;
+      max-width: 150px;
       object-fit: contain;
       border-radius: 6px;
       display: block;
-      flex-shrink: 0;
     }
 
     .brand-divider {
-      width: 1px;
-      height: 18px;
-      background: rgba(24, 24, 22, 0.16);
-      flex-shrink: 0;
+      display: none;
     }
 
     .brand-tag {
-      font-size: 0.79rem;
+      font-size: 0.86rem;
       font-weight: 500;
       color: var(--ink-secondary);
       letter-spacing: -0.01em;
-      line-height: 1.25;
-      white-space: normal;
+      line-height: 1.3;
     }
 
     .brand-tag em {
       font-family: var(--font-serif);
-      font-size: 0.96rem;
+      font-size: 1.08rem;
       font-style: italic;
       color: var(--ink-primary);
     }
 
+    .nav-group-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--ink-muted);
+      margin: 0 0 6px 10px;
+    }
+
+    .nav-group + .nav-group {
+      padding-top: 14px;
+      border-top: 1px solid rgba(24, 24, 22, 0.08);
+    }
+
     .nav-links {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 2px 2px;
+      flex-direction: column;
+      gap: 2px;
       list-style: none;
     }
 
     .nav-links a {
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       text-decoration: none;
       color: var(--ink-secondary);
-      font-size: 0.78rem;
+      font-size: 0.88rem;
       font-weight: 500;
-      padding: 6px 8px;
-      border-radius: 999px;
-      white-space: nowrap;
-      transition: all 0.2s ease;
+      line-height: 1.3;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border-left: 3px solid transparent;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .nav-links a .nav-num {
+      flex: 0 0 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(24, 24, 22, 0.07);
+      color: var(--ink-secondary);
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .nav-links a:hover {
-      background: rgba(24, 24, 22, 0.06);
+      background: rgba(24, 24, 22, 0.05);
       color: var(--ink-primary);
     }
 
+    .nav-links a.active {
+      background: #FFFFFF;
+      color: var(--ink-primary);
+      font-weight: 700;
+      border-left-color: var(--delegate-blue);
+      box-shadow: 0 6px 16px -8px rgba(15, 23, 42, 0.18);
+    }
+
+    .nav-links a.active .nav-num {
+      background: var(--delegate-blue);
+      color: #FFFFFF;
+    }
+
     .nav-cta {
-      display: inline-flex;
+      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       background: var(--ink-primary);
       color: #FFFFFF;
       text-decoration: none;
-      font-size: 0.78rem;
+      font-size: 0.84rem;
       font-weight: 600;
-      padding: 8px 13px;
-      border-radius: 999px;
-      white-space: nowrap;
+      padding: 11px 14px;
+      border-radius: 14px;
       transition: transform 0.2s ease, background 0.2s ease;
       border: none;
       cursor: pointer;
-      flex-shrink: 0;
+      margin-top: auto;
     }
 
     .nav-cta:hover {
@@ -186,6 +222,22 @@
       max-width: 1320px;
       margin: 0 auto;
       padding: 0 24px;
+    }
+
+    .page-shell .container {
+      max-width: 1260px;
+      padding: 0 36px;
+    }
+
+    .page-shell .section-block,
+    .page-shell .cta-closing-banner {
+      scroll-margin-top: 20px;
+    }
+
+    .page-shell .section-block {
+      margin-top: 28px;
+      padding: 52px 0 24px;
+      border-top: 2px solid rgba(24, 24, 22, 0.1);
     }
 
     /* Hero Section — Frontier Transformation Slide Aesthetic */
@@ -1517,13 +1569,54 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
-    @media (max-width: 1320px) {
+    @media (max-width: 1000px) {
+      .page-shell {
+        display: block;
+      }
+      .side-nav {
+        position: static;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 14px;
+        padding: 12px 18px;
+        border-right: none;
+        border-bottom: 1px solid rgba(24, 24, 22, 0.09);
+      }
+      .brand-lockup {
+        flex-direction: row;
+        align-items: center;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+      .nav-group {
+        display: contents;
+      }
+      .nav-group + .nav-group {
+        padding-top: 0;
+        border-top: none;
+      }
+      .nav-group-label {
+        display: none;
+      }
       .nav-links {
-        order: 3;
+        flex-direction: row;
+        flex-wrap: wrap;
         width: 100%;
-        justify-content: flex-start;
-        padding-top: 8px;
-        border-top: 1px solid rgba(24, 24, 22, 0.08);
+      }
+      .nav-links a {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border-left: none;
+        font-size: 0.8rem;
+      }
+      .nav-cta {
+        margin-top: 0;
+        width: 100%;
+      }
+      .page-shell .container {
+        padding: 0 18px;
       }
     }
 
@@ -1552,22 +1645,8 @@
       .pillars-tray {
         grid-template-columns: 1fr;
       }
-      .brand-divider {
-        display: none;
-      }
-      .brand-tag {
-        width: 100%;
-        font-size: 0.78rem;
-      }
-      .top-nav {
-        padding: 0 12px;
-      }
-      .top-nav-inner {
-        padding: 10px 14px;
-      }
-      .nav-cta {
-        font-size: 0.76rem;
-        padding: 7px 12px;
+      .brand-lockup {
+        flex-wrap: wrap;
       }
       .nav-links a {
         font-size: 0.76rem;
@@ -1578,33 +1657,51 @@
 </head>
 <body>
 
-  <!-- Sticky Glass Top Navigation -->
-  <nav class="top-nav">
-    <div class="top-nav-inner">
+  <div class="page-shell">
+  <!-- Left Sidebar Navigation -->
+  <nav class="side-nav" aria-label="Page sections">
       <a href="#top" class="brand-lockup">
         <img src="data:image/webp;base64,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" alt="Microsoft Copilot" class="brand-logo-img" />
         <span class="brand-divider"></span>
         <span class="brand-tag">Frontier Transformation: <em>AI Built for Work</em></span>
       </a>
-      <ul class="nav-links">
-        <li><a href="#story-video">Part 1: Strategy</a></li>
-        <li><a href="#work-evolves">4 Pillars</a></li>
-        <li><a href="#copilot-app-home">Copilot App</a></li>
-        <li><a href="#architecture">Governance</a></li>
-        <li><a href="#pro-dev-continuum">Part 2: Pro-Dev &amp; Foundry</a></li>
-        <li><a href="#full-canvas">Canvas Maps</a></li>
-        <li><a href="#key-resources">Key Resources</a></li>
-      </ul>
+      <div class="nav-group">
+        <span class="nav-group-label">Start here</span>
+        <ul class="nav-links">
+          <li><a href="#overview"><span class="nav-num">★</span>Overview</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Part 1 · Knowledge worker</span>
+        <ul class="nav-links">
+          <li><a href="#story-video"><span class="nav-num">1</span>Strategy video</a></li>
+          <li><a href="#work-evolves"><span class="nav-num">2</span>The 4 pillars</a></li>
+          <li><a href="#copilot-app-home"><span class="nav-num">3</span>Copilot App</a></li>
+          <li><a href="#architecture"><span class="nav-num">4</span>Governance</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Part 2 · One more thing</span>
+        <ul class="nav-links">
+          <li><a href="#pro-dev-continuum"><span class="nav-num">5</span>Pro-dev &amp; Foundry</a></li>
+        </ul>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Explore &amp; act</span>
+        <ul class="nav-links">
+          <li><a href="#full-canvas"><span class="nav-num">6</span>Canvas maps</a></li>
+          <li><a href="#key-resources"><span class="nav-num">7</span>Key resources</a></li>
+        </ul>
+      </div>
       <button class="nav-cta" onclick="playFromChapter(0)">
-        <span>▶ Watch Strategy Video (7:37)</span>
+        <span>▶ Watch Part 1 (7:37)</span>
       </button>
-    </div>
   </nav>
 
   <main id="top" class="container">
 
     <!-- HERO SECTION (Slide 1 Design Language) -->
-    <section class="hero-section">
+    <section id="overview" class="hero-section">
       <div class="hero-card">
         <div class="hero-copy">
           <div class="eyebrow-pill">
@@ -2335,6 +2432,7 @@
     </section>
 
   </main>
+  </div>
 
   <!-- Fullscreen Interactive Zoom & Pan Lightbox Modal -->
   <div id="lightbox" class="lightbox-modal" onclick="closeLightbox(event)">
@@ -2605,6 +2703,22 @@
         document.getElementById('lightbox').classList.remove('open');
       }
     });
+
+    (function sideNavScrollSpy() {
+      const links = Array.from(document.querySelectorAll('.side-nav .nav-links a'));
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      function update() {
+        const marker = window.innerHeight * 0.3;
+        let current = sections[0];
+        sections.forEach(sec => {
+          if (sec.getBoundingClientRect().top <= marker) current = sec;
+        });
+        links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
   </script>
 </body>
 </html>
