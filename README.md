@@ -13,7 +13,7 @@ Works on **Windows** and **macOS**, with **GitHub Copilot App**, **Copilot CLI**
 
 🌐 **Overview and visual guide:** <https://martycarreras-psnl.github.io/managed-apps-template/>
 
-🧭 **Frontier Transformation — AI Built for Work:** [Interactive Strategy Page & Video](https://martycarreras-psnl.github.io/managed-apps-template/frontier-transformation-ai-built-for-work.html) · [PowerPoint Deck (.pptx)](https://martycarreras-psnl.github.io/managed-apps-template/frontier-transformation-strategy-deck.pptx) · [Standalone Video (.mp4)](https://martycarreras-psnl.github.io/managed-apps-template/microsoft-ai-strategy-canvas.mp4)
+🧭 **Frontier Transformation — AI Built for Work:** [Interactive Strategy Page & Videos](https://martycarreras-psnl.github.io/managed-apps-template/frontier-transformation-ai-built-for-work.html) · [Part 1 Strategy Video (.mp4)](https://martycarreras-psnl.github.io/managed-apps-template/microsoft-ai-strategy-canvas.mp4) · [Part 2 Pro-Dev & Foundry Video (.mp4)](https://martycarreras-psnl.github.io/managed-apps-template/microsoft-ai-strategy-pro-dev-continuum.mp4)
 
 📘 **Official Microsoft documentation:** [Microsoft Copilot Managed Runtime on Microsoft Learn](https://learn.microsoft.com/microsoft-365/managed-apps/)
 
@@ -399,8 +399,8 @@ The merge driver is not registered in this clone. Run `npm run alm:setup`. Alway
   what this template provides, why it exists, and how it scales across an enterprise. It is
   published with GitHub Pages from `main:/docs`.
 - **[Frontier Transformation — AI Built for Work](https://martycarreras-psnl.github.io/managed-apps-template/frontier-transformation-ai-built-for-work.html)**
-  (`docs/frontier-transformation-ai-built-for-work.html`, [`frontier-transformation-strategy-deck.pptx`](https://martycarreras-psnl.github.io/managed-apps-template/frontier-transformation-strategy-deck.pptx), [`microsoft-ai-strategy-canvas.mp4`](https://martycarreras-psnl.github.io/managed-apps-template/microsoft-ai-strategy-canvas.mp4)):
-  a 6-minute spatial whiteboard Strategy Video and 14-slide presentation (with full verbatim speaker notes) covering Assist (with WorkIQ), Delegate (Cowork), Build (Copilot Code and Copilot Studio in their respective containers governed by Power Platform Managed Environment controls), and Autopilots in the GAL under M365 Admin Center + Agent 365.
+  (`docs/frontier-transformation-ai-built-for-work.html`, [`microsoft-ai-strategy-canvas.mp4`](https://martycarreras-psnl.github.io/managed-apps-template/microsoft-ai-strategy-canvas.mp4), [`microsoft-ai-strategy-pro-dev-continuum.mp4`](https://martycarreras-psnl.github.io/managed-apps-template/microsoft-ai-strategy-pro-dev-continuum.mp4)):
+  a two-part spatial whiteboard Strategy Video series and interactive companion page covering Assist (with WorkIQ), Delegate (Cowork), Build (Copilot Code and Copilot Studio governed by Power Platform Managed Environment controls), Autopilots in the GAL under M365 Admin Center + Agent 365, and the pro-dev + Microsoft Foundry + Enterprise ALM continuum.
 - **[The story](https://martycarreras-psnl.github.io/managed-apps-template/story.html)** (`docs/story.html`):
   a click-through presentation on what Managed Apps are and why they matter. It follows one
   knowledge worker's workaround, with an optional Power Platform track.
